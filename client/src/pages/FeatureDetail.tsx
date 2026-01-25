@@ -117,7 +117,7 @@ export default function FeatureDetail() {
           {/* Feature Image */}
           <div className="mb-12 rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white">
             <img 
-              src={feature.image} 
+              src={getAssetPath(feature.image)} 
               alt={title} 
               className="w-full h-auto object-cover"
             />
