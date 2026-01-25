@@ -152,49 +152,40 @@ deploy_to_gh_pages() {
         exit 1
     fi
     
-    # 创建临时目录基础路径
-    TEMP_BASE=$(mktemp -d)
-    GH_PAGES_DIR="$TEMP_BASE/gh-pages"
+    # 创建临时目录
+    GH_PAGES_DIR=$(mktemp -d)/deploy
+    mkdir -p "$GH_PAGES_DIR"
     
     echo -e "${BLUE}[部署] 临时目录: $GH_PAGES_DIR${NC}"
     
-    # 克隆 gh-pages 分支到临时目录 (如果存在)
+    # 初始化 git 仓库
+    cd "$GH_PAGES_DIR"
+    git init
+    git remote add origin "$REPO_URL"
+    
+    # 尝试拉取现有 gh-pages 分支
     if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
-        echo -e "${BLUE}[部署] 克隆现有 gh-pages 分支...${NC}"
-        git clone --branch gh-pages --single-branch --depth 1 "$REPO_URL" "$GH_PAGES_DIR" 2>/dev/null
-        if [ $? -ne 0 ]; then
-            echo -e "${YELLOW}[警告] 克隆失败，初始化新仓库...${NC}"
-            mkdir -p "$GH_PAGES_DIR"
-            cd "$GH_PAGES_DIR"
-            git init
-            git checkout -b gh-pages
-            git remote add origin "$REPO_URL"
-            cd "$PROJECT_DIR"
-        fi
+        echo -e "${BLUE}[部署] 拉取现有 gh-pages 分支...${NC}"
+        git fetch origin gh-pages --depth=1 2>/dev/null || true
+        git checkout -b gh-pages FETCH_HEAD 2>/dev/null || git checkout -b gh-pages
     else
-        echo -e "${BLUE}[部署] 初始化新的 gh-pages 分支...${NC}"
-        mkdir -p "$GH_PAGES_DIR"
-        cd "$GH_PAGES_DIR"
-        git init
+        echo -e "${BLUE}[部署] 创建新的 gh-pages 分支...${NC}"
         git checkout -b gh-pages
-        git remote add origin "$REPO_URL"
-        cd "$PROJECT_DIR"
     fi
     
-    # 清空临时目录内容 (保留 .git)
-    find "$GH_PAGES_DIR" -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
+    # 清空目录内容 (保留 .git)
+    find . -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
     
-    # 复制构建文件到临时目录
-    cp -r "$PROJECT_DIR/dist/public/"* "$GH_PAGES_DIR/"
+    # 复制构建文件
+    cp -r "$PROJECT_DIR/dist/public/"* ./
     
-    # 添加 .nojekyll 文件 (告诉 GitHub 不要使用 Jekyll 处理)
-    touch "$GH_PAGES_DIR/.nojekyll"
+    # 添加 .nojekyll 文件
+    touch .nojekyll
     
     # 复制 index.html 为 404.html (SPA 路由回退)
-    cp "$GH_PAGES_DIR/index.html" "$GH_PAGES_DIR/404.html"
+    cp index.html 404.html
     
-    # 在临时目录中提交并推送
-    cd "$GH_PAGES_DIR"
+    # 提交并推送
     git add -A
     git commit -m "deploy: $(date '+%Y-%m-%d %H:%M:%S')" --allow-empty
     git push origin gh-pages --force
@@ -203,7 +194,7 @@ deploy_to_gh_pages() {
     cd "$PROJECT_DIR"
     
     # 清理临时目录
-    rm -rf "$TEMP_BASE"
+    rm -rf "$(dirname "$GH_PAGES_DIR")"
     
     echo -e "${GREEN}[成功] 已部署到 gh-pages 分支${NC}"
 }
