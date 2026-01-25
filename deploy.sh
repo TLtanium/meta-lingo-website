@@ -152,46 +152,51 @@ deploy_to_gh_pages() {
         exit 1
     fi
     
-    # 保存当前分支
-    CURRENT_BRANCH=$(git branch --show-current 2>/dev/null || echo "main")
-    
-    # 创建临时目录
+    # 创建临时目录用于 gh-pages 操作
     TEMP_DIR=$(mktemp -d)
+    DEPLOY_DIR=$(mktemp -d)
     
-    # 复制构建文件到临时目录
-    cp -r dist/public/* "$TEMP_DIR/"
+    # 复制构建文件到部署目录
+    cp -r dist/public/* "$DEPLOY_DIR/"
     
     # 添加 .nojekyll 文件 (告诉 GitHub 不要使用 Jekyll 处理)
-    touch "$TEMP_DIR/.nojekyll"
+    touch "$DEPLOY_DIR/.nojekyll"
     
     # 复制 index.html 为 404.html (SPA 路由回退)
-    cp "$TEMP_DIR/index.html" "$TEMP_DIR/404.html"
+    cp "$DEPLOY_DIR/index.html" "$DEPLOY_DIR/404.html"
     
-    # 检查 gh-pages 分支是否存在
-    if git show-ref --verify --quiet refs/heads/gh-pages 2>/dev/null; then
-        git checkout gh-pages
-    else
-        git checkout --orphan gh-pages
-        git rm -rf . 2>/dev/null || true
+    # 克隆 gh-pages 分支到临时目录 (如果存在)
+    if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
+        git clone --branch gh-pages --single-branch --depth 1 "$REPO_URL" "$TEMP_DIR" 2>/dev/null || true
     fi
     
-    # 清空当前目录 (保留 .git)
-    find . -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
+    # 如果克隆失败，初始化新仓库
+    if [ ! -d "$TEMP_DIR/.git" ]; then
+        cd "$TEMP_DIR"
+        git init
+        git checkout -b gh-pages
+        git remote add origin "$REPO_URL"
+        cd "$PROJECT_DIR"
+    fi
     
-    # 复制构建文件
-    cp -r "$TEMP_DIR/"* .
-    cp "$TEMP_DIR/.nojekyll" .
+    # 清空临时目录内容 (保留 .git)
+    find "$TEMP_DIR" -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
     
-    # 提交并推送
+    # 复制构建文件到临时目录
+    cp -r "$DEPLOY_DIR/"* "$TEMP_DIR/"
+    cp "$DEPLOY_DIR/.nojekyll" "$TEMP_DIR/"
+    
+    # 在临时目录中提交并推送
+    cd "$TEMP_DIR"
     git add -A
     git commit -m "deploy: $(date '+%Y-%m-%d %H:%M:%S')" --allow-empty
     git push origin gh-pages --force
     
-    # 返回原分支
-    git checkout "$CURRENT_BRANCH" 2>/dev/null || git checkout main
+    # 返回项目目录
+    cd "$PROJECT_DIR"
     
     # 清理临时目录
-    rm -rf "$TEMP_DIR"
+    rm -rf "$TEMP_DIR" "$DEPLOY_DIR"
     
     echo -e "${GREEN}[成功] 已部署到 gh-pages 分支${NC}"
 }
