@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'wouter';
 import { useLanguage } from '../contexts/LanguageContext';
+import { getAssetPath } from '@/lib/utils';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Streamdown } from 'streamdown';
@@ -121,7 +122,7 @@ This Agreement shall become effective upon your downloading, installing, running
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#F7F7F6]/80 backdrop-blur-md border-b border-gray-200">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => setLocation('/')}>
-            <img src="/images/logo-icon.png" alt="Meta-Lingo" className="w-8 h-8" />
+            <img src={getAssetPath('/images/logo-icon.png')} alt="Meta-Lingo" className="w-8 h-8" />
             <span className="text-xl font-bold text-gray-900">Meta-Lingo</span>
           </div>
           <Button 
@@ -145,7 +146,7 @@ This Agreement shall become effective upon your downloading, installing, running
       <footer className="bg-[#F7F7F6] border-t border-gray-200 py-12 mt-12">
         <div className="container mx-auto px-4 text-center text-gray-500">
           <div className="flex items-center justify-center gap-2 mb-4 opacity-50">
-            <img src="/images/logo-icon.png" alt="Meta-Lingo" className="w-6 h-6 grayscale" />
+            <img src={getAssetPath('/images/logo-icon.png')} alt="Meta-Lingo" className="w-6 h-6 grayscale" />
             <span className="font-semibold">Meta-Lingo</span>
           </div>
           <p>{t('footer.copyright')}</p>

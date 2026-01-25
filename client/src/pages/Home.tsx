@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'wouter';
 import { useLanguage } from '../contexts/LanguageContext';
+import { getAssetPath } from '@/lib/utils';
 import { 
   Download, 
   Globe, 
@@ -58,7 +59,7 @@ export default function Home() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#F7F7F6]/80 backdrop-blur-md border-b border-gray-200">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src="/images/logo-icon.png" alt="Meta-Lingo" className="w-8 h-8" />
+            <img src={getAssetPath('/images/logo-icon.png')} alt="Meta-Lingo" className="w-8 h-8" />
             <span className="text-xl font-bold text-gray-900">Meta-Lingo</span>
           </div>
           
@@ -89,7 +90,7 @@ export default function Home() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="/images/Background2.jpg" 
+            src={getAssetPath('/images/Background2.jpg')} 
             alt="Background" 
             className="w-full h-full object-cover opacity-10"
           />
@@ -150,7 +151,7 @@ export default function Home() {
           <div className="flex-1 relative w-full max-w-2xl">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200/50 bg-white">
               <img 
-                src="/images/AppHome.png" 
+                src={getAssetPath('/images/AppHome.png')} 
                 alt="App Home" 
                 className="w-full h-auto"
               />
@@ -200,7 +201,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-gray-200">
             <div className="flex flex-col md:flex-row items-start gap-8">
               <div className="w-24 h-24 md:w-32 md:h-32 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
-                <img src="/images/avatar.png" alt="Developer" className="w-full h-full object-cover" />
+                <img src={getAssetPath('/images/avatar.png')} alt="Developer" className="w-full h-full object-cover" />
               </div>
               <div className="flex-1">
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('about.title')}</h2>
@@ -286,7 +287,7 @@ export default function Home() {
       <footer className="bg-[#F7F7F6] border-t border-gray-200 py-12">
         <div className="container mx-auto px-4 text-center text-gray-500">
           <div className="flex items-center justify-center gap-2 mb-4 opacity-50">
-            <img src="/images/logo-icon.png" alt="Meta-Lingo" className="w-6 h-6 grayscale" />
+            <img src={getAssetPath('/images/logo-icon.png')} alt="Meta-Lingo" className="w-6 h-6 grayscale" />
             <span className="font-semibold">Meta-Lingo</span>
           </div>
           <div className="flex flex-col gap-2">
