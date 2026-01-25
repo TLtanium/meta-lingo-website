@@ -54,7 +54,11 @@ const translations: Record<Language, Translations> = {
       role: "Meta-Lingo 开发者",
       bio1: "我是2025年入学广东外语外贸大学商务英语语言研究专业的硕士研究生，对语言研究充满热爱。开发Meta-Lingo的初衷源于我在使用传统语言研究工具时发现的不足：操作繁琐、功能分散在不同软件中、缺乏统一性。",
       bio2: "我的愿景是打造一个All-in-One的语言研究软件，将词频分析、搭配分析、语义分析、等功能整合在一个平台中。Meta-Lingo结合了当下最新的NLP模型和大语言模型技术，实现完全本地化运行，既保证了数据隐私，又提供了强大的分析能力。",
-      bio3: "希望Meta-Lingo能够为广大语言研究者提供便利，推动语言研究领域的发展。"
+      bio3: "希望Meta-Lingo能够为广大语言研究者提供便利，推动语言研究领域的发展。",
+      contact: "联系我",
+      xiaohongshu: "小红书",
+      douyin: "抖音",
+      email: "邮箱"
     },
     download: {
       title: "开始您的研究之旅",
@@ -120,7 +124,11 @@ const translations: Record<Language, Translations> = {
       role: "Meta-Lingo Developer",
       bio1: "I am a master's student in Business English Studies at Guangdong University of Foreign Studies (2025 cohort), passionate about linguistic research. I developed Meta-Lingo to address the limitations of traditional tools: complex operations, fragmented functions, and lack of unity.",
       bio2: "My vision is to create an All-in-One linguistic research software integrating word frequency, collocation, semantic analysis, and more. Meta-Lingo combines the latest NLP models and LLM technologies, running completely locally to ensure data privacy while providing powerful analysis capabilities.",
-      bio3: "I hope Meta-Lingo brings convenience to researchers and promotes the development of linguistics."
+      bio3: "I hope Meta-Lingo brings convenience to researchers and promotes the development of linguistics.",
+      contact: "Contact Me",
+      xiaohongshu: "Xiaohongshu",
+      douyin: "Douyin",
+      email: "Email"
     },
     download: {
       title: "Start Your Research",
