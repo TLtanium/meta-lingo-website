@@ -152,24 +152,25 @@ deploy_to_gh_pages() {
         exit 1
     fi
     
-    # 创建临时目录
-    GH_PAGES_DIR=$(mktemp -d)
+    # 创建临时目录基础路径
+    TEMP_BASE=$(mktemp -d)
+    GH_PAGES_DIR="$TEMP_BASE/gh-pages"
     
     echo -e "${BLUE}[部署] 临时目录: $GH_PAGES_DIR${NC}"
     
     # 克隆 gh-pages 分支到临时目录 (如果存在)
     if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
         echo -e "${BLUE}[部署] 克隆现有 gh-pages 分支...${NC}"
-        git clone --branch gh-pages --single-branch --depth 1 "$REPO_URL" "$GH_PAGES_DIR" 2>/dev/null || {
-            # 克隆失败，初始化新仓库
-            rm -rf "$GH_PAGES_DIR"
+        git clone --branch gh-pages --single-branch --depth 1 "$REPO_URL" "$GH_PAGES_DIR" 2>/dev/null
+        if [ $? -ne 0 ]; then
+            echo -e "${YELLOW}[警告] 克隆失败，初始化新仓库...${NC}"
             mkdir -p "$GH_PAGES_DIR"
             cd "$GH_PAGES_DIR"
             git init
             git checkout -b gh-pages
             git remote add origin "$REPO_URL"
             cd "$PROJECT_DIR"
-        }
+        fi
     else
         echo -e "${BLUE}[部署] 初始化新的 gh-pages 分支...${NC}"
         mkdir -p "$GH_PAGES_DIR"
@@ -202,7 +203,7 @@ deploy_to_gh_pages() {
     cd "$PROJECT_DIR"
     
     # 清理临时目录
-    rm -rf "$GH_PAGES_DIR"
+    rm -rf "$TEMP_BASE"
     
     echo -e "${GREEN}[成功] 已部署到 gh-pages 分支${NC}"
 }
