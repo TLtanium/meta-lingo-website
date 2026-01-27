@@ -167,9 +167,12 @@ export default function FeatureDetail() {
           </div>
           <div className="flex flex-col gap-2">
             <p>{t('footer.copyright')}</p>
-            <a href="/legal" className="text-sm hover:text-blue-600 transition-colors">
+            <span 
+              onClick={() => setLocation('/legal')} 
+              className="text-sm hover:text-blue-600 transition-colors cursor-pointer"
+            >
               {t('footer.legal')}
-            </a>
+            </span>
           </div>
         </div>
       </footer>
