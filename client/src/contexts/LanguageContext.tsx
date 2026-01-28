@@ -18,7 +18,7 @@ const translations: Record<Language, Translations> = {
       cta: "立即下载"
     },
     hero: {
-      badge: "v3.8.92 现已发布",
+      badge: "v3.8.93 现已发布",
       title: "现代化多模态",
       subtitle: "语料库研究平台",
       description: "基于 Electron + React + Python 构建。集成 Whisper 语音转录、YOLO 视频追踪与 CLIP 语义分析，为语言学研究提供全流程智能化解决方案。",
@@ -65,7 +65,7 @@ const translations: Record<Language, Translations> = {
       subtitle: "选择适合您操作系统的版本。所有功能完全本地运行，无需复杂的环境配置。",
       win: "Windows 版本",
       mac: "macOS 版本",
-      size: "应用大小：30GB",
+      size: "应用大小：40GB",
       instructions: {
         title: "安装说明",
         win: "下载整个 Meta-Lingo 文件夹到自定义位置（支持系统盘或移动硬盘），解压后双击文件夹内的 Meta-Lingo.exe 运行。您可以右键创建桌面快捷方式以便快速访问。",
@@ -88,7 +88,7 @@ const translations: Record<Language, Translations> = {
       cta: "Download Now"
     },
     hero: {
-      badge: "v3.8.92 Released",
+      badge: "v3.8.93 Released",
       title: "Modern Multimodal",
       subtitle: "Corpus Research Platform",
       description: "Built with Electron + React + Python. Integrated with Whisper transcription, YOLO tracking, and CLIP semantic analysis for a complete linguistic research solution.",
@@ -135,7 +135,7 @@ const translations: Record<Language, Translations> = {
       subtitle: "Choose the version for your OS. All features run locally without complex configuration.",
       win: "Windows Version",
       mac: "macOS Version",
-      size: "App Size: 30GB",
+      size: "App Size: 40GB",
       instructions: {
         title: "Installation Instructions",
         win: "Download the entire Meta-Lingo folder to a custom location (system drive or external drive supported). Unzip and double-click Meta-Lingo.exe inside the folder to run. You can create a desktop shortcut for easy access.",

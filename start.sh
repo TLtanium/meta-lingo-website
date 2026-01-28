@@ -16,7 +16,7 @@ PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$PROJECT_DIR"
 
 # 版本源文件路径
-ELECTRON_README="/Volumes/TL-TANIUM/Meta-Lingo-Electron/README.md"
+ELECTRON_PROJECT="/Volumes/TL-TANIUM/Meta-Lingo-Electron/PROJECT.md"
 LANGUAGE_CONTEXT="$PROJECT_DIR/client/src/contexts/LanguageContext.tsx"
 
 echo -e "${BLUE}=======================================${NC}"
@@ -28,17 +28,17 @@ echo ""
 check_version() {
     echo -e "${BLUE}[检查] 正在检查版本号...${NC}"
     
-    # 检查 Electron README 是否存在
-    if [ ! -f "$ELECTRON_README" ]; then
-        echo -e "${YELLOW}[跳过] 未找到 Meta-Lingo-Electron README，跳过版本检查${NC}"
+    # 检查 Electron PROJECT.md 是否存在
+    if [ ! -f "$ELECTRON_PROJECT" ]; then
+        echo -e "${YELLOW}[跳过] 未找到 Meta-Lingo-Electron PROJECT.md，跳过版本检查${NC}"
         return
     fi
     
-    # 从 Electron README 提取版本号 (格式: **版本**: v3.8.88)
-    SOURCE_VERSION=$(grep -o '\*\*版本\*\*: v[0-9.]*' "$ELECTRON_README" | sed 's/\*\*版本\*\*: //')
+    # 从 Electron PROJECT.md 提取版本号 (格式: **版本**: v3.8.93)
+    SOURCE_VERSION=$(grep -o '\*\*版本\*\*: v[0-9.]*' "$ELECTRON_PROJECT" | sed 's/\*\*版本\*\*: //')
     
     if [ -z "$SOURCE_VERSION" ]; then
-        echo -e "${YELLOW}[跳过] 无法从 README 提取版本号，跳过版本检查${NC}"
+        echo -e "${YELLOW}[跳过] 无法从 PROJECT.md 提取版本号，跳过版本检查${NC}"
         return
     fi
     
@@ -152,7 +152,7 @@ show_help() {
     echo "  help      显示帮助信息"
     echo ""
     echo "版本检查:"
-    echo "  启动前会自动检查 Meta-Lingo-Electron/README.md 中的版本号"
+    echo "  启动前会自动检查 Meta-Lingo-Electron/PROJECT.md 中的版本号"
     echo "  如果与网站显示的版本不一致，会自动同步更新"
     echo ""
 }

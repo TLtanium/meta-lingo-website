@@ -548,7 +548,7 @@ USAS 将词语归类到 21 个主要语义域：
 1. **词形过滤（非隐喻词表）**：使用 MIPVU 映射词表进行初步过滤（高频且 100% 非隐喻词/词组，共 1,098 项）。
 2. **基于 SpaCy 的规则过滤**：过滤部分高置信度字面用法（如数字/专名/符号、to + 动词等）以及若干 dep + word 高置信度组合。
 3. **HiTZ 预训练模型检测**：使用 HiTZ 团队隐喻检测模型进行序列标注，输出 B-METAPHOR / I-METAPHOR / O 标签。
-4. **功能词二次检测**：针对 IN/DT/RB/RP 等功能词，使用自训练的 DeBERTa-v3-large 模型进行二次判断，并使用阈值 P(隐喻) >= 0.4 进行决策。
+4. **功能词二次检测**：针对 IN/DT/RB/RP 等功能词，使用自训练的 [DeBERTa-v3-large 模型](https://huggingface.co/tommyleo2077/deberta-v3-large-metaphor-in-dt-rb-rp) 进行二次判断，并使用阈值 P(隐喻) >= 0.4 进行决策。
 
 ### 结果呈现
 - **表格视图**：逐词显示隐喻标注结果、词性、统计信息。
@@ -627,7 +627,7 @@ Metaphor analysis is based on the MIPVU (Metaphor Identification Procedure VU) a
 1. **Form-based filtering (non-metaphor list)**: initial filtering with a high-frequency non-metaphor list derived from MIPVU mapping (1,098 items).
 2. **SpaCy-driven rule filtering**: filters a set of high-confidence literal patterns (e.g., numbers/proper names/symbols, to + verb) and selected dep + word combinations.
 3. **HiTZ pre-trained detector**: token classification producing B-METAPHOR / I-METAPHOR / O tags.
-4. **Second-pass for function words**: for IN/DT/RB/RP, a fine-tuned DeBERTa-v3-large model performs second-pass detection with threshold P(metaphor) >= 0.4.
+4. **Second-pass for function words**: for IN/DT/RB/RP, a fine-tuned [DeBERTa-v3-large model](https://huggingface.co/tommyleo2077/deberta-v3-large-metaphor-in-dt-rb-rp) performs second-pass detection with threshold P(metaphor) >= 0.4.
 
 ### Result views
 - **Table view**: token-level metaphor annotations with POS and summary statistics.
