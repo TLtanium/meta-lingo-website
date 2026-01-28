@@ -18,7 +18,7 @@ const translations: Record<Language, Translations> = {
       cta: "立即下载"
     },
     hero: {
-      badge: "v3.8.93 现已发布",
+      badge: "v3.8.97 现已发布",
       title: "现代化多模态",
       subtitle: "语料库研究平台",
       description: "基于 Electron + React + Python 构建。集成 Whisper 语音转录、YOLO 视频追踪与 CLIP 语义分析，为语言学研究提供全流程智能化解决方案。",
@@ -88,7 +88,7 @@ const translations: Record<Language, Translations> = {
       cta: "Download Now"
     },
     hero: {
-      badge: "v3.8.93 Released",
+      badge: "v3.8.97 Released",
       title: "Modern Multimodal",
       subtitle: "Corpus Research Platform",
       description: "Built with Electron + React + Python. Integrated with Whisper transcription, YOLO tracking, and CLIP semantic analysis for a complete linguistic research solution.",

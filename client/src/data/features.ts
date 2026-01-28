@@ -888,11 +888,39 @@ Automatically extracts title, author, year, journal, keywords, institution, coun
 - 帧追踪系统：关键帧插值，减少手动标注
 - YOLO 叠加显示：实时显示检测框
 
+### 音频标注（仅英语）
+
+基于 Wav2Vec2 强制对齐数据，提供交互式音频波形标注界面：
+
+**波形可视化 (Wavesurfer.js)**
+- **波形显示**：完整音频波形，支持缩放和滚动
+- **词级对齐**：波形上方显示每个单词的时间位置标签
+- **音高曲线**：可选显示 F0（基频）曲线叠加层
+- **缩放控制**：按钮或 Ctrl+滚轮缩放，以播放指针为中心
+
+**播放控制**
+- 播放/暂停、-5s/+5s 快速跳转
+- 点击波形任意位置跳转
+- DAW 模式：播放指针保持在视图中央，波形滚动
+
+**画框标注**
+- 在波形上拖拽绘制标注框
+- 画框显示当前选中的标签名称和颜色
+- 自动记录开始和结束时间
+
+**转录文本标注**
+- 划词标注与纯文本标注相同
+- 播放时自动高亮当前正在播放的句子
+- 点击转录文本中的句子可跳转到对应时间
+
+> 注意：中文音频不支持波形标注，只能通过纯文本模式对转录文本进行标注。
+
 ### 多轨时间轴
 - YOLO 追踪轨
 - 转录段轨
 - 用户标注轨
 - 关键帧标记
+- DAW 范式：播放针居中滚动
 
 ## 编码者间信度
 
@@ -947,11 +975,39 @@ In addition to manual annotation, Meta-Lingo can convert existing NLP/metaphor a
 - Frame tracking system: Keyframe interpolation reduces manual work
 - YOLO overlay: Real-time detection box display
 
+### Audio Annotation (English only)
+
+Based on Wav2Vec2 forced alignment data, provides an interactive audio waveform annotation interface:
+
+**Waveform Visualization (Wavesurfer.js)**
+- **Waveform Display**: Complete audio waveform with zoom and scroll support
+- **Word-level Alignment**: Labels showing each word's time position above the waveform
+- **Pitch Curve**: Optional F0 (fundamental frequency) curve overlay
+- **Zoom Controls**: Buttons or Ctrl+Scroll to zoom, centered on playhead
+
+**Playback Controls**
+- Play/Pause, -5s/+5s quick jump
+- Click anywhere on waveform to seek
+- DAW Mode: Playhead stays centered, waveform scrolls
+
+**Box Drawing Annotation**
+- Drag on waveform to draw annotation boxes
+- Boxes show current selected label name and color
+- Automatically records start and end times
+
+**Transcript Annotation**
+- Text selection annotation same as text mode
+- Auto-highlight currently playing sentence during playback
+- Click transcript sentences to jump to corresponding time
+
+> Note: Chinese audio does not support waveform annotation, only plain text mode for transcript annotation.
+
 ### Multi-track Timeline
 - YOLO tracking track
 - Transcription segment track
 - User annotation track
 - Keyframe markers
+- DAW paradigm: Playhead centered scrolling
 
 ## Inter-Coder Reliability
 
