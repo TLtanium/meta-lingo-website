@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useRoute, useLocation } from 'wouter';
 import { features } from '../data/features';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -7,15 +7,10 @@ import {
   ArrowLeft, 
   Download,
   Folder, 
-  BarChart2, 
-  GitMerge, 
   Key, 
-  Type, 
-  Link as LinkIcon, 
   Network, 
   Share2, 
   BookOpen, 
-  Edit3, 
   Layers, 
   Settings,
   Database,
@@ -27,6 +22,254 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Streamdown } from 'streamdown';
+
+// 图片轮播组件 - 自动检测多图模式，无缝循环自动播放
+function ImageCarousel({ baseImage, title }: { baseImage: string; title: string }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [images, setImages] = useState<string[]>([baseImage]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // 自动检测多图模式
+  useEffect(() => {
+    const ext = baseImage.substring(baseImage.lastIndexOf('.'));
+    const basePath = baseImage.substring(0, baseImage.lastIndexOf('.'));
+    
+    // 检测图片是否存在的函数
+    const checkImage = (src: string): Promise<boolean> => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = getAssetPath(src);
+      });
+    };
+
+    // 检测多图模式
+    const detectImages = async () => {
+      // 先检测 -1 是否存在
+      const firstNumbered = `${basePath}-1${ext}`;
+      const hasNumbered = await checkImage(firstNumbered);
+      
+      if (hasNumbered) {
+        // 多图模式：检测所有存在的图片
+        const detectedImages: string[] = [];
+        let i = 1;
+        while (true) {
+          const imgPath = `${basePath}-${i}${ext}`;
+          const exists = await checkImage(imgPath);
+          if (exists) {
+            detectedImages.push(imgPath);
+            i++;
+          } else {
+            break;
+          }
+        }
+        setImages(detectedImages);
+      } else {
+        // 单图模式：使用原始图片
+        setImages([baseImage]);
+      }
+      setIsLoading(false);
+    };
+
+    setIsLoading(true);
+    setCurrentIndex(0);
+    detectImages();
+  }, [baseImage]);
+
+  // 无缝循环：当滑动到克隆图片后，瞬间跳回真正的第一张
+  useEffect(() => {
+    if (currentIndex === images.length) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(0);
+      }, 600); // 等待动画完成
+      return () => clearTimeout(timer);
+    }
+    // 恢复动画
+    if (!isTransitioning) {
+      const timer = setTimeout(() => setIsTransitioning(true), 50);
+      return () => clearTimeout(timer);
+    }
+  }, [currentIndex, images.length, isTransitioning]);
+
+  // 自动播放 - 一直往左滑
+  useEffect(() => {
+    if (images.length <= 1 || isPaused || isLoading) return;
+    
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => prev + 1);
+    }, 4000); // 4秒切换
+
+    return () => clearInterval(timer);
+  }, [images.length, isPaused, isLoading]);
+
+  // 触摸/鼠标滑动处理
+  const minSwipeDistance = 50;
+
+  const goNext = () => {
+    setCurrentIndex((prev) => prev + 1);
+  };
+
+  const goPrev = () => {
+    setCurrentIndex((prev) => {
+      if (prev === 0) return prev;
+      return prev - 1;
+    });
+  };
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setIsPaused(true);
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) {
+      setIsPaused(false);
+      return;
+    }
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe) {
+      goNext();
+    }
+    if (isRightSwipe) {
+      goPrev();
+    }
+    // 延迟恢复自动播放
+    setTimeout(() => setIsPaused(false), 3000);
+  };
+
+  // 鼠标拖拽处理
+  const [mouseStart, setMouseStart] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    setIsPaused(true);
+    setMouseStart(e.clientX);
+    setIsDragging(true);
+  };
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || mouseStart === null) return;
+  };
+
+  const onMouseUp = (e: React.MouseEvent) => {
+    if (!isDragging || mouseStart === null) {
+      setIsPaused(false);
+      return;
+    }
+    const distance = mouseStart - e.clientX;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe) {
+      goNext();
+    }
+    if (isRightSwipe) {
+      goPrev();
+    }
+    setIsDragging(false);
+    setMouseStart(null);
+    // 延迟恢复自动播放
+    setTimeout(() => setIsPaused(false), 3000);
+  };
+
+  const onMouseLeave = () => {
+    setIsDragging(false);
+    setMouseStart(null);
+  };
+
+  // 加载中状态
+  if (isLoading) {
+    return (
+      <div className="w-full aspect-video bg-gray-100 animate-pulse flex items-center justify-center">
+        <span className="text-gray-400">Loading...</span>
+      </div>
+    );
+  }
+
+  // 单图模式
+  if (images.length === 1) {
+    return (
+      <img 
+        src={getAssetPath(images[0])} 
+        alt={title} 
+        className="w-full h-auto object-cover"
+      />
+    );
+  }
+
+  // 构建显示列表：原始图片 + 第一张的克隆（用于无缝循环）
+  const displayImages = [...images, images[0]];
+  const displayIndex = currentIndex % (images.length + 1);
+
+  // 多图轮播模式
+  return (
+    <div className="relative">
+      {/* 图片容器 */}
+      <div 
+        ref={containerRef}
+        className="overflow-hidden cursor-grab active:cursor-grabbing select-none"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseLeave}
+      >
+        <div 
+          className="flex"
+          style={{ 
+            transform: `translateX(-${displayIndex * 100}%)`,
+            transition: isTransitioning ? 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
+            willChange: 'transform'
+          }}
+        >
+          {displayImages.map((img, index) => (
+            <img 
+              key={index}
+              src={getAssetPath(img)} 
+              alt={`${title} ${(index % images.length) + 1}`} 
+              className="w-full h-auto object-cover flex-shrink-0"
+              draggable={false}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* 点指示器 */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+        {images.map((_, index) => {
+          // 计算真实索引（处理克隆图片的情况）
+          const realIndex = currentIndex % images.length;
+          return (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === realIndex 
+                  ? 'bg-white w-4' 
+                  : 'bg-white/50 hover:bg-white/70'
+              }`}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default function FeatureDetail() {
   const [match, params] = useRoute('/feature/:id');
@@ -116,10 +359,9 @@ export default function FeatureDetail() {
 
           {/* Feature Image */}
           <div className="mb-12 rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white">
-            <img 
-              src={getAssetPath(feature.image)} 
-              alt={title} 
-              className="w-full h-auto object-cover"
+            <ImageCarousel 
+              baseImage={feature.image}
+              title={title}
             />
           </div>
 
