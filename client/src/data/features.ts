@@ -555,9 +555,10 @@ USAS 将词语归类到 21 个主要语义域：
 - **文本视图**：在原文中以琥珀色背景高亮显示隐喻词。
 - **词性筛选**：可按 NOUN/VERB/ADJ/ADV/ADP 等词性筛选隐喻结果。
 
-### 标注方法的可靠性与效果说明
-- **方法可靠性**：MIPVU 是语料库语言学中广泛使用的隐喻标注标准；人工标注一致性通常可通过 Cohen's Kappa、Krippendorff's Alpha 等指标评估，并可在本软件的“编码者间信度”模块中计算与导出。
-- **自动检测效果（你的评估）**：在 10 文件测试集（约 23,588 词）上，HiTZ 单模型 F1 为 60.6%，混合方案整体 F1 提升至 78.7%（召回率显著提升）。
+### 标注方法的可靠性
+- MIPVU 是语料库语言学中广泛使用的隐喻标注标准
+- 人工标注一致性可通过 Cohen's Kappa、Krippendorff's Alpha 等指标评估
+- 可在本软件的编码者间信度模块中计算与导出一致性指标
 
 ### 与语义域结果联动：高亮隐喻词
 在“按词语”结果模式下，提供“高亮隐喻词”开关：
@@ -567,7 +568,7 @@ USAS 将词语归类到 21 个主要语义域：
 ### 引用与致谢
 - Steen, G. et al. (2010). *A method for linguistic metaphor identification: From MIP to MIPVU*. John Benjamins.
 - Sanchez-Bayona, E. & Agerri, R. (2022). *Leveraging a New Spanish Corpus for Multilingual and Cross-lingual Metaphor Detection*. CoNLL 2022.（ACL Anthology）
-- HiTZ 预训练模型：HiTZ/deberta-large-metaphor-detection-en（Hugging Face）
+- [HiTZ 预训练模型](https://huggingface.co/HiTZ/deberta-large-metaphor-detection-en)
     `,
     contentEn: `
 # Semantic Analysis
@@ -634,9 +635,10 @@ Metaphor analysis is based on the MIPVU (Metaphor Identification Procedure VU) a
 - **Text view**: highlights metaphor words in the original text with an amber background.
 - **POS filter**: filter metaphors by POS (NOUN/VERB/ADJ/ADV/ADP, etc.).
 
-### Reliability and effectiveness notes
-- **Method reliability**: MIPVU is a widely used manual annotation standard; agreement can be assessed via Cohen's Kappa and Krippendorff's Alpha, which can be computed and exported in the Inter-Coder Reliability module.
-- **Automatic detection (your evaluation)**: on a 10-file test set (~23,588 tokens), HiTZ alone achieved F1 60.6%, while the hybrid approach reached F1 78.7% with substantially improved recall.
+### Reliability
+- MIPVU is a widely used manual annotation standard
+- Agreement can be assessed via Cohen's Kappa and Krippendorff's Alpha
+- These metrics can be computed and exported in the Inter-Coder Reliability module
 
 ### Linked with semantic domain results: highlight metaphor words
 In the "By Word" view, a "Highlight metaphor words" toggle is available:
@@ -646,7 +648,7 @@ In the "By Word" view, a "Highlight metaphor words" toggle is available:
 ### Citations & credits
 - Steen, G. et al. (2010). *A method for linguistic metaphor identification: From MIP to MIPVU*. John Benjamins.
 - Sanchez-Bayona, E. & Agerri, R. (2022). *Leveraging a New Spanish Corpus for Multilingual and Cross-lingual Metaphor Detection*. CoNLL 2022. (ACL Anthology)
-- HiTZ model: HiTZ/deberta-large-metaphor-detection-en (Hugging Face)
+- [HiTZ model](https://huggingface.co/HiTZ/deberta-large-metaphor-detection-en)
     `
   },
   {
@@ -1143,7 +1145,7 @@ The Topic Modeling module provides four methods: BERTopic, LDA, LSA, and NMF for
     descriptionEn: 'Configure app settings including USAS annotation mode, Ollama connection, and wallpaper.',
     icon: 'Settings', // 设置页保持使用 Lucide 图标
     color: '#64748B', // Slate
-    image: '/images/hero-bg.jpg',
+    image: '/images/settings.png',
     content: `
 # 应用设置
 
