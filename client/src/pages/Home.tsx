@@ -318,7 +318,7 @@ export default function Home() {
                 <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Apple_logo_white.svg" alt="macOS" className="w-8 h-8 invert" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">macOS</h3>
-              <p className="text-gray-500 mb-2">macOS 12.0+ (Apple Silicon/Intel)</p>
+              <p className="text-gray-500 mb-2">macOS 12.0+ (Apple Silicon)</p>
               <p className="text-gray-400 text-sm mb-6">{t('download.size')}</p>
               <Button 
                 className="w-full bg-gray-900 hover:bg-gray-800 text-white cursor-pointer"
