@@ -175,7 +175,7 @@ Based on Universal POS tags, supporting two modes:
     content: `
 # 同义词分析
 
-同义词分析模块基于 NLTK WordNet 词典，自动识别语料库中词语的同义词关系，帮助研究者发现词语的语义关联和词汇替换模式。
+同义词分析模块（也称词族分析）基于 NLTK WordNet 词典，自动识别语料库中词语的同义词关系。支持**语料库/文献库**统一选择（与词频统计等模块一致），结果仅保留**在所选语料中实际出现过的同义词**（与词典同义关系取交集），便于发现词汇替换模式与语义关联；支持网络图与树状图可视化，以及跨模块链接（共现关系、搭配分析、词图分析、N-gram、语义域分析等）。
 
 ## 核心功能
 
@@ -186,7 +186,7 @@ Based on Universal POS tags, supporting two modes:
 
 ### 同义词匹配
 - **同义词集查询**：根据词语和词性查询 WordNet 的 synsets（同义词集）。
-- **语料库过滤**：只保留在当前语料库中实际出现的同义词，发现词汇替换模式。
+- **语料库过滤**：只保留在当前所选语料库/文献库中实际出现的同义词（与词典取交集），发现词汇替换模式。
 - **词元提取**：从每个 synset 中提取所有 lemmas（词元）作为同义词。
 
 ### 多维可视化
@@ -207,18 +207,18 @@ Based on Universal POS tags, supporting two modes:
     contentEn: `
 # Synonym Analysis
 
-The Synonym Analysis module is based on the NLTK WordNet dictionary, automatically identifying synonym relationships in the corpus to help researchers discover semantic associations and vocabulary substitution patterns.
+The Synonym Analysis module (also called word family analysis) is based on the NLTK WordNet dictionary and identifies synonym relations in the corpus. It supports **corpus/literature library** selection consistent with word frequency and other modules; results keep only synonyms **that actually occur in the selected corpus** (intersection with the dictionary), to reveal substitution patterns and semantic links. It offers network and tree visualizations and cross-module links (concordance, collocation analysis, Word Sketch, N-gram, semantic domain analysis, etc.).
 
 ## Core Features
 
 ### Technical Foundation
-- **NLTK WordNet**: English lexical database developed by Princeton University.
-- **Open Multilingual Wordnet**: Multilingual WordNet extension support.
-- **POS Mapping**: Automatically maps SpaCy POS tags to WordNet POS (noun, verb, adjective, adverb).
+- **NLTK WordNet**: English lexical database from Princeton University.
+- **Open Multilingual Wordnet**: Multilingual WordNet extension.
+- **POS Mapping**: Maps SpaCy POS to WordNet POS (noun, verb, adjective, adverb).
 
 ### Synonym Matching
-- **Synset Query**: Query WordNet synsets based on word and POS.
-- **Corpus Filtering**: Only retain synonyms that actually appear in the current corpus.
+- **Synset Query**: Query WordNet synsets by word and POS.
+- **Corpus Filtering**: Only retain synonyms that actually appear in the selected corpus/literature (intersection with dictionary).
 - **Lemma Extraction**: Extract all lemmas from each synset as synonyms.
 
 ### Multi-dimensional Visualization
@@ -271,12 +271,28 @@ The Synonym Analysis module is based on the NLTK WordNet dictionary, automatical
 
 ## 关键性对比
 
-通过对比研究语料库和参照语料库，识别具有统计显著性的关键词：
+通过对比研究语料库和参照语料库，识别具有统计显著性的关键词（支持词形、词元、语义域模式）。
+
+### 参照语料库选择
+
+两种方式：
+- **选择语料库文本**：全部文本 / 按标签 / 手动选择，适合使用自己导入的语料库。
+- **语料库资源**：打开「语料库资源」开关，使用系统内置预处理词频数据；默认资源为 OANC。资源选择窗口支持按名称搜索、按语料库类型筛选（BNC 1994、BNC 2014、Brown、NOW、OANC、COCA、COHA、GloWbE 等）、按标签筛选，一次选择一个。
+
+**内置语料库资源示例**：BNC 1994、BNC 2014（仅口语）、Brown、NOW、OANC、COCA、COHA、GloWbE 等，提供词数、文件大小等信息。
+
+### 参考语料库资源的 USAS 标注说明
+
+内置语料库资源中的 USAS 语义域数据由 Meta-Lingo 内置 **PyMUSAS 神经网络模型**（多语基座 307M）标注。进行关键性对比（尤其是语义域模式）时，建议在「应用设置」中将 **USAS 标注模式** 选为 **神经网络** 或 **混合**，使研究语料与内置参考语料的标注策略一致，结果更可比。详见 [PyMUSAS 文档](https://ucrel.github.io/pymusas/) 与 [HuggingFace 模型](https://huggingface.co/ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM)。
+
+### 统计方法
+
 - **Log-Likelihood**：对数似然比检验，对语料库大小差异不敏感。
 - **Chi-squared**：卡方检验，带 Yates 校正。
 - **Log Ratio**：效应量指标，显示频率比值。
 - **Mutual Information**：互信息，偏向低频词。
 - **Fisher's Exact**：精确检验，适用于小样本。
+- 以及 Simple Keyness 等共九种方法可选。
 
 ## 使用场景
 - **文献综述**：快速提取大量文献的核心主题词。
@@ -308,12 +324,28 @@ The Keyword Extraction module provides two analysis modes: single-document extra
 
 ## Keyness Comparison
 
-Compare study corpus with reference corpus to identify statistically significant keywords:
-- **Log-Likelihood**: Insensitive to corpus size differences.
+Compare study corpus with reference corpus to identify statistically significant keywords (word form, lemma, or USAS semantic domain mode).
+
+### Reference corpus selection
+
+Two options:
+- **Select corpus texts**: Full / by tag / manual selection, for your own imported corpora.
+- **Corpus resources**: Enable the "Corpus resources" switch to use built-in preprocessed frequency data; default is OANC. The resource picker supports search by name, filter by type (BNC 1994, BNC 2014, Brown, NOW, OANC, COCA, COHA, GloWbE, etc.), and by tags; one resource at a time.
+
+**Built-in resources** include BNC 1994, BNC 2014 (spoken only), Brown, NOW, OANC, COCA, COHA, GloWbE, etc., with word counts and file size.
+
+### USAS annotation for reference corpus resources
+
+USAS semantic domain data in built-in resources is produced by Meta-Lingo’s **PyMUSAS neural model** (multilingual base 307M). For keyness comparison (especially in semantic domain mode), set **USAS annotation mode** in Settings to **Neural** or **Hybrid** so study and reference corpora use the same tagging, for comparable results. See [PyMUSAS docs](https://ucrel.github.io/pymusas/) and [HuggingFace model](https://huggingface.co/ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM).
+
+### Statistical methods
+
+- **Log-Likelihood**: Insensitive to corpus size.
 - **Chi-squared**: With Yates correction.
-- **Log Ratio**: Effect size metric showing frequency ratio.
+- **Log Ratio**: Effect size, frequency ratio.
 - **Mutual Information**: Favors low-frequency words.
 - **Fisher's Exact**: For small samples.
+- Plus Simple Keyness and others (nine methods in total).
 
 ## Use Cases
 - **Literature Review**: Extract core themes from massive literature.
@@ -653,106 +685,86 @@ In the "By Word" view, a "Highlight metaphor words" toggle is available:
   },
   {
     id: 'word-sketch',
-    title: '词图分析',
-    titleEn: 'Word Sketch',
-    description: '基于依存句法分析词汇的语法搭配，使用 logDice 评分，支持词图对比。',
-    descriptionEn: 'Analyze grammatical collocations based on dependency parsing with logDice scoring and sketch difference.',
+    title: '搭配分析',
+    titleEn: 'Collocation Analysis',
+    description: '三个子模块：窗口搭配（12 种统计量）、Word Sketch 语法搭配、Word Sketch Difference 两词对比。',
+    descriptionEn: 'Three sub-modules: window-based collocation (12 statistics), Word Sketch grammatical collocation, Word Sketch Difference.',
     icon: 'word-sketch.png',
     color: '#F43F5E', // Rose
     image: '/images/word-sketch.png',
     content: `
-# 词图分析 (Word Sketch)
+# 搭配分析
 
-词图分析模块基于 SpaCy 依存句法标注数据，分析词语的语法搭配模式，提供 Word Sketch 和 Word Sketch Difference 两种分析模式。
+搭配分析模块提供全面的搭配分析工具。模块包含三个标签页：**搭配分析**（基于窗口的搭配分析，支持 12 种统计关联度量）、**Word Sketch**（基于依存句法分析的语法搭配分析）和 **Word Sketch Difference**（两个词语的搭配对比分析），帮助研究者深入理解词语的搭配模式和语法行为。
 
-## 实现原理
+## 界面布局
 
-### 依存句法分析
-- 使用 SpaCy 进行依存句法分析
-- 识别词语之间的语法关系
-- 支持 50 种语法关系模板
+- **顶部标签页**：切换「搭配分析」、「Word Sketch」和「Word Sketch Difference」三种模式
+- **左侧面板**：配置面板（语料选择、搜索配置等）
+- **右侧面板**：结果展示（分析结果、可视化：柱状图、饼图、网络图、词云）
 
-### logDice 得分
-衡量搭配强度的统计方法：
-- **值域**：通常为 0-14
-- **> 7**：非常强的搭配
-- **5-7**：强搭配
-- **3-5**：中等搭配
-- **< 3**：弱搭配
+## 搭配分析（窗口搭配）
 
-## Word Sketch
+对给定节点词进行基于窗口的搭配分析，识别在节点词周围指定窗口内频繁共现的词语，并使用多种统计关联度量排名。
 
-### 语法关系分类
-自动将搭配词按语法关系分类：
-- **主语关系**：nsubj, nsubjpass, csubj
-- **宾语关系**：dobj, iobj, pobj
-- **修饰关系**：amod, advmod, nmod
-- **介词关系**：prep, pcomp
-- **从句关系**：advcl, relcl, ccomp
+- **搜索配置**：节点词、搭配跨距（每侧 1–15 词）、最小/最大频率、转为小写、去除停用词、排除词语、词性筛选
+- **12 种统计量**：LogDice、MI、LL、Z-score、T-score、Log Ratio、MI²、MI³、Dice、Delta P1、Delta P2、MinSens 等，可启用/禁用与调整顺序
+- **结果与可视化**：信息栏、工具栏、搭配词表格；跨模块链接至共现关系；柱状图、饼图、搭配网络图（可展开二级搭配）、词云
 
-### BERTopic 风格卡片
-- 关系名称和搭配数量
-- 搭配词表格（词语、频率、得分）
-- 展开/收起功能
+## Word Sketch（语法搭配）
 
-## Word Sketch Difference
+基于 SpaCy 依存句法标注数据，按语法关系分析词语的搭配模式。
 
-### 搭配对比
-- 对比两个词语的搭配差异
-- 颜色编码显示偏向
-- 共有搭配和独有搭配
+- **技术基础**：SpaCy 依存、Universal Dependencies、**logDice** 衡量搭配强度（>7 非常强，5–7 强，3–5 中等，<3 弱）
+- **50 种语法关系**：主语、宾语、修饰、介词、从句、并列等；按目标词词性自动选择相关关系
+- **语料与配置**：全部文本 / 按标签 / 手动选择；搜索词语（词形或词元）、词性筛选、每关系显示数量、最小频率、最小得分
+- **结果**：统计摘要；BERTopic 风格语法关系卡片（关系名称、搭配数量、展开/收起）；搭配词表格（搭配词、频率、logDice 得分）；快捷操作（共现、词图分析）
 
-### 颜色系统
-- **蓝色系**：词语 1 的搭配更强
-- **红色系**：词语 2 的搭配更强
-- **灰色**：搭配强度相近
+## Word Sketch Difference（词图对比）
+
+对比两个词语的搭配差异，按 logDice 差异排序，颜色编码偏向（蓝：词语 1 更强，红：词语 2 更强，灰：相近）。
+
+- **输入**：词形模式（两词形）或词元模式（一词元下选两词形）
+- **语料选择**：与 Word Sketch 相同
+
+**注意**：Word Sketch 与词图对比均基于 SpaCy 依存句法，需语料已完成 SpaCy 标注；大语料分析可能较耗时。
     `,
     contentEn: `
-# Word Sketch
+# Collocation Analysis
 
-The Word Sketch module analyzes grammatical collocation patterns based on SpaCy dependency parsing data, providing Word Sketch and Word Sketch Difference analysis modes.
+The Collocation Analysis module provides comprehensive collocation tools. It has three tabs: **Collocation** (window-based collocation with 12 association measures), **Word Sketch** (grammatical collocation from dependency parsing), and **Word Sketch Difference** (compare collocations of two words).
 
-## Implementation
+## Interface Layout
 
-### Dependency Parsing
-- Uses SpaCy for dependency analysis
-- Identifies grammatical relations between words
-- Supports 50 grammatical relation templates
+- **Top tabs**: Switch between Collocation, Word Sketch, and Word Sketch Difference
+- **Left panel**: Configuration (corpus selection, search settings)
+- **Right panel**: Results (tables, visualizations: bar, pie, network, word cloud)
 
-### logDice Score
-Statistical method measuring collocation strength:
-- **Range**: Usually 0-14
-- **> 7**: Very strong collocation
-- **5-7**: Strong collocation
-- **3-5**: Medium collocation
-- **< 3**: Weak collocation
+## Collocation (window-based)
 
-## Word Sketch
+Window-based collocation for a node word: identifies words that frequently co-occur within a specified span and ranks them with multiple association measures.
 
-### Grammatical Relation Classification
-Automatically classifies collocates by grammatical relations:
-- **Subject Relations**: nsubj, nsubjpass, csubj
-- **Object Relations**: dobj, iobj, pobj
-- **Modifier Relations**: amod, advmod, nmod
-- **Prepositional Relations**: prep, pcomp
-- **Clause Relations**: advcl, relcl, ccomp
+- **Settings**: Node word, span (1–15 words per side), min/max frequency, lowercasing, stopwords, exclude list, POS filter
+- **12 statistics**: LogDice, MI, LL, Z-score, T-score, Log Ratio, MI², MI³, Dice, Delta P1, Delta P2, MinSens, etc.; enable/disable and reorder
+- **Results**: Info bar, toolbar, collocate table; cross-module link to concordance; bar, pie, collocation network (expandable), word cloud
 
-### BERTopic-style Cards
-- Relation name and collocate count
-- Collocate table (word, frequency, score)
-- Expand/collapse functionality
+## Word Sketch (grammatical collocation)
+
+Analyzes collocation by grammatical relation using SpaCy dependency parsing.
+
+- **Technical basis**: SpaCy dependencies, Universal Dependencies, **logDice** for strength (>7 very strong, 5–7 strong, 3–5 medium, <3 weak)
+- **50 grammatical relations**: Subject, object, modifier, preposition, clause, coordination, etc.; relation set depends on target POS
+- **Corpus and config**: Full / by tag / manual selection; search word (form or lemma), POS filter, count per relation, min frequency, min score
+- **Results**: Summary; BERTopic-style relation cards (name, count, expand/collapse); collocate table (word, frequency, logDice); quick links (concordance, Word Sketch)
 
 ## Word Sketch Difference
 
-### Collocation Comparison
-- Compare collocation differences between two words
-- Color-coded bias indication
-- Shared and unique collocations
+Compares collocations of two words; results sorted by logDice difference with color coding (blue: word 1 stronger, red: word 2 stronger, gray: similar).
 
-### Color System
-- **Blue shades**: Word 1's collocation is stronger
-- **Red shades**: Word 2's collocation is stronger
-- **Gray**: Similar collocation strength
+- **Input**: Word form mode (two forms) or lemma mode (one lemma, choose two forms)
+- **Corpus**: Same as Word Sketch
+
+**Note**: Word Sketch and Sketch Difference require SpaCy dependency annotation; large corpora may take longer.
     `
   },
   {
@@ -767,7 +779,15 @@ Automatically classifies collocates by grammatical relations:
     content: `
 # 文献可视化
 
-文献可视化模块用于管理和分析学术文献数据，支持从 Web of Science (WOS) 和中国知网 (CNKI) 导入 Refworks 格式的文献数据。
+文献可视化模块用于管理和分析学术文献数据，支持从 Web of Science (WOS) 和中国知网 (CNKI) 导入 Refworks 格式的文献数据，并提供合作网络、关键词共现、时区视图和突增检测等可视化分析。
+
+## 界面布局
+
+采用顶部标签页设计：
+- **上传**：创建文献库和上传 Refworks 文件
+- **文献库列表**：查看和管理所有文献库
+- **文献库详情**：查看文献条目列表、筛选和详情
+- **可视化**：生成各种可视化图表
 
 ## 数据导入
 
@@ -805,7 +825,15 @@ Automatically classifies collocates by grammatical relations:
     contentEn: `
 # Bibliometrics
 
-The Bibliometrics module manages and analyzes academic literature data, supporting Refworks format import from Web of Science (WOS) and CNKI.
+The Bibliometrics module manages and analyzes academic literature data, supporting Refworks import from Web of Science (WOS) and CNKI, with visualization including collaboration networks, keyword co-occurrence, timezone view, and burst detection.
+
+## Interface Layout
+
+Top tab design:
+- **Upload**: Create literature library and upload Refworks files
+- **Library list**: View and manage all libraries
+- **Library detail**: View entries, filter, and details
+- **Visualization**: Generate charts and networks
 
 ## Data Import
 
@@ -819,10 +847,10 @@ Automatically extracts title, author, year, journal, keywords, institution, coun
 ## Visualization Analysis
 
 ### Network Graphs
-- **Keyword Co-occurrence Network**: Shows co-occurrence relationships between keywords
-- **Co-author Network**: Shows collaboration relationships between authors
-- **Co-institution Network**: Shows collaboration between institutions
-- **Co-country Network**: Shows collaboration between countries
+- **Keyword Co-occurrence Network**: Co-occurrence between keywords
+- **Co-author Network**: Collaboration between authors
+- **Co-institution Network**: Collaboration between institutions
+- **Co-country Network**: Collaboration between countries
 
 ### Timezone View
 - Display literature distribution by time period
@@ -830,9 +858,9 @@ Automatically extracts title, author, year, journal, keywords, institution, coun
 - Discover emerging hotspots and declining areas
 
 ### Burst Detection
-- **Keyword Burst**: Detect keyword surge trends in specific periods
-- **Author Burst**: Detect author activity surges in specific periods
-- **Gantt-style**: Visually display burst periods
+- **Keyword Burst**: Keyword surge trends in specific periods
+- **Author Burst**: Author activity surges in specific periods
+- **Gantt-style**: Visualize burst periods
 
 ## Filtering
 - Year range filtering
@@ -853,7 +881,16 @@ Automatically extracts title, author, year, journal, keywords, institution, coun
     content: `
 # 标注模式
 
-标注模式模块用于对文本和多媒体内容进行基于框架的标注，支持纯文本标注和多模态标注。
+标注模式模块用于对文本和多媒体内容进行基于框架的标注，支持**文本标注**（纯文本）和**多模态标注**（视频/音频），并提供标注历史、框架管理和编码者间信度分析。
+
+## 界面布局
+
+采用顶部标签页设计：
+- **文本标注**：分句、划词标注，框架树选择，句法可视化，自动标注（MIPVU 隐喻、Theme-Rheme 主位述位）
+- **多模态标注**：视频/音频标注，Whisper 转录，波形/画框标注，YOLO 与 CLIP 结果叠加
+- **标注历史**：查看和管理已保存的标注存档
+- **框架管理**：创建和管理标注框架，导入/导出，D3.js 框架树可视化
+- **编码者间信度**：计算多编码者标注一致性（Kappa、Alpha 等），标准答案与 KWIC 查看
 
 ## 纯文本标注
 
@@ -940,7 +977,16 @@ Automatically extracts title, author, year, journal, keywords, institution, coun
     contentEn: `
 # Annotation Mode
 
-The Annotation Mode module provides framework-based annotation for text and multimedia content, supporting text and multimodal annotation.
+The Annotation Mode module provides framework-based annotation for text and multimedia content: **text annotation** (plain text) and **multimodal annotation** (video/audio), plus annotation history, framework management, and inter-coder reliability.
+
+## Interface Layout
+
+Top tab design:
+- **Text annotation**: Sentence and span annotation, framework tree selection, syntax visualization, auto-annotation (MIPVU metaphor, Theme-Rheme)
+- **Multimodal annotation**: Video/audio annotation, Whisper transcription, waveform/span annotation, YOLO and CLIP overlay
+- **Annotation history**: View and manage saved annotation archives
+- **Framework management**: Create and manage frameworks, import/export, D3.js framework tree
+- **Inter-coder reliability**: Kappa, Alpha, etc.; standard answer and KWIC view
 
 ## Text Annotation
 

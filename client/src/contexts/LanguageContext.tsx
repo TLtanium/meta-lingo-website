@@ -18,7 +18,7 @@ const translations: Record<Language, Translations> = {
       cta: "立即下载"
     },
     hero: {
-      badge: "v3.8.98 现已发布",
+      badge: "v3.9.40 现已发布",
       title: "现代化多模态",
       subtitle: "语料库研究平台",
       description: "基于 Electron + React + Python 构建。集成 Whisper 语音转录、YOLO 视频追踪与 CLIP 语义分析，为语言学研究提供全流程智能化解决方案。",
@@ -42,7 +42,7 @@ const translations: Record<Language, Translations> = {
         "ngram-analysis": { title: "N-gram分析", desc: "分析词语组合模式" },
         "collocation-analysis": { title: "共现关系", desc: "分析词语共现关系" },
         "semantic-field": { title: "语义分析", desc: "语义分析工具箱" },
-        "word-sketch": { title: "词图分析", desc: "词语语法搭配模式分析" },
+        "word-sketch": { title: "搭配分析", desc: "搭配分析、Word Sketch、词图对比" },
         "literature-viz": { title: "文献可视化", desc: "文献数据可视化分析" },
         "annotation-mode": { title: "标注模式", desc: "文本/多模态标注 + 自动标注" },
         "topic-modeling": { title: "主题建模", desc: "发现文本主题结构" },
@@ -88,7 +88,7 @@ const translations: Record<Language, Translations> = {
       cta: "Download Now"
     },
     hero: {
-      badge: "v3.8.98 Released",
+      badge: "v3.9.40 Released",
       title: "Modern Multimodal",
       subtitle: "Corpus Research Platform",
       description: "Built with Electron + React + Python. Integrated with Whisper transcription, YOLO tracking, and CLIP semantic analysis for a complete linguistic research solution.",
@@ -112,7 +112,7 @@ const translations: Record<Language, Translations> = {
         "ngram-analysis": { title: "N-gram Analysis", desc: "Analyze word patterns" },
         "collocation-analysis": { title: "Concordance", desc: "Analyze co-occurrence" },
         "semantic-field": { title: "Semantic Analysis", desc: "Semantic analysis toolkit" },
-        "word-sketch": { title: "Word Sketch", desc: "Grammatical collocation analysis" },
+        "word-sketch": { title: "Collocation Analysis", desc: "Collocation, Word Sketch, Sketch Difference" },
         "literature-viz": { title: "Bibliometrics", desc: "Visualize bibliographic data" },
         "annotation-mode": { title: "Annotation Mode", desc: "Text/multimodal + auto annotation" },
         "topic-modeling": { title: "Topic Modeling", desc: "Discover text topics" },

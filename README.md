@@ -105,7 +105,7 @@ Meta-Lingo-Website/
 | N-gram 分析 | 2-6 元统计、Nest 分组、多维可视化 |
 | 共现关系 | KWIC 语境检索 + CQL 查询，支持“高亮隐喻”开关（英语） |
 | 语义分析 | USAS 语义域统计 + MIPVU 隐喻分析（英语），支持高亮隐喻词 |
-| 词图分析 | 结合依存句法的语法搭配素描 |
+| 搭配分析 | 搭配分析（窗口+12 种统计量）、Word Sketch、Word Sketch Difference 词图对比 |
 | 文献可视化 | 导入 WOS/CNKI Refworks 格式，合作网络与突增检测 |
 | 标注模式 | 文本/视频/音频多模态标注，波形画框（英语），自动标注，编码者间信度 |
 | 主题建模 | BERTopic/LDA/LSA/NMF，含动态主题与主题数优化 |
