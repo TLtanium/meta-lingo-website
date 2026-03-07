@@ -51,3 +51,10 @@
   - 标注模式：按手册补充五标签页（文本标注、多模态标注、标注历史、框架管理、编码者间信度）及自动标注、编码者间信度等。
   - 文献可视化：按手册补充四标签页（上传、文献库列表、文献库详情、可视化）。
   - 双语：LanguageContext 中 word-sketch 的 zh/en title 与 desc 已同步为「搭配分析」/ “Collocation Analysis”；README 与 index.html 中相关表述已更新。
+
+- **2026-02-28**：隐喻分析模块描述更新
+  - 移除 HiTZ 模型及「规则 + 双模型」混合流程描述。
+  - 改为基于 MIPVU 的从句级二元隐喻检测：DeBERTa-v3-large 在 VUA-20（VUAMC）上微调，训练单位为从句（SpaCy ROOT + advcl/ccomp/relcl 等），任务为词级二元分类。
+  - 准确度数据参考 [deberta-v3-large-clause-metaphor](https://huggingface.co/tommyleo2077/deberta-v3-large-clause-metaphor)：测试集 F1 75.83、Precision 78.08、Recall 73.69；验证 F1 ~79.05；按词性（IN/DT/RP/RB/Other）F1 已写入 features.ts 中英文详情。
+  - 引用与致谢仅保留 MIPVU（Steen et al.）及新模型链接，移除 Sanchez-Bayona & Agerri、HiTZ 链接。
+  - README 功能表下注已更新为当前模型与指标说明；双语 content/contentEn 已同步。

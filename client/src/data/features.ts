@@ -569,18 +569,27 @@ USAS 将词语归类到 21 个主要语义域：
 
 ## 隐喻分析（仅英语）
 
-隐喻分析基于 MIPVU（Metaphor Identification Procedure VU）标注方法，结合规则过滤与深度学习模型，自动识别英语文本中的隐喻词。
+隐喻分析基于 MIPVU（Metaphor Identification Procedure VU）标注思路，采用**从句级**（clause-level）分割与**二元**（隐喻/非隐喻）词级标注，使用在 VUA-20（VUAMC）上微调的 DeBERTa-v3-large 模型自动识别英语文本中的隐喻词。
 
 ### MIPVU 判定思路（简要）
 - **基本义（basic meaning）**：更具体、可感知、与身体经验更相关、历史上更早出现的词义。
 - **上下文义（contextual meaning）**：词在当前语境中的实际含义。
 - **隐喻判定**：若上下文义与基本义不同，但二者可通过对比建立理解关系，则判定为隐喻用法。
 
-### 混合检测流程（规则 + 双模型）
-1. **词形过滤（非隐喻词表）**：使用 MIPVU 映射词表进行初步过滤（高频且 100% 非隐喻词/词组，共 1,098 项）。
-2. **基于 SpaCy 的规则过滤**：过滤部分高置信度字面用法（如数字/专名/符号、to + 动词等）以及若干 dep + word 高置信度组合。
-3. **HiTZ 预训练模型检测**：使用 HiTZ 团队隐喻检测模型进行序列标注，输出 B-METAPHOR / I-METAPHOR / O 标签。
-4. **功能词二次检测**：针对 IN/DT/RB/RP 等功能词，使用自训练的 [DeBERTa-v3-large 模型](https://huggingface.co/tommyleo2077/deberta-v3-large-metaphor-in-dt-rb-rp) 进行二次判断，并使用阈值 P(隐喻) >= 0.4 进行决策。
+### 模型与流程
+- **基础模型**：Microsoft [DeBERTa-v3-large](https://huggingface.co/microsoft/deberta-v3-large)，在 VUA-20（VUAMC）上进行词级二元隐喻检测微调。
+- **训练单位**：从句（SpaCy 依存：ROOT + advcl/ccomp/relcl 等），每个样本为一句子句及对齐的词级标签。
+- **任务**：词级二元分类（non_metaphor / metaphor），子词对齐到词后取每词首子词预测。
+
+### 评测结果（留出测试集：10 个片段，29,241 tokens）
+
+| 指标 | 数值 |
+|------|------|
+| F1 | 75.83 |
+| Precision | 78.08 |
+| Recall | 73.69 |
+
+验证集 F1（最后一轮）：约 79.05。按词性（部分）：IN 87.87，DT 90.87，RP 78.57，RB 68.57，其他（合并）67.16。
 
 ### 结果呈现
 - **表格视图**：逐词显示隐喻标注结果、词性、统计信息。
@@ -599,8 +608,7 @@ USAS 将词语归类到 21 个主要语义域：
 
 ### 引用与致谢
 - Steen, G. et al. (2010). *A method for linguistic metaphor identification: From MIP to MIPVU*. John Benjamins.
-- Sanchez-Bayona, E. & Agerri, R. (2022). *Leveraging a New Spanish Corpus for Multilingual and Cross-lingual Metaphor Detection*. CoNLL 2022.（ACL Anthology）
-- [HiTZ 预训练模型](https://huggingface.co/HiTZ/deberta-large-metaphor-detection-en)
+- [DeBERTa-v3-large-clause-metaphor](https://huggingface.co/tommyleo2077/deberta-v3-large-clause-metaphor)（从句级隐喻检测模型，本软件所用）
     `,
     contentEn: `
 # Semantic Analysis
@@ -649,18 +657,27 @@ USAS classifies words into 21 major semantic domains:
 
 ## Metaphor Analysis (English only)
 
-Metaphor analysis is based on the MIPVU (Metaphor Identification Procedure VU) approach and uses a hybrid pipeline combining rule-based filtering and deep learning models to automatically detect metaphorical words in English texts.
+Metaphor analysis follows the MIPVU (Metaphor Identification Procedure VU) guidelines and uses **clause-level** segmentation with **binary** (metaphor / non-metaphor) token classification. The system uses a DeBERTa-v3-large model fine-tuned on VUA-20 (VUAMC) to automatically detect metaphorical words in English text.
 
 ### MIPVU decision logic (brief)
 - **Basic meaning**: more concrete, bodily/experiential, historically earlier, and more specific.
 - **Contextual meaning**: the meaning a word takes in the current context.
 - **Metaphor decision**: if contextual meaning contrasts with basic meaning but can be understood via comparison, classify as metaphor.
 
-### Hybrid detection pipeline (rules + two models)
-1. **Form-based filtering (non-metaphor list)**: initial filtering with a high-frequency non-metaphor list derived from MIPVU mapping (1,098 items).
-2. **SpaCy-driven rule filtering**: filters a set of high-confidence literal patterns (e.g., numbers/proper names/symbols, to + verb) and selected dep + word combinations.
-3. **HiTZ pre-trained detector**: token classification producing B-METAPHOR / I-METAPHOR / O tags.
-4. **Second-pass for function words**: for IN/DT/RB/RP, a fine-tuned [DeBERTa-v3-large model](https://huggingface.co/tommyleo2077/deberta-v3-large-metaphor-in-dt-rb-rp) performs second-pass detection with threshold P(metaphor) >= 0.4.
+### Model and pipeline
+- **Base model**: Microsoft [DeBERTa-v3-large](https://huggingface.co/microsoft/deberta-v3-large), fine-tuned for binary token-level metaphor detection on VUA-20 (VUAMC).
+- **Training unit**: Clauses (SpaCy dependency: ROOT + advcl/ccomp/relcl, etc.); each example is one clause with aligned word-level labels.
+- **Task**: Binary token classification (non_metaphor / metaphor); subwords are aligned to words and the first subword per word is used for prediction.
+
+### Evaluation results (held-out test set: 10 fragments, 29,241 tokens)
+
+| Metric | Value |
+|--------|-------|
+| F1 | 75.83 |
+| Precision | 78.08 |
+| Recall | 73.69 |
+
+Validation F1 (last epoch): ~79.05. By POS (selected): IN 87.87, DT 90.87, RP 78.57, RB 68.57, Other (aggregate) 67.16.
 
 ### Result views
 - **Table view**: token-level metaphor annotations with POS and summary statistics.
@@ -679,8 +696,7 @@ In the "By Word" view, a "Highlight metaphor words" toggle is available:
 
 ### Citations & credits
 - Steen, G. et al. (2010). *A method for linguistic metaphor identification: From MIP to MIPVU*. John Benjamins.
-- Sanchez-Bayona, E. & Agerri, R. (2022). *Leveraging a New Spanish Corpus for Multilingual and Cross-lingual Metaphor Detection*. CoNLL 2022. (ACL Anthology)
-- [HiTZ model](https://huggingface.co/HiTZ/deberta-large-metaphor-detection-en)
+- [DeBERTa-v3-large-clause-metaphor](https://huggingface.co/tommyleo2077/deberta-v3-large-clause-metaphor) (clause-level metaphor detection model used in this software)
     `
   },
   {

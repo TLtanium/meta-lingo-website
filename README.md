@@ -111,7 +111,7 @@ Meta-Lingo-Website/
 | 主题建模 | BERTopic/LDA/LSA/NMF，含动态主题与主题数优化 |
 | 应用设置 | 语言、USAS 模式、Ollama 连接、壁纸等个性化配置 |
 
-> 注：隐喻相关能力基于 MIPVU 方法与 HiTZ 团队隐喻检测模型的混合方案，功能词二次检测使用 [自训练模型](https://huggingface.co/tommyleo2077/deberta-v3-large-metaphor-in-dt-rb-rp)，主要面向英语语料。
+> 注：隐喻分析（仅英语）采用基于 MIPVU 的从句级二元检测，使用在 VUA-20 上微调的 [DeBERTa-v3-large-clause-metaphor](https://huggingface.co/tommyleo2077/deberta-v3-large-clause-metaphor) 模型（测试集 F1 75.83，精确率 78.08，召回率 73.69）。
 
 ## 快速开始
 
