@@ -175,7 +175,7 @@ Based on Universal POS tags, supporting two modes:
     content: `
 # 同义词分析
 
-同义词分析模块（也称词族分析）基于 NLTK WordNet 词典，自动识别语料库中词语的同义词关系。支持**语料库/文献库**统一选择（与词频统计等模块一致），结果仅保留**在所选语料中实际出现过的同义词**（与词典同义关系取交集），便于发现词汇替换模式与语义关联；支持网络图与树状图可视化，以及跨模块链接（共现关系、搭配分析、词图分析、N-gram、语义域分析等）。
+同义词分析模块（也称词族分析）基于 NLTK WordNet 词典，自动识别语料库中词语的同义词关系。支持**语料库/文献库**统一选择（与词频统计等模块一致），结果仅保留**在所选语料中实际出现过的同义词**（与词典同义关系取交集），便于发现词汇替换模式与语义关联；支持网络图与树状图可视化，以及跨模块链接（语境索引、搭配分析、词图分析、N-gram、语义域分析等）。
 
 ## 核心功能
 
@@ -207,7 +207,7 @@ Based on Universal POS tags, supporting two modes:
     contentEn: `
 # Synonym Analysis
 
-The Synonym Analysis module (also called word family analysis) is based on the NLTK WordNet dictionary and identifies synonym relations in the corpus. It supports **corpus/literature library** selection consistent with word frequency and other modules; results keep only synonyms **that actually occur in the selected corpus** (intersection with the dictionary), to reveal substitution patterns and semantic links. It offers network and tree visualizations and cross-module links (concordance, collocation analysis, Word Sketch, N-gram, semantic domain analysis, etc.).
+The Synonym Analysis module (also called word family analysis) is based on the NLTK WordNet dictionary and identifies synonym relations in the corpus. It supports **corpus/literature library** selection consistent with word frequency and other modules; results keep only synonyms **that actually occur in the selected corpus** (intersection with the dictionary), to reveal substitution patterns and semantic links. It offers network and tree visualizations and cross-module links (context index, collocation analysis, Word Sketch, N-gram, semantic domain analysis, etc.).
 
 ## Core Features
 
@@ -425,17 +425,17 @@ The N-gram Analysis module, based on SpaCy annotation data, counts the frequency
   },
   {
     id: 'collocation-analysis',
-    title: '共现关系',
-    titleEn: 'Concordance',
+    title: '语境索引',
+    titleEn: 'Context Index',
     description: 'KWIC 关键词语境搜索，支持 CQL 语料库查询语言，多种搜索模式。',
-    descriptionEn: 'KWIC concordance search with CQL corpus query language and multiple search modes.',
+    descriptionEn: 'KWIC (Key Word In Context) search with CQL corpus query language and multiple search modes.',
     icon: 'collocation-analysis.png',
     color: '#EF4444', // Red
     image: '/images/collocation-analysis.png',
     content: `
-# 共现关系分析
+# 语境索引
 
-共现关系分析模块提供 KWIC（Key Word In Context，关键词在语境中）搜索功能，帮助您查找和分析语料库中特定词语或模式的出现情况。
+语境索引模块提供 KWIC（Key Word In Context，关键词在语境中）搜索功能，帮助您查找和分析语料库中特定词语或模式的出现情况。该模块支持多种搜索模式、CQL（Corpus Query Language，语料库查询语言）查询、词性筛选、结果排序和可视化等功能。
 
 ## 多种搜索模式
 
@@ -473,9 +473,9 @@ The N-gram Analysis module, based on SpaCy annotation data, counts the frequency
 - **分组山脊图**：按文档分组显示关键词分布。
     `,
     contentEn: `
-# Concordance Analysis
+# Context Index
 
-The Concordance module provides KWIC (Key Word In Context) search functionality to find and analyze specific words or patterns in the corpus.
+The Context Index module provides KWIC (Key Word In Context) search functionality to find and analyze specific words or patterns in the corpus. It supports multiple search modes, CQL (Corpus Query Language) queries, POS filtering, result sorting, and visualization.
 
 ## Multiple Search Modes
 
@@ -725,7 +725,7 @@ In the "By Word" view, a "Highlight metaphor words" toggle is available:
 
 - **搜索配置**：节点词、搭配跨距（每侧 1–15 词）、最小/最大频率、转为小写、去除停用词、排除词语、词性筛选
 - **12 种统计量**：LogDice、MI、LL、Z-score、T-score、Log Ratio、MI²、MI³、Dice、Delta P1、Delta P2、MinSens 等，可启用/禁用与调整顺序
-- **结果与可视化**：信息栏、工具栏、搭配词表格；跨模块链接至共现关系；柱状图、饼图、搭配网络图（可展开二级搭配）、词云
+- **结果与可视化**：信息栏、工具栏、搭配词表格；跨模块链接至语境索引；柱状图、饼图、搭配网络图（可展开二级搭配）、词云
 
 ## Word Sketch（语法搭配）
 
@@ -762,7 +762,7 @@ Window-based collocation for a node word: identifies words that frequently co-oc
 
 - **Settings**: Node word, span (1–15 words per side), min/max frequency, lowercasing, stopwords, exclude list, POS filter
 - **12 statistics**: LogDice, MI, LL, Z-score, T-score, Log Ratio, MI², MI³, Dice, Delta P1, Delta P2, MinSens, etc.; enable/disable and reorder
-- **Results**: Info bar, toolbar, collocate table; cross-module link to concordance; bar, pie, collocation network (expandable), word cloud
+- **Results**: Info bar, toolbar, collocate table; cross-module link to context index; bar, pie, collocation network (expandable), word cloud
 
 ## Word Sketch (grammatical collocation)
 
@@ -771,7 +771,7 @@ Analyzes collocation by grammatical relation using SpaCy dependency parsing.
 - **Technical basis**: SpaCy dependencies, Universal Dependencies, **logDice** for strength (>7 very strong, 5–7 strong, 3–5 medium, <3 weak)
 - **50 grammatical relations**: Subject, object, modifier, preposition, clause, coordination, etc.; relation set depends on target POS
 - **Corpus and config**: Full / by tag / manual selection; search word (form or lemma), POS filter, count per relation, min frequency, min score
-- **Results**: Summary; BERTopic-style relation cards (name, count, expand/collapse); collocate table (word, frequency, logDice); quick links (concordance, Word Sketch)
+- **Results**: Summary; BERTopic-style relation cards (name, count, expand/collapse); collocate table (word, frequency, logDice); quick links (context index, Word Sketch)
 
 ## Word Sketch Difference
 

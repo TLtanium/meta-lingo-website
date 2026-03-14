@@ -259,7 +259,7 @@ export default function Home() {
                       YouTube
                     </a>
                     <a 
-                      href="https://www.xiaohongshu.com/user/profile/5af2c7734eacab77509ec3af" 
+                      href="https://www.xiaohongshu.com/user/profile/6337c399000000001802d464" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"

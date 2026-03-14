@@ -18,7 +18,7 @@ const translations: Record<Language, Translations> = {
       cta: "立即下载"
     },
     hero: {
-      badge: "v3.9.57 现已发布",
+      badge: "v3.9.76 现已发布",
       title: "现代化多模态",
       subtitle: "语料库研究平台",
       description: "基于 Electron + React + Python 构建。集成 Whisper 语音转录、YOLO 视频追踪与 CLIP 语义分析，为语言学研究提供全流程智能化解决方案。",
@@ -40,7 +40,7 @@ const translations: Record<Language, Translations> = {
         "synonym-analysis": { title: "同义词分析", desc: "分析词汇同义关系" },
         "keyword-extraction": { title: "关键词提取", desc: "提取文本关键词" },
         "ngram-analysis": { title: "N-gram分析", desc: "分析词语组合模式" },
-        "collocation-analysis": { title: "共现关系", desc: "分析词语共现关系" },
+        "collocation-analysis": { title: "语境索引", desc: "KWIC 语境检索与 CQL 查询" },
         "semantic-field": { title: "语义分析", desc: "语义分析工具箱" },
         "word-sketch": { title: "搭配分析", desc: "搭配分析、Word Sketch、词图对比" },
         "literature-viz": { title: "文献可视化", desc: "文献数据可视化分析" },
@@ -88,7 +88,7 @@ const translations: Record<Language, Translations> = {
       cta: "Download Now"
     },
     hero: {
-      badge: "v3.9.57 Released",
+      badge: "v3.9.76 Released",
       title: "Modern Multimodal",
       subtitle: "Corpus Research Platform",
       description: "Built with Electron + React + Python. Integrated with Whisper transcription, YOLO tracking, and CLIP semantic analysis for a complete linguistic research solution.",
@@ -110,7 +110,7 @@ const translations: Record<Language, Translations> = {
         "synonym-analysis": { title: "Synonym Analysis", desc: "Analyze synonym relations" },
         "keyword-extraction": { title: "Keyword Extraction", desc: "Extract text keywords" },
         "ngram-analysis": { title: "N-gram Analysis", desc: "Analyze word patterns" },
-        "collocation-analysis": { title: "Concordance", desc: "Analyze co-occurrence" },
+        "collocation-analysis": { title: "Context Index", desc: "KWIC search and CQL queries" },
         "semantic-field": { title: "Semantic Analysis", desc: "Semantic analysis toolkit" },
         "word-sketch": { title: "Collocation Analysis", desc: "Collocation, Word Sketch, Sketch Difference" },
         "literature-viz": { title: "Bibliometrics", desc: "Visualize bibliographic data" },

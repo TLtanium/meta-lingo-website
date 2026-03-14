@@ -103,7 +103,7 @@ Meta-Lingo-Website/
 | 同义词分析 | 基于 NLTK WordNet 词典的同义词集查询与可视化（可按语料过滤） |
 | 关键词提取 | TF-IDF/TextRank/YAKE/RAKE + 关键性（keyness）对比分析 |
 | N-gram 分析 | 2-6 元统计、Nest 分组、多维可视化 |
-| 共现关系 | KWIC 语境检索 + CQL 查询，支持“高亮隐喻”开关（英语） |
+| 语境索引 | KWIC 语境检索 + CQL 查询，支持“高亮隐喻”开关（英语） |
 | 语义分析 | USAS 语义域统计 + MIPVU 隐喻分析（英语），支持高亮隐喻词 |
 | 搭配分析 | 搭配分析（窗口+12 种统计量）、Word Sketch、Word Sketch Difference 词图对比 |
 | 文献可视化 | 导入 WOS/CNKI Refworks 格式，合作网络与突增检测 |

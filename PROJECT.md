@@ -32,7 +32,7 @@
 | synonym-analysis | 同义词分析 | Synonym Analysis | 也称词族分析 |
 | keyword-extraction | 关键词提取 | Keyword Extraction | 含单文档算法与关键性对比（含语料库资源） |
 | ngram-analysis | N-gram分析 | N-gram Analysis | |
-| collocation-analysis | 共现关系 | Concordance | KWIC + CQL |
+| collocation-analysis | 语境索引 | Context Index | KWIC + CQL |
 | semantic-field | 语义分析 | Semantic Analysis | USAS + 隐喻（英语） |
 | **word-sketch** | **搭配分析** | **Collocation Analysis** | **含三个子模块：搭配分析（窗口+12 种统计量）、Word Sketch（语法搭配）、Word Sketch Difference（词图对比）** |
 | literature-viz | 文献可视化 | Bibliometrics | 上传、文献库列表、文献库详情、可视化 |
@@ -58,3 +58,7 @@
   - 准确度数据参考 [deberta-v3-large-clause-metaphor](https://huggingface.co/tommyleo2077/deberta-v3-large-clause-metaphor)：测试集 F1 75.83、Precision 78.08、Recall 73.69；验证 F1 ~79.05；按词性（IN/DT/RP/RB/Other）F1 已写入 features.ts 中英文详情。
   - 引用与致谢仅保留 MIPVU（Steen et al.）及新模型链接，移除 Sanchez-Bayona & Agerri、HiTZ 链接。
   - README 功能表下注已更新为当前模型与指标说明；双语 content/contentEn 已同步。
+
+- **2026-02-28**：小红书链接与语境索引
+  - 小红书链接更新为 https://www.xiaohongshu.com/user/profile/6337c399000000001802d464（元语言_Meta-Lingo 官方账号）。
+  - 「共现关系」模块更名为「语境索引」（与 help/zh.md 一致）：features.ts、LanguageContext、README、PROJECT 中标题与描述已更新；英文为 Context Index；详情页补充“该模块支持多种搜索模式、CQL 查询、词性筛选、结果排序和可视化等功能”；跨模块链接表述已统一为语境索引/context index。
