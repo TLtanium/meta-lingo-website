@@ -18,7 +18,7 @@ const translations: Record<Language, Translations> = {
       cta: "立即下载"
     },
     hero: {
-      badge: "v3.9.76 现已发布",
+      badge: "v3.9.79 现已发布",
       title: "现代化多模态",
       subtitle: "语料库研究平台",
       description: "基于 Electron + React + Python 构建。集成 Whisper 语音转录、YOLO 视频追踪与 CLIP 语义分析，为语言学研究提供全流程智能化解决方案。",
@@ -43,7 +43,7 @@ const translations: Record<Language, Translations> = {
         "collocation-analysis": { title: "语境索引", desc: "KWIC 语境检索与 CQL 查询" },
         "semantic-field": { title: "语义分析", desc: "语义分析工具箱" },
         "word-sketch": { title: "搭配分析", desc: "搭配分析、Word Sketch、词图对比" },
-        "literature-viz": { title: "文献可视化", desc: "文献数据可视化分析" },
+        "literature-viz": { title: "文献可视化", desc: "文献导入与 9 种图表可视化" },
         "annotation-mode": { title: "标注模式", desc: "文本/多模态标注 + 自动标注" },
         "topic-modeling": { title: "主题建模", desc: "发现文本主题结构" },
         "settings": { title: "应用设置", desc: "自定义应用配置" }
@@ -88,7 +88,7 @@ const translations: Record<Language, Translations> = {
       cta: "Download Now"
     },
     hero: {
-      badge: "v3.9.76 Released",
+      badge: "v3.9.79 Released",
       title: "Modern Multimodal",
       subtitle: "Corpus Research Platform",
       description: "Built with Electron + React + Python. Integrated with Whisper transcription, YOLO tracking, and CLIP semantic analysis for a complete linguistic research solution.",
@@ -113,7 +113,7 @@ const translations: Record<Language, Translations> = {
         "collocation-analysis": { title: "Context Index", desc: "KWIC search and CQL queries" },
         "semantic-field": { title: "Semantic Analysis", desc: "Semantic analysis toolkit" },
         "word-sketch": { title: "Collocation Analysis", desc: "Collocation, Word Sketch, Sketch Difference" },
-        "literature-viz": { title: "Bibliometrics", desc: "Visualize bibliographic data" },
+        "literature-viz": { title: "Literature Visualization", desc: "Import & 9 chart types" },
         "annotation-mode": { title: "Annotation Mode", desc: "Text/multimodal + auto annotation" },
         "topic-modeling": { title: "Topic Modeling", desc: "Discover text topics" },
         "settings": { title: "Settings", desc: "Customize application" }

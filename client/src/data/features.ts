@@ -276,14 +276,40 @@ The Synonym Analysis module (also called word family analysis) is based on the N
 ### 参照语料库选择
 
 两种方式：
-- **选择语料库文本**：全部文本 / 按标签 / 手动选择，适合使用自己导入的语料库。
-- **语料库资源**：打开「语料库资源」开关，使用系统内置预处理词频数据；默认资源为 OANC。资源选择窗口支持按名称搜索、按语料库类型筛选（BNC 1994、BNC 2014、Brown、NOW、OANC、COCA、COHA、GloWbE 等）、按标签筛选，一次选择一个。
 
-**内置语料库资源示例**：BNC 1994、BNC 2014（仅口语）、Brown、NOW、OANC、COCA、COHA、GloWbE 等，提供词数、文件大小等信息。
+**方式一：选择语料库文本**
+- 全部文本 / 按标签 / 手动选择，适合使用自己导入的语料库进行对比。
+
+**方式二：语料库资源**
+- 系统内置多个预处理的语料库词频数据，可直接用于关键性对比。
+- **启用方式**：打开「语料库资源」开关。
+- **默认资源**：OANC（Open American National Corpus）总体语料库。
+- **资源选择**：点击资源卡片打开选择窗口；支持按名称搜索、按语料库类型筛选（BNC 1994、BNC 2014、Brown、NOW、OANC、COCA、COHA、GloWbE 等）、按标签筛选，一次选择一个；资源卡片显示语料库名称、词数（基于 CSV 中 \`freq\` 列求和）、文件大小等信息。
+
+**可用语料库资源示例**：
+
+| 语料库 | 说明 | 示例标签 |
+|--------|------|---------|
+| BNC 1994 | 英国国家语料库 1994 版 | 口语、书面语、应用科学、艺术等 |
+| BNC 2014 | 英国国家语料库 2014 版（仅口语） | 口语、当代英语 |
+| Brown | Brown 语料库 | 新闻、小说、学术等 |
+| AmE06 | 美国英语语料库 2006 | 美式英语、平衡语料、报刊、杂志、小说等 |
+| BE06 | 英国英语语料库 2006 | 英式英语、平衡语料、报刊、杂志、小说等 |
+| NOW | News on the Web | 新闻（按国家划分） |
+| OANC | 开放美国国家语料库 | 多种文本体裁 |
+| COCA | 当代美语语料库 | 口语、小说、杂志、新闻、学术 |
+| COHA | 历史美语语料库 | 按时期划分的历史英语 |
+| GloWbE | 全球网络英语语料库 | 按国家/地区划分的英语 |
+
+**使用说明**：BNC 2014 仅有口语语料。
+
+**使用建议**：研究语料库应是您关注的目标语料；参照语料库应具有代表性（如通用语料库）；两语料库语言应一致；使用语料库资源可快速对比，无需自己导入参照语料。
 
 ### 参考语料库资源的 USAS 标注说明
 
-内置语料库资源中的 USAS 语义域数据由 Meta-Lingo 内置 **PyMUSAS 神经网络模型**（多语基座 307M）标注。进行关键性对比（尤其是语义域模式）时，建议在「应用设置」中将 **USAS 标注模式** 选为 **神经网络** 或 **混合**，使研究语料与内置参考语料的标注策略一致，结果更可比。详见 [PyMUSAS 文档](https://ucrel.github.io/pymusas/) 与 [HuggingFace 模型](https://huggingface.co/ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM)。
+所有内置语料库资源（如 BNC、COCA、OANC、GloWbE 等）中的 USAS 语义域数据，均由 Meta-Lingo 内置的 **PyMUSAS 神经网络模型**标注。该框架由兰卡斯特大学 UCREL 研究中心开发，支持多语种语义标注；Meta-Lingo 采用的预训练模型为 **ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM**（多语基座 307M 参数），详见 [PyMUSAS 文档](https://ucrel.github.io/pymusas/) 与 [HuggingFace 模型](https://huggingface.co/ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM)。
+
+**对比建议**：进行关键性对比（尤其是语义域模式）时，建议在「应用设置」中将 **USAS 标注模式** 选为 **神经网络** 或 **混合**，使研究语料库的 USAS 标注与内置参考语料库资源的标注策略一致，结果更可比。
 
 ### 统计方法
 
@@ -329,14 +355,40 @@ Compare study corpus with reference corpus to identify statistically significant
 ### Reference corpus selection
 
 Two options:
-- **Select corpus texts**: Full / by tag / manual selection, for your own imported corpora.
-- **Corpus resources**: Enable the "Corpus resources" switch to use built-in preprocessed frequency data; default is OANC. The resource picker supports search by name, filter by type (BNC 1994, BNC 2014, Brown, NOW, OANC, COCA, COHA, GloWbE, etc.), and by tags; one resource at a time.
 
-**Built-in resources** include BNC 1994, BNC 2014 (spoken only), Brown, NOW, OANC, COCA, COHA, GloWbE, etc., with word counts and file size.
+**Option 1: Select corpus texts**
+- Full / by tag / manual selection, for your own imported corpora.
+
+**Option 2: Corpus resources**
+- Built-in preprocessed corpus frequency data for keyness comparison.
+- **Enable**: Turn on the "Corpus resources" switch.
+- **Default resource**: OANC (Open American National Corpus) overall corpus.
+- **Resource picker**: Click the resource card to open the picker; search by name, filter by type (BNC 1994, BNC 2014, Brown, NOW, OANC, COCA, COHA, GloWbE, etc.) and by tags; one resource at a time. Cards show name, word count (sum of \`freq\` in CSV), and file size.
+
+**Built-in corpus resources (examples)**:
+
+| Corpus | Description | Example tags |
+|--------|-------------|--------------|
+| BNC 1994 | British National Corpus 1994 | Spoken, written, applied science, arts, etc. |
+| BNC 2014 | BNC 2014 (spoken only) | Spoken, contemporary English |
+| Brown | Brown Corpus | News, fiction, academic, etc. |
+| AmE06 | American English 2006 | AmE, balanced, press, magazine, fiction, etc. |
+| BE06 | British English 2006 | BrE, balanced, press, magazine, fiction, etc. |
+| NOW | News on the Web | News (by country) |
+| OANC | Open American National Corpus | Multiple genres |
+| COCA | Corpus of Contemporary American English | Spoken, fiction, magazine, news, academic |
+| COHA | Corpus of Historical American English | Historical English by period |
+| GloWbE | Global Web-based English | By country/region |
+
+**Note**: BNC 2014 is spoken-only.
+
+**Recommendations**: Study corpus should be your target; reference corpus should be representative (e.g. general-purpose); keep languages consistent; using corpus resources avoids importing your own reference data.
 
 ### USAS annotation for reference corpus resources
 
-USAS semantic domain data in built-in resources is produced by Meta-Lingo’s **PyMUSAS neural model** (multilingual base 307M). For keyness comparison (especially in semantic domain mode), set **USAS annotation mode** in Settings to **Neural** or **Hybrid** so study and reference corpora use the same tagging, for comparable results. See [PyMUSAS docs](https://ucrel.github.io/pymusas/) and [HuggingFace model](https://huggingface.co/ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM).
+USAS semantic domain data in all built-in resources (e.g. BNC, COCA, OANC, GloWbE) is produced by Meta-Lingo's **PyMUSAS neural model**, developed by Lancaster University UCREL; the pre-trained model is **ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM** (multilingual base 307M). See [PyMUSAS docs](https://ucrel.github.io/pymusas/) and [HuggingFace model](https://huggingface.co/ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM).
+
+**Comparison advice**: For keyness (especially semantic domain mode), set **USAS annotation mode** in Settings to **Neural** or **Hybrid** so the study corpus matches the built-in reference tagging for comparable results.
 
 ### Statistical methods
 
@@ -786,16 +838,18 @@ Compares collocations of two words; results sorted by logDice difference with co
   {
     id: 'literature-viz',
     title: '文献可视化',
-    titleEn: 'Bibliometrics',
-    description: '支持 Web of Science 和 CNKI 的 Refworks 格式，生成合作网络和突增检测图。',
-    descriptionEn: 'Import WOS/CNKI Refworks format to generate collaboration networks and burst detection.',
+    titleEn: 'Literature Visualization',
+    description: '导入 WOS/CNKI Refworks 格式，支持 PDF 与 11 项 AI 生成、相关度星级与标签；9 种图表：网络图、聚类图、时间线、时区视图、突增检测、引文弦图、山脊图、热力密度图、词云。',
+    descriptionEn: 'Import WOS/CNKI Refworks; PDF upload, 11 AI-generated fields, relevance stars and tags; 9 chart types: Network, Cluster, Timeline, Timezone, Burst Detection, Citation Chord, Ridgeline, Heatmap, Word Cloud.',
     icon: 'literature-viz.png',
     color: '#6366F1', // Indigo
     image: '/images/literature-viz.png',
     content: `
 # 文献可视化
 
-文献可视化模块用于管理和分析学术文献数据，支持从 Web of Science (WOS) 和中国知网 (CNKI) 导入 Refworks 格式的文献数据，并提供合作网络、关键词共现、时区视图和突增检测等可视化分析。
+## 概述
+
+文献可视化模块用于管理和分析学术文献数据，支持从 Web of Science (WOS) 和中国知网 (CNKI) 导入 Refworks 格式的文献数据。支持为条目上传 PDF、生成首页缩略图，以及基于 PDF/摘要的 11 项 AI 生成内容（研究目标、研究设计等）；提供相关度星级（含零星、点击当前星取消）、标签与备注编辑，以及导出 CSV（不含论文列）和导出详情 PDF。可视化分析提供 **9 种图表类型**：网络图、聚类图、时间线、时区视图、突增检测、引文弦图、山脊图、热力密度图和词云。
 
 ## 界面布局
 
@@ -805,84 +859,170 @@ Compares collocations of two words; results sorted by logDice difference with co
 - **文献库详情**：查看文献条目列表、筛选和详情
 - **可视化**：生成各种可视化图表
 
-## 数据导入
+## 文献库管理
 
-### 支持的数据源
-- **Web of Science (WOS)**：导出的 Refworks 格式文件
-- **CNKI（中国知网）**：导出的 Refworks 格式文件
+### 创建与列表
+- 创建文献库时选择数据源类型（WOS 或 CNKI），创建后不可修改。
+- 文献库列表以卡片展示，含文献数量、创建日期、数据源类型；支持查看、删除。
 
-### 自动解析
-自动提取标题、作者、年份、期刊、关键词、机构、国家等元数据。
+### 文献库详情
+- **头部操作**：刷新、导出 CSV、添加更多文献；勾选多条时可批量删除、AI 生成（先选语言中文/英文，再批量生成 11 项 AI 内容）。
+- **重新标注**：支持 SpaCy、USAS、MIPVU（仅英文）、NRC（中英文），需先勾选带摘要的条目。
+- **表格列**：勾选、相关度（0–5 星，支持零星，点击当前星可取消）、论文（上传 PDF 与首页缩略图）、标题、DOI、作者、年份、期刊、摘要、关键词、被引次数、11 列 AI 项（研究目标、研究问题、研究设计等）、标签、备注；列设置可控制 AI 列显示。
+- **导出 CSV**：按当前筛选与可见列导出，不包含论文列（UTF-8 BOM）。
 
-## 可视化分析
+### 文献详情弹窗
+- **相关度**：0–5 星（含零星），点击当前已选星可取消评分。
+- **11 项 AI 内容**：研究目标、研究问题、研究设计、研究结论、理论机制、理论贡献、局限性、应用价值、学术对话、未来方向、文献总结；每项可隐藏/显示（隐藏项不参与导出 PDF），可编辑，失焦保存。
+- **AI 生成**：选择语言（中文/英文），按应用设置优先使用 OpenAI 兼容 API，否则 Ollama；将 PDF 或摘要送入大模型解析并填入 11 项。
+- **导出 PDF**：将弹窗内可见内容（含未隐藏的 AI 项）导出为 A4 PDF。
+- **标签与备注**：Chip 展示与删除标签；多行备注，失焦保存。
 
-### 网络图
-- **关键词共现网络**：展示关键词之间的共现关系
-- **作者合作网络**：展示作者之间的合作关系
-- **机构合作网络**：展示机构之间的合作关系
-- **国家合作网络**：展示国家之间的合作关系
+## 上传文献
 
-### 时区视图
-- 按时间段展示文献分布
-- 识别研究主题的时间演变
-- 发现新兴热点和衰退领域
-
-### 突增检测
-- **关键词突增**：检测关键词在特定时间段内的突增趋势
-- **作者突增**：检测作者在特定时间段内的活跃度突增
-- **甘特图风格**：直观显示突增时间段
+- **格式**：Refworks (.txt)，建议单文件不超过 50MB。
+- **数据源**：WOS 与 CNKI 字段略有不同，需与创建文献库时选择的数据源类型一致。
+- **摘要标注**：带摘要的文献会写入影子语料库并执行与语料库管理相同的标注流水线（SpaCy → USAS → MIPVU → NRC），为语义与隐喻分析提供基础。
 
 ## 筛选功能
-- 年份范围筛选
-- 作者/机构/国家筛选
-- 关键词/期刊筛选
-- 文献类型筛选
+
+在文献库详情和可视化页面均可使用筛选面板：年份范围、作者、机构、关键词、期刊、文献类型、国家；支持自动完成与自由输入，可清除筛选。
+
+## 可视化分析（9 种图表）
+
+### 1. 网络图（Network）
+- **类型**：关键词共现、作者合作、机构合作、国家合作。
+- **含义**：节点 = 实体，连线 = 共现/合作，节点大小 = 频率/发文量，连线粗细 = 强度。
+- **参数**：最小权重、最大节点数（10–300）、配色方案（7 种）。支持拖拽节点、悬停提示。
+
+### 2. 聚类图（Cluster）
+- 力导向布局 + 聚类力分组，可绘制半透明凸包包裹每个聚类。
+- **参数**：聚类依据（关键词/作者/机构/国家）、显示凸包、凸包阈值、配色方案。
+- **指标**：模块度 Q、轮廓值 S；点击某聚类可高亮。
+
+### 3. 时间线（Timeline）
+- 水平泳道：X 轴 = 年份，Y 轴 = 聚类泳道；每年横轴空间按文献量动态分配。
+- **参数**：横轴缩放、权重精度、配色方案。支持泳道内与跨泳道连线弧线。
+
+### 4. 时区视图（Timezone）
+- 按时间切片展示关键词/作者分布，每时间段显示前 N 项；跨时间段同一术语有连线。
+
+### 5. 突增检测（Burst Detection）
+- 甘特图风格：灰色背景条 + 红色突增条；识别关键词或作者在特定时间段内的突增趋势（基于 Kleinberg 方法）。
+- **突增强度**：高/中/低表示突增显著性。无配色选择器，固定红灰配色。
+
+### 6. 引文弦图（Citation Chord）
+- 双弧弦图：左弧 = 施引期刊，右弧 = 被引期刊，贝塞尔曲线表示引用流；弧上节点大小反映引用/被引频次。
+- **参数**：弧线角度（30°–90°）、配色方案。
+
+### 7. 山脊图（Ridgeline Plot）
+- 景观图风格：每聚类一行，横轴为年份，面积曲线表示文献密度；动态年份间距与时间线一致。
+- **参数**：横轴缩放、配色方案（含多彩渐变）。
+
+### 8. 热力密度图（Heatmap）
+- 使用等值线密度 + 散点叠加展示文献在坐标空间中的聚集程度。
+- **参数**：带宽（核密度估计）、色阶（Turbo/Blue/Green 等）。
+
+### 9. 词云（Word Cloud）
+- 从标题或摘要提取高频词，词云展示；后端 Python 生成，支持中英文。
+- **参数**：数据源（标题/摘要）、最大词数、色阶。
+
+**通用交互**：所有 D3 图表支持缩放、平移、悬停提示；设置栏右侧可导出 SVG/PNG（含全图导出，时间线、山脊图等带水平滚动时自动捕获完整内容）。大多数图表共享 7 种配色：Blue、Green、Purple、Orange、Red、Teal、Colorful；突增检测与热力密度图使用独立配色，词云使用专属色阶。
+
+## 使用技巧与注意事项
+
+- **流程**：创建文献库 → 上传文献 → 查看详情 → 切换至可视化；可先看网络图了解结构，再用聚类图发现主题，时间线看演变，突增检测定位热点，引文弦图分析期刊引用流，山脊图观察密度。
+- **注意**：大文献库可视化可能较慢；网络图节点过多时可提高最小权重或降低最大节点数；突增检测为统计方法结果仅供参考；时间线/山脊图横轴为动态间距，刻度不等。
     `,
     contentEn: `
-# Bibliometrics
+# Literature Visualization
 
-The Bibliometrics module manages and analyzes academic literature data, supporting Refworks import from Web of Science (WOS) and CNKI, with visualization including collaboration networks, keyword co-occurrence, timezone view, and burst detection.
+## Overview
+
+The Literature Visualization module manages and analyzes academic literature data, supporting Refworks import from Web of Science (WOS) and CNKI. You can upload PDFs for entries, generate first-page thumbnails, and use 11 AI-generated fields (research objectives, design, etc.) based on PDF or abstract. It provides relevance rating (0–5 stars, including 0; click current star to clear), tag and note editing, export to CSV (without paper column), and export detail PDF. Visualization offers **9 chart types**: Network, Cluster, Timeline, Timezone, Burst Detection, Citation Chord, Ridgeline Plot, Heatmap, and Word Cloud.
 
 ## Interface Layout
 
 Top tab design:
-- **Upload**: Create literature library and upload Refworks files
+- **Upload**: Create library and upload Refworks files
 - **Library list**: View and manage all libraries
-- **Library detail**: View entries, filter, and details
-- **Visualization**: Generate charts and networks
+- **Library detail**: Entry list, filtering, and details
+- **Visualization**: Generate charts
 
-## Data Import
+## Library Management
 
-### Supported Sources
-- **Web of Science (WOS)**: Exported Refworks format files
-- **CNKI**: Exported Refworks format files
+### Create & List
+- When creating a library, choose data source (WOS or CNKI); this cannot be changed later.
+- List view shows cards with entry count, creation date, and source type; supports view and delete.
 
-### Auto Parsing
-Automatically extracts title, author, year, journal, keywords, institution, country, and other metadata.
+### Library Detail
+- **Header actions**: Refresh, Export CSV, Add more; when multiple rows are selected: Batch delete, AI Generate (choose language zh/en, then batch-generate 11 AI fields).
+- **Re-annotation**: SpaCy, USAS, MIPVU (English only), NRC (zh/en); select entries with abstracts first.
+- **Table columns**: Checkbox, Relevance (0–5 stars, 0 supported, click current star to clear), Paper (upload PDF, first-page thumbnail), Title, DOI, Authors, Year, Journal, Abstract, Keywords, Citations, 11 AI columns (objectives, research questions, design, etc.), Tags, Notes; column settings control AI column visibility.
+- **Export CSV**: By current filter and visible columns, no paper column (UTF-8 BOM).
 
-## Visualization Analysis
+### Entry Detail Popup
+- **Relevance**: 0–5 stars (0 allowed); click current star to clear.
+- **11 AI fields**: Research objectives, questions, design, conclusions, theory, contributions, limitations, application, dialogue, future directions, summary; each can be hidden/shown (hidden excluded from PDF export), editable, save on blur.
+- **AI Generate**: Choose language (zh/en); uses OpenAI-compatible API first per app settings, else Ollama; sends PDF or abstract to model and fills 11 fields.
+- **Export PDF**: Exports visible popup content (including unhidden AI fields) as A4 PDF.
+- **Tags & Notes**: Chip display and delete; multi-line notes, save on blur.
 
-### Network Graphs
-- **Keyword Co-occurrence Network**: Co-occurrence between keywords
-- **Co-author Network**: Collaboration between authors
-- **Co-institution Network**: Collaboration between institutions
-- **Co-country Network**: Collaboration between countries
+## Upload
 
-### Timezone View
-- Display literature distribution by time period
-- Identify temporal evolution of research themes
-- Discover emerging hotspots and declining areas
-
-### Burst Detection
-- **Keyword Burst**: Keyword surge trends in specific periods
-- **Author Burst**: Author activity surges in specific periods
-- **Gantt-style**: Visualize burst periods
+- **Format**: Refworks (.txt), recommend single file under 50MB.
+- **Source**: WOS and CNKI fields differ slightly; must match library data source type.
+- **Abstract annotation**: Entries with abstracts are written to a shadow corpus and run the same pipeline as corpus management (SpaCy → USAS → MIPVU → NRC) for semantic and metaphor analysis.
 
 ## Filtering
-- Year range filtering
-- Author/Institution/Country filtering
-- Keyword/Journal filtering
-- Document type filtering
+
+Available in both library detail and visualization: year range, author, institution, keyword, journal, document type, country; autocomplete and free text; clear all.
+
+## Visualization (9 Chart Types)
+
+### 1. Network
+- **Types**: Keyword co-occurrence, author collaboration, institution collaboration, country collaboration.
+- **Meaning**: Nodes = entities, edges = co-occurrence/collaboration, node size = frequency/output, edge thickness = strength.
+- **Params**: Min weight, max nodes (10–300), color scheme (7 options). Drag nodes, hover tooltips.
+
+### 2. Cluster
+- Force-directed layout with cluster forces; optional semi-transparent convex hull per cluster.
+- **Params**: Cluster by (keyword/author/institution/country), show hull, hull threshold, color scheme.
+- **Metrics**: Modularity Q, Silhouette S; click cluster to highlight.
+
+### 3. Timeline
+- Horizontal lanes: X = year, Y = cluster lane; year spacing is dynamic by document count.
+- **Params**: X scale, weight precision, color scheme. In-lane and cross-lane arcs.
+
+### 4. Timezone
+- Time-slice view of keyword/author distribution; top N per period; links for same term across periods.
+
+### 5. Burst Detection
+- Gantt-style: gray background + red burst bars; identifies keyword or author bursts (Kleinberg method).
+- **Intensity**: High/medium/low. No color picker; fixed red/gray.
+
+### 6. Citation Chord
+- Dual-arc chord: left arc = citing journals, right arc = cited journals; Bezier curves for citation flow.
+- **Params**: Arc angle (30°–90°), color scheme.
+
+### 7. Ridgeline Plot
+- Landscape style: one row per cluster, X = year, area curve = density; same dynamic year spacing as timeline.
+- **Params**: X scale, color scheme (including colorful gradient).
+
+### 8. Heatmap
+- Contour density + scatter overlay for document clustering in coordinate space.
+- **Params**: Bandwidth (KDE), color scale (Turbo/Blue/Green etc.).
+
+### 9. Word Cloud
+- High-frequency words from title or abstract; backend Python, supports zh/en.
+- **Params**: Data source (title/abstract), max words, color scale.
+
+**Common interaction**: All D3 charts support zoom, pan, hover tooltips; export SVG/PNG from settings (full chart export for scrollable charts). Most charts share 7 color schemes: Blue, Green, Purple, Orange, Red, Teal, Colorful; Burst and Heatmap use their own; Word Cloud has dedicated scale.
+
+## Tips & Notes
+
+- **Workflow**: Create library → Upload → Detail → Visualization; use Network for structure, Cluster for themes, Timeline for evolution, Burst for hotspots, Citation Chord for journal flow, Ridgeline for density.
+- **Note**: Large libraries may be slow; reduce max nodes or raise min weight for network; burst results are statistical; timeline/ridgeline X-axis uses dynamic spacing.
     `
   },
   {
