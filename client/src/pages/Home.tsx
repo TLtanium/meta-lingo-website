@@ -354,6 +354,14 @@ export default function Home() {
                 <Download className="w-4 h-4 mr-2" />
                 {t('hero.downloadWin')}
               </Button>
+              <a
+                href="https://workdrive.zohopublic.com.cn/external/3ffec1ef8dfc73c22650453f4b8d1c6f29947bb9f211afb1fadd857f00752320/download"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-block text-xs text-blue-600 hover:text-blue-700 underline underline-offset-2"
+              >
+                {t('download.backupWin')}
+              </a>
             </Card>
             
             <Card className="p-8 w-full md:w-80 hover:border-blue-500 transition-colors group">
@@ -372,6 +380,14 @@ export default function Home() {
                 <Download className="w-4 h-4 mr-2" />
                 {t('hero.downloadMac')}
               </Button>
+              <a
+                href="https://workdrive.zohopublic.com.cn/external/eec2e0d0e081cc5b457cb395bcd485f7441559de71f2cba4a3b7ff1e2929652c/download"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-block text-xs text-blue-600 hover:text-blue-700 underline underline-offset-2"
+              >
+                {t('download.backupMac')}
+              </a>
             </Card>
           </div>
 

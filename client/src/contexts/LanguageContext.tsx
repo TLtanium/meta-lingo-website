@@ -65,7 +65,10 @@ const translations: Record<Language, Translations> = {
       subtitle: "选择适合您操作系统的版本。所有功能完全本地运行，无需复杂的环境配置。",
       win: "Windows 版本",
       mac: "macOS 版本",
-      size: "应用大小：40GB",
+      size: "应用大小：4GB",
+      backupPrefix: "下载较慢？可使用国内备用下载：",
+      backupWin: "Windows 备用下载",
+      backupMac: "macOS 备用下载",
       instructions: {
         title: "安装说明",
         win: "下载整个 Meta-Lingo 文件夹到自定义位置（支持系统盘或移动硬盘），解压后双击文件夹内的 Meta-Lingo.exe 运行。您可以右键创建桌面快捷方式以便快速访问。",
@@ -135,7 +138,10 @@ const translations: Record<Language, Translations> = {
       subtitle: "Choose the version for your OS. All features run locally without complex configuration.",
       win: "Windows Version",
       mac: "macOS Version",
-      size: "App Size: 40GB",
+      size: "App Size: 4GB",
+      backupPrefix: "Slow download? Use this backup link:",
+      backupWin: "Windows backup",
+      backupMac: "macOS backup",
       instructions: {
         title: "Installation Instructions",
         win: "Download the entire Meta-Lingo folder to a custom location (system drive or external drive supported). Unzip and double-click Meta-Lingo.exe inside the folder to run. You can create a desktop shortcut for easy access.",
