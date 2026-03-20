@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getAssetPath } from '@/lib/utils';
@@ -30,6 +30,47 @@ import { Card } from '@/components/ui/card';
 export default function Home() {
   const [, setLocation] = useLocation();
   const { language, setLanguage, t } = useLanguage();
+  const [releaseDownloadUrls, setReleaseDownloadUrls] = useState({
+    win: 'https://github.com/TLtanium/meta-lingo-website/releases/latest/download/meta-lingo-win-latest.7z',
+    mac: 'https://github.com/TLtanium/meta-lingo-website/releases/latest/download/meta-lingo-mac-latest.7z',
+  });
+
+  useEffect(() => {
+    const releaseApiUrl = 'https://api.github.com/repos/TLtanium/meta-lingo-website/releases/tags/latest';
+
+    fetch(releaseApiUrl)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((release) => {
+        if (!release?.assets || !Array.isArray(release.assets)) return;
+
+        const pickAssetUrl = (platform: 'win' | 'mac') => {
+          const preferredLabel = platform === 'win' ? 'meta-lingo-win-latest.7z' : 'meta-lingo-mac-latest.7z';
+          const platformToken = platform === 'win' ? 'win' : 'mac';
+
+          const exactLabel = release.assets.find((a: any) => a?.label === preferredLabel);
+          if (exactLabel?.browser_download_url) return exactLabel.browser_download_url;
+
+          const byName = release.assets.find(
+            (a: any) =>
+              typeof a?.name === 'string' &&
+              a.name.toLowerCase().includes(platformToken) &&
+              a.name.toLowerCase().endsWith('.7z')
+          );
+          return byName?.browser_download_url ?? null;
+        };
+
+        const winUrl = pickAssetUrl('win');
+        const macUrl = pickAssetUrl('mac');
+
+        setReleaseDownloadUrls((prev) => ({
+          win: winUrl ?? prev.win,
+          mac: macUrl ?? prev.mac,
+        }));
+      })
+      .catch(() => {
+        // Ignore API failure and keep fallback URLs.
+      });
+  }, []);
 
   const features = [
     { id: 'corpus-management', icon: Database, color: 'text-blue-500' },
@@ -306,7 +347,7 @@ export default function Home() {
               <p className="text-gray-400 text-sm mb-6">{t('download.size')}</p>
               <Button 
                 className="w-full bg-gray-900 hover:bg-gray-800 text-white cursor-pointer"
-                onClick={() => window.open('https://github.com/TLtanium/meta-lingo-website/releases/latest/download/meta-lingo-win-latest.7z', '_blank')}
+                onClick={() => window.open(releaseDownloadUrls.win, '_blank')}
               >
                 <Download className="w-4 h-4 mr-2" />
                 {t('hero.downloadWin')}
@@ -322,7 +363,7 @@ export default function Home() {
               <p className="text-gray-400 text-sm mb-6">{t('download.size')}</p>
               <Button 
                 className="w-full bg-gray-900 hover:bg-gray-800 text-white cursor-pointer"
-                onClick={() => window.open('https://github.com/TLtanium/meta-lingo-website/releases/latest/download/meta-lingo-mac-latest.7z', '_blank')}
+                onClick={() => window.open(releaseDownloadUrls.mac, '_blank')}
               >
                 <Download className="w-4 h-4 mr-2" />
                 {t('hero.downloadMac')}
