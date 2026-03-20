@@ -347,7 +347,9 @@ export default function Home() {
               <p className="text-gray-400 text-sm mb-6">{t('download.size')}</p>
               <Button 
                 className="w-full bg-gray-900 hover:bg-gray-800 text-white cursor-pointer"
-                onClick={() => window.open(releaseDownloadUrls.win, '_blank')}
+                onClick={() => {
+                  window.location.href = releaseDownloadUrls.win;
+                }}
               >
                 <Download className="w-4 h-4 mr-2" />
                 {t('hero.downloadWin')}
@@ -363,7 +365,9 @@ export default function Home() {
               <p className="text-gray-400 text-sm mb-6">{t('download.size')}</p>
               <Button 
                 className="w-full bg-gray-900 hover:bg-gray-800 text-white cursor-pointer"
-                onClick={() => window.open(releaseDownloadUrls.mac, '_blank')}
+                onClick={() => {
+                  window.location.href = releaseDownloadUrls.mac;
+                }}
               >
                 <Download className="w-4 h-4 mr-2" />
                 {t('hero.downloadMac')}
