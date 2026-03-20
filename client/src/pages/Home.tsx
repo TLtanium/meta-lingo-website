@@ -306,7 +306,7 @@ export default function Home() {
               <p className="text-gray-400 text-sm mb-6">{t('download.size')}</p>
               <Button 
                 className="w-full bg-gray-900 hover:bg-gray-800 text-white cursor-pointer"
-                onClick={() => window.open('https://github.com/TLtanium/meta-lingo-website/releases/download/latest/meta-lingo-win-latest.7z', '_blank')}
+                onClick={() => window.open('https://github.com/TLtanium/meta-lingo-website/releases/latest/download/meta-lingo-win-latest.7z', '_blank')}
               >
                 <Download className="w-4 h-4 mr-2" />
                 {t('hero.downloadWin')}
@@ -322,7 +322,7 @@ export default function Home() {
               <p className="text-gray-400 text-sm mb-6">{t('download.size')}</p>
               <Button 
                 className="w-full bg-gray-900 hover:bg-gray-800 text-white cursor-pointer"
-                onClick={() => window.open('https://github.com/TLtanium/meta-lingo-website/releases/download/latest/meta-lingo-mac-latest.7z', '_blank')}
+                onClick={() => window.open('https://github.com/TLtanium/meta-lingo-website/releases/latest/download/meta-lingo-mac-latest.7z', '_blank')}
               >
                 <Download className="w-4 h-4 mr-2" />
                 {t('hero.downloadMac')}
