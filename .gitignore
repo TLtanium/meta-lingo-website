@@ -104,3 +104,5 @@ temp/
 *.db
 *.sqlite
 *.sqlite3
+
+release/**/*.7z

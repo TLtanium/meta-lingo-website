@@ -113,6 +113,22 @@ init_git_repo() {
     echo -e "${GREEN}[成功] Git 仓库已初始化${NC}"
 }
 
+# 可靠推送：放宽超时（不重试）
+git_push_with_retry() {
+    local remote="$1"
+    local branch="$2"
+    local extra_flag="${3:-}"
+    echo -e "${BLUE}[推送] 正在推送 ${remote} ${branch}（延长超时）...${NC}"
+
+    if [ -n "$extra_flag" ]; then
+        git -c http.connectTimeout=180 -c http.lowSpeedLimit=1 -c http.lowSpeedTime=600 \
+            push "$remote" "$branch" "$extra_flag"
+    else
+        git -c http.connectTimeout=180 -c http.lowSpeedLimit=1 -c http.lowSpeedTime=600 \
+            push "$remote" "$branch"
+    fi
+}
+
 # 推送到 main 分支
 push_to_main() {
     echo ""
@@ -129,7 +145,23 @@ push_to_main() {
     # 检查是否有未提交的更改
     if [ -n "$(git status --porcelain)" ]; then
         echo -e "${YELLOW}[提示] 检测到未提交的更改，正在提交...${NC}"
-        git add -A
+        # 重要：必须避免把 release/ 下的大 .7z 安装包误提交到 main
+        # 因为这里会直接执行 git add，因此不用 -A/全量暂存，而是仅暂存明确的源码/配置文件。
+        git reset >/dev/null 2>&1 || true
+        git add -A \
+          client server shared \
+          README.md package.json pnpm-lock.yaml \
+          tsconfig.json tsconfig.node.json \
+          vite.config.ts components.json \
+          start.sh deploy.sh release.sh .gitignore \
+          2>/dev/null || true
+
+        # 再做一次保险校验：如果暂存区出现 release/ 或 .7z，直接还原暂存并阻止提交
+        if git diff --cached --name-only | grep -E '(^release/|\.7z$)' >/dev/null 2>&1; then
+            echo -e "${RED}[错误] 暂存区包含 release/ 或 .7z 文件，已取消暂存并终止部署${NC}"
+            git restore --staged 'release/win/*.7z' 'release/mac/*.7z' >/dev/null 2>&1 || true
+            exit 1
+        fi
         git commit -m "chore: update before deploy - $(date '+%Y-%m-%d %H:%M:%S')"
     fi
     
@@ -137,7 +169,7 @@ push_to_main() {
     git branch -M main
     
     # 推送到 main
-    git push -u origin main
+    git_push_with_retry origin main -u
     echo -e "${GREEN}[成功] 源码已推送到 main 分支${NC}"
 }
 
@@ -188,7 +220,7 @@ deploy_to_gh_pages() {
     # 提交并推送
     git add -A
     git commit -m "deploy: $(date '+%Y-%m-%d %H:%M:%S')" --allow-empty
-    git push origin gh-pages --force
+    git_push_with_retry origin gh-pages --force
     
     # 返回项目目录
     cd "$PROJECT_DIR"

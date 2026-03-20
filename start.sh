@@ -107,12 +107,15 @@ check_dependencies() {
 
 # 获取本机 IP 地址
 get_local_ip() {
-    if command -v ipconfig &> /dev/null; then
-        # Windows
-        ipconfig | grep -i "IPv4" | head -1 | awk '{print $NF}'
-    else
-        # macOS / Linux
+    # 这个脚本主要用于输出提示信息；在受限环境/容器里网络枚举可能会出问题。
+    # 为避免 macOS 上误调用到不带参数的 ipconfig 命令，这里按系统分支处理。
+    if [[ "$OSTYPE" == "darwin"* || "$OSTYPE" == "linux"* ]]; then
         ifconfig 2>/dev/null | grep "inet " | grep -v 127.0.0.1 | head -1 | awk '{print $2}'
+    else
+        # Windows
+        if command -v ipconfig &> /dev/null; then
+            ipconfig | grep -i "IPv4" | head -1 | awk '{print $NF}'
+        fi
     fi
 }
 
@@ -134,8 +137,9 @@ start_dev_server() {
     echo -e "${BLUE}=======================================${NC}"
     echo ""
     
-    # 启动开发服务器
-    pnpm dev
+    # 在受限环境里，`vite --host` 可能会触发网络接口枚举（os.networkInterfaces），导致崩溃。
+    # 这里显式绑定到 127.0.0.1，绕过枚举逻辑，让 dev server 能稳定起来。
+    pnpm exec vite --host 127.0.0.1
 }
 
 # 显示帮助信息
