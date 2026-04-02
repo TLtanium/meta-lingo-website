@@ -18,7 +18,7 @@ const translations: Record<Language, Translations> = {
       cta: "立即下载"
     },
     hero: {
-      badge: "v3.9.83 现已发布",
+      badge: "v4.7.85 现已发布",
       title: "现代化多模态",
       subtitle: "语料库研究平台",
       description: "基于 Electron + React + Python 构建。集成 Whisper 语音转录、YOLO 视频追踪与 CLIP 语义分析，为语言学研究提供全流程智能化解决方案。",
@@ -65,7 +65,7 @@ const translations: Record<Language, Translations> = {
       subtitle: "选择适合您操作系统的版本。所有功能完全本地运行，无需复杂的环境配置。",
       win: "Windows 版本",
       mac: "macOS 版本",
-      size: "应用大小：4GB",
+      size: "应用大小：6GB",
       backupPrefix: "下载较慢？可使用国内备用下载：",
       backupWin: "Windows 备用下载",
       backupMac: "macOS 备用下载",
@@ -91,7 +91,7 @@ const translations: Record<Language, Translations> = {
       cta: "Download Now"
     },
     hero: {
-      badge: "v3.9.83 Released",
+      badge: "v4.7.85 Released",
       title: "Modern Multimodal",
       subtitle: "Corpus Research Platform",
       description: "Built with Electron + React + Python. Integrated with Whisper transcription, YOLO tracking, and CLIP semantic analysis for a complete linguistic research solution.",
@@ -138,7 +138,7 @@ const translations: Record<Language, Translations> = {
       subtitle: "Choose the version for your OS. All features run locally without complex configuration.",
       win: "Windows Version",
       mac: "macOS Version",
-      size: "App Size: 4GB",
+      size: "App Size: 6GB",
       backupPrefix: "Slow download? Use this backup link:",
       backupWin: "Windows backup",
       backupMac: "macOS backup",

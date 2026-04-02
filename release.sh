@@ -18,6 +18,8 @@ DEFAULT_TITLE_PREFIX="Meta-Lingo"
 FIXED_TAG="latest"
 WIN_FILENAME="meta-lingo-win-latest.7z"
 MAC_FILENAME="meta-lingo-mac-latest.7z"
+# GitHub release asset hard limit (bytes); uploads at or above this fail with HTTP 422.
+MAX_GITHUB_RELEASE_ASSET_BYTES=$((2 * 1024 * 1024 * 1024))
 
 show_help() {
   echo "用法: ./release.sh [选项]"
@@ -135,6 +137,24 @@ fi
 
 WIN_NAME="$(basename "$WIN_ARCHIVE")"
 MAC_NAME="$(basename "$MAC_ARCHIVE")"
+
+check_archive_size() {
+  local path="$1"
+  local label="$2"
+  local size
+  size=$(stat -f "%z" "$path" 2>/dev/null || stat -c "%s" "$path" 2>/dev/null || echo 0)
+  if [[ "$size" -ge "$MAX_GITHUB_RELEASE_ASSET_BYTES" ]]; then
+    local mb=$((size / 1024 / 1024))
+    echo -e "${RED}[错误] ${label} 超过 GitHub Release 单文件上限（< 2 GiB）${NC}"
+    echo -e "${YELLOW}  文件: $path${NC}"
+    echo -e "${YELLOW}  大小: ${mb} MiB${NC}"
+    echo -e "${YELLOW}[提示] 请缩小打包内容、提高压缩率、拆分为多个分卷，或改用对象存储/CDN 分发大文件。${NC}"
+    exit 1
+  fi
+}
+
+check_archive_size "$WIN_ARCHIVE" "Windows 包"
+check_archive_size "$MAC_ARCHIVE" "macOS 包"
 
 if [[ -z "$NOTES" ]]; then
   NOTES="Automated latest package refresh"
