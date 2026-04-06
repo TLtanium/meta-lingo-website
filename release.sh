@@ -1,6 +1,8 @@
 #!/bin/bash
 # Meta-Lingo-Website Release 上传脚本（固定 latest 模式）
 # 本地文件名可任意；上传到 Release 时统一使用固定名并覆盖
+# 上传前会删除 Release 上已有同名附件（可多条），避免仅 clobber 仍残留旧版与新版两套 latest
+# 上传使用临时目录内「固定文件名」副本，避免 gh 对 path#assetName 仍按本地名登记附件；上传后默认不再删「非 latest」附件（需显式 --prune-extra-assets）
 
 set -euo pipefail
 
@@ -28,7 +30,7 @@ show_help() {
   echo "  -n, --notes <notes>     Release 说明文本（默认自动生成）"
   echo "  -d, --draft             创建为草稿"
   echo "  -p, --prerelease        标记为预发布"
-  echo "      --keep-extra-assets 不删除 release 中除两个固定文件以外的资产（默认会删除）"
+  echo "      --prune-extra-assets 上传后删除「非 meta-lingo-*-latest.7z」的附件（默认关闭，避免误删）"
   echo "  -h, --help              显示帮助"
   echo ""
   echo "示例:"
@@ -69,7 +71,7 @@ pick_latest_archive() {
 NOTES=""
 IS_DRAFT=false
 IS_PRERELEASE=false
-KEEP_EXTRA_ASSETS=false
+PRUNE_EXTRA_ASSETS=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -85,8 +87,12 @@ while [[ $# -gt 0 ]]; do
       IS_PRERELEASE=true
       shift
       ;;
+    --prune-extra-assets)
+      PRUNE_EXTRA_ASSETS=true
+      shift
+      ;;
     --keep-extra-assets)
-      KEEP_EXTRA_ASSETS=true
+      # 兼容旧参数：等价于默认行为（不删多余附件）
       shift
       ;;
     -h|--help)
@@ -180,18 +186,45 @@ else
   gh release create "$FIXED_TAG" "${CREATE_ARGS[@]}"
 fi
 
-# 零拷贝上传：使用 localPath#assetName 指定 Release 资产名，不改本地文件名
+# 上传前先删掉 Release 上所有「固定文件名」的附件（按 id 全删），避免历史上出现多条同名
+# （仅 clobber 有时不会合并重复同名资源，导致同时存在 3.9.82 与 4.7.85 两套 latest）
+delete_all_fixed_name_assets() {
+  local owner="${REPO%%/*}"
+  local repo_name="${REPO##*/}"
+  # 用 tag 拉取整份 Release（含 assets），避免 GET .../releases/{numeric_id}/assets 在部分环境下 404
+  local asset_lines
+  asset_lines="$(gh api "repos/$owner/$repo_name/releases/tags/$FIXED_TAG" \
+    --jq '(.assets // [])[] | "\(.id)\t\(.name)"' 2>/dev/null)" || true
+  [[ -z "$asset_lines" ]] && return 0
+  while IFS=$'\t' read -r asset_id asset_name; do
+    [[ -z "${asset_id:-}" || -z "${asset_name:-}" ]] && continue
+    if [[ "$asset_name" == "$WIN_FILENAME" || "$asset_name" == "$MAC_FILENAME" ]]; then
+      gh api -X DELETE "repos/$owner/$repo_name/releases/assets/$asset_id" >/dev/null
+      echo -e "${YELLOW}[清理] 已移除旧附件: $asset_name (asset id=$asset_id)${NC}"
+    fi
+  done <<< "$asset_lines"
+}
+
+echo -e "${BLUE}[信息] 上传前删除已有 ${WIN_FILENAME} / ${MAC_FILENAME}（若存在多条同名则全部删除后再传）${NC}"
+delete_all_fixed_name_assets
+
+# 复制为固定文件名再上传（避免 gh 对 path#assetName 仍使用本地 basename，导致上传后被「删多余」误删）
+UPLOAD_STAGING="$(mktemp -d "${TMPDIR:-/tmp}/meta-lingo-release.XXXXXX")"
+trap 'rm -rf "$UPLOAD_STAGING"' EXIT
+cp -f "$WIN_ARCHIVE" "$UPLOAD_STAGING/$WIN_FILENAME"
+cp -f "$MAC_ARCHIVE" "$UPLOAD_STAGING/$MAC_FILENAME"
+
 gh release upload "$FIXED_TAG" \
-  "$WIN_ARCHIVE#$WIN_FILENAME" \
-  "$MAC_ARCHIVE#$MAC_FILENAME" \
+  "$UPLOAD_STAGING/$WIN_FILENAME" \
+  "$UPLOAD_STAGING/$MAC_FILENAME" \
   --repo "$REPO" \
   --clobber
 
-if [[ "$KEEP_EXTRA_ASSETS" == false ]]; then
+if [[ "$PRUNE_EXTRA_ASSETS" == true ]]; then
   OWNER="${REPO%%/*}"
   REPO_NAME="${REPO##*/}"
-  RELEASE_ID="$(gh release view "$FIXED_TAG" --repo "$REPO" --json id --jq '.id')"
-  ASSET_LINES="$(gh api "repos/$OWNER/$REPO_NAME/releases/$RELEASE_ID/assets" --jq '.[] | "\(.id)\t\(.name)"')"
+  ASSET_LINES="$(gh api "repos/$OWNER/$REPO_NAME/releases/tags/$FIXED_TAG" \
+    --jq '(.assets // [])[] | "\(.id)\t\(.name)"')"
   while IFS=$'\t' read -r asset_id asset_name; do
     [[ -z "${asset_id:-}" || -z "${asset_name:-}" ]] && continue
     if [[ "$asset_name" != "$WIN_FILENAME" && "$asset_name" != "$MAC_FILENAME" ]]; then
