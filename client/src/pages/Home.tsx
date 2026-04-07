@@ -355,7 +355,7 @@ export default function Home() {
                 {t('hero.downloadWin')}
               </Button>
               <a
-                href="https://workdrive.zohopublic.com.cn/external/62ef1dc949483a3a9af6fe60ecd5453cda487a5478e85a73d3d555e5a5633da5/download"
+                href="https://www.123684.com/s/0nNlvd-ZHBUA"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 inline-block text-xs text-blue-600 hover:text-blue-700 underline underline-offset-2"
@@ -381,7 +381,7 @@ export default function Home() {
                 {t('hero.downloadMac')}
               </Button>
               <a
-                href="https://workdrive.zohopublic.com.cn/external/f7b480a33e7a50ca2d25b5b533e6ef97e339d0394b01f8ddc6c3ac9feed90cf2/download"
+                href="https://www.123684.com/s/0nNlvd-bHBUA"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 inline-block text-xs text-blue-600 hover:text-blue-700 underline underline-offset-2"
