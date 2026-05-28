@@ -355,7 +355,7 @@ export default function Home() {
                 {t('hero.downloadWin')}
               </Button>
               <a
-                href="https://www.123684.com/s/0nNlvd-ZHBUA"
+                href="https://1858141529.share.123865.com/123pan/0nNlvd-Gu6SA"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 inline-block text-xs text-blue-600 hover:text-blue-700 underline underline-offset-2"
@@ -381,7 +381,7 @@ export default function Home() {
                 {t('hero.downloadMac')}
               </Button>
               <a
-                href="https://www.123684.com/s/0nNlvd-bHBUA"
+                href="https://1858141529.share.123865.com/123pan/0nNlvd-3SNlA"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 inline-block text-xs text-blue-600 hover:text-blue-700 underline underline-offset-2"
