@@ -137,7 +137,7 @@ export default function Home() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img 
-            src={getAssetPath('/images/Background.jpg')} 
+            src={getAssetPath('/images/Background.png')} 
             alt="Background" 
             className="w-full h-full object-cover opacity-10"
           />
