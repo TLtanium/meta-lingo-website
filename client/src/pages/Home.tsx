@@ -20,6 +20,9 @@ import {
   PenTool,
   Layers,
   Settings,
+  Smile,
+  BookA,
+  Bot,
   Info,
   Monitor,
   Command
@@ -84,6 +87,9 @@ export default function Home() {
     { id: 'literature-viz', icon: BookOpen, color: 'text-indigo-500' },
     { id: 'annotation-mode', icon: PenTool, color: 'text-violet-500' },
     { id: 'topic-modeling', icon: Layers, color: 'text-emerald-500' },
+    { id: 'sentiment-analysis', icon: Smile, color: 'text-fuchsia-500' },
+    { id: 'dictionary-lookup', icon: BookA, color: 'text-sky-500' },
+    { id: 'ai-assistant', icon: Bot, color: 'text-orange-500' },
     { id: 'settings', icon: Settings, color: 'text-gray-500' }
   ];
 

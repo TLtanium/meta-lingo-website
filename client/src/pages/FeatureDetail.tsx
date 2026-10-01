@@ -18,13 +18,16 @@ import {
   GitBranch,
   Binary,
   Link2,
-  PenTool
+  PenTool,
+  Smile,
+  BookA,
+  Bot
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Streamdown } from 'streamdown';
 
 // 图片轮播组件 - 自动检测多图模式，无缝循环自动播放
-function ImageCarousel({ baseImage, title }: { baseImage: string; title: string }) {
+function ImageCarousel({ baseImage, title, onMissing }: { baseImage: string; title: string; onMissing?: () => void }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [images, setImages] = useState<string[]>([baseImage]);
   const [isLoading, setIsLoading] = useState(true);
@@ -70,9 +73,13 @@ function ImageCarousel({ baseImage, title }: { baseImage: string; title: string 
           }
         }
         setImages(detectedImages);
-      } else {
+      } else if (await checkImage(baseImage)) {
         // 单图模式：使用原始图片
         setImages([baseImage]);
+      } else {
+        // 没有任何截图（新模块尚未提供图片）：隐藏图片区域
+        setImages([]);
+        onMissing?.();
       }
       setIsLoading(false);
     };
@@ -199,6 +206,11 @@ function ImageCarousel({ baseImage, title }: { baseImage: string; title: string 
     );
   }
 
+  // 无图片
+  if (images.length === 0) {
+    return null;
+  }
+
   // 单图模式
   if (images.length === 1) {
     return (
@@ -276,10 +288,12 @@ export default function FeatureDetail() {
   const [location, setLocation] = useLocation();
   const { language, t } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
+  const [imageMissing, setImageMissing] = useState(false);
 
   useEffect(() => {
     // Trigger animation after mount
     setIsVisible(true);
+    setImageMissing(false);
     // Scroll to top when entering the page
     window.scrollTo(0, 0);
   }, [params?.id]);
@@ -318,6 +332,9 @@ export default function FeatureDetail() {
       case 'literature-viz': return <BookOpen className="w-10 h-10 text-white" />;
       case 'annotation-mode': return <PenTool className="w-10 h-10 text-white" />;
       case 'topic-modeling': return <Layers className="w-10 h-10 text-white" />;
+      case 'sentiment-analysis': return <Smile className="w-10 h-10 text-white" />;
+      case 'dictionary-lookup': return <BookA className="w-10 h-10 text-white" />;
+      case 'ai-assistant': return <Bot className="w-10 h-10 text-white" />;
       case 'settings': return <Settings className="w-10 h-10 text-white" />;
       default: return <Folder className="w-10 h-10 text-white" />;
     }
@@ -358,12 +375,15 @@ export default function FeatureDetail() {
           </div>
 
           {/* Feature Image */}
-          <div className="mb-12 rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white">
-            <ImageCarousel 
-              baseImage={feature.image}
-              title={title}
-            />
-          </div>
+          {!imageMissing && (
+            <div className="mb-12 rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white">
+              <ImageCarousel 
+                baseImage={feature.image}
+                title={title}
+                onMissing={() => setImageMissing(true)}
+              />
+            </div>
+          )}
 
           {/* Content */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-600 prose-a:text-blue-600 hover:prose-a:text-blue-700">
