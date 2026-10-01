@@ -162,7 +162,12 @@ push_to_main() {
             git restore --staged 'release/win/*.7z' 'release/mac/*.7z' >/dev/null 2>&1 || true
             exit 1
         fi
-        git commit -m "chore: update before deploy - $(date '+%Y-%m-%d %H:%M:%S')"
+        # 白名单内没有改动时（例如只改了 PROJECT.md 这类不上传的文件），暂存区为空，跳过提交，避免 set -e 导致脚本中断
+        if git diff --cached --quiet; then
+            echo -e "${BLUE}[提示] 白名单文件无改动，跳过提交（未跟踪/未列入白名单的文件如 PROJECT.md 不会被上传）${NC}"
+        else
+            git commit -m "chore: update before deploy - $(date '+%Y-%m-%d %H:%M:%S')"
+        fi
     fi
     
     # 确保在 main 分支
