@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tltanium.github.io/meta-lingo-website/sitemap.xml
