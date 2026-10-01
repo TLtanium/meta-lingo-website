@@ -562,15 +562,15 @@ The N-gram Analysis module, based on SpaCy annotation data, counts the frequency
 
 ### 基础语法
 - 属性：word（词形）、lemma（词元）、pos（Universal POS）、tag（Penn Treebank 细粒度词性）、dep（依存关系）、usas（USAS 语义域）、nrc（NRC 情感标签）。
-- 运算符：& 与、| 或、! 非；[] 任意 token，[]{1,3} 表示 1–3 个任意 token；支持正则。
-- 示例：[lemma="make"] [] [pos="NOUN"] 匹配「make + 任意词 + 名词」；[usas="A1"] 按语义域前缀匹配，[usas=="N3.8+"] 精确匹配。
+- 运算符：& 与、| 或、! 非；\`[]\` 任意 token，\`[]{1,3}\` 表示 1–3 个任意 token；支持正则。
+- 示例：\`[lemma="make"] [] [pos="NOUN"]\` 匹配「make + 任意词 + 名词」；\`[usas="A1"]\` 按语义域前缀匹配，\`[usas=="N3.8+"]\` 精确匹配。
 
 ### 高级运算符
 - **within / !within**：P 出现（或不出现）在 Q 所定义的区间内。
-- **containing / !containing**：配合 <s/> 等结构标记，筛选包含（或不包含）某内容的句子。
+- **containing / !containing**：配合 \`<s/>\` 等结构标记，筛选包含（或不包含）某内容的句子。
 - **meet**：两个条件在指定的左右词距内共现。
-- **词图模板 ws()**：基于依存关系的搭配匹配，如 [ws(make,object,decision)]，内置 41 种语法关系。
-- **结构标记**：<s>、</s>、<s/>（句子）、<p>（段落）、<doc>（文档，可按属性过滤）；<s/>{2,3} 可按句子重复次数筛选。
+- **词图模板 ws()**：基于依存关系的搭配匹配，如 \`[ws(make,object,decision)]\`，内置 41 种语法关系。
+- **结构标记**：\`<s>\`、\`</s>\`、\`<s/>\`（句子）、\`<p>\`（段落）、\`<doc>\`（文档，可按属性过滤）；\`<s/>{2,3}\` 可按句子重复次数筛选。
 
 ### CQL 构建器
 不熟悉语法时，可用可视化构建器逐个添加 token 条件、选择属性（含 NRC 情感标签）与逻辑 / 高级运算符，实时预览查询，并保存常用模板。从词图分析、搭配分析等模块跳转过来时，会自动生成对应的 CQL。
@@ -618,15 +618,15 @@ The Concordance module provides KWIC (Key Word In Context) search to find and an
 
 ### Basics
 - Attributes: word, lemma, pos (Universal POS), tag (fine-grained Penn Treebank POS), dep (dependency relation), usas (USAS semantic domain), nrc (NRC emotion label).
-- Operators: & AND, | OR, ! NOT; [] any token, []{1,3} one to three arbitrary tokens; regular expressions supported.
-- Examples: [lemma="make"] [] [pos="NOUN"] matches "make + any word + noun"; [usas="A1"] matches by domain prefix, [usas=="N3.8+"] matches exactly.
+- Operators: & AND, | OR, ! NOT; \`[]\` any token, \`[]{1,3}\` one to three arbitrary tokens; regular expressions supported.
+- Examples: \`[lemma="make"] [] [pos="NOUN"]\` matches "make + any word + noun"; \`[usas="A1"]\` matches by domain prefix, \`[usas=="N3.8+"]\` matches exactly.
 
 ### Advanced Operators
 - **within / !within**: P occurs (or does not occur) inside the span defined by Q.
-- **containing / !containing**: used with structure markers such as <s/> to select sentences that contain (or lack) something.
+- **containing / !containing**: used with structure markers such as \`<s/>\` to select sentences that contain (or lack) something.
 - **meet**: two conditions co-occurring within given left/right distances.
-- **Word Sketch template ws()**: dependency-based collocate matching, e.g. [ws(make,object,decision)], with 41 built-in grammatical relations.
-- **Structure markers**: <s>, </s>, <s/> (sentence), <p> (paragraph), <doc> (document, filterable by attribute); <s/>{2,3} filters by how many times a sentence repeats.
+- **Word Sketch template ws()**: dependency-based collocate matching, e.g. \`[ws(make,object,decision)]\`, with 41 built-in grammatical relations.
+- **Structure markers**: \`<s>\`, \`</s>\`, \`<s/>\` (sentence), \`<p>\` (paragraph), \`<doc>\` (document, filterable by attribute); \`<s/>{2,3}\` filters by how many times a sentence repeats.
 
 ### CQL Builder
 If you are not familiar with the syntax, use the visual builder to add token conditions one by one, pick attributes (including NRC emotion labels) and logical or advanced operators, preview the query live, and save templates. When you jump here from Word Sketch or Collocation Analysis, the matching CQL is generated for you.
