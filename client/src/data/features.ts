@@ -56,7 +56,7 @@ export const features: Feature[] = [
 - **标签与元数据**：为语料库和单个文本添加标签，编辑日期、作者、来源等元数据。
 - **批量重新标注**：多选文本后可重新运行 SpaCy、YOLO、CLIP、USAS、MIPVU、NRC。
 - **整库导出 / 导入**：将所选语料库（文本、全部自动标注、音视频文件、标注存档）打包为 .zip 用于备份或跨设备迁移，导入时自动避免重名。
-- **参考语料库资源**：内置 BNC、COCA、Brown 等预处理词频资源，可直接用于关键词提取中的关键性对比。
+- **参考语料库资源**：内置 AmE06、BNC 2014、COCA 等预处理词频资源，可直接用于关键词提取中的关键性对比。
 - **本地数据**：语料数据存放在应用的 data 目录，与程序分离，卸载或升级不会丢失；Whisper、YOLO、CLIP、PyMUSAS 等大模型在「应用设置 → 模型管理」中按需下载。
 
 ## 使用场景
@@ -110,7 +110,7 @@ Every uploaded text (including transcripts) is annotated automatically:
 - **Tags and metadata**: tag corpora and individual texts; edit date, author, source and other metadata.
 - **Batch re-annotation**: select multiple texts and re-run SpaCy, YOLO, CLIP, USAS, MIPVU or NRC.
 - **Whole-corpus export/import**: pack selected corpora (texts, all automatic annotations, media files and annotation archives) into a .zip for backup or moving between machines; duplicate names are handled automatically on import.
-- **Reference corpus resources**: built-in preprocessed frequency resources (BNC, COCA, Brown, etc.) ready to use for keyness comparison in Keyword Extraction.
+- **Reference corpus resources**: built-in preprocessed frequency resources (AmE06, BNC 2014, COCA, etc.) ready to use for keyness comparison in Keyword Extraction.
 - **Local data**: corpus data lives in the app's data folder, separate from the program, so uninstalling or upgrading does not remove it. Large models such as Whisper, YOLO, CLIP and PyMUSAS are downloaded on demand in Settings → Model Management.
 
 ## Use Cases
@@ -307,8 +307,8 @@ Jump from results to Word Frequency, Concordance, Collocation Analysis, Word Ske
     id: 'keyword-extraction',
     title: '关键词提取',
     titleEn: 'Keyword Extraction',
-    description: 'TF-IDF、TextRank、YAKE!、RAKE 四种单文档算法，以及词形 / 词元 / USAS 语义域三种模式的关键性对比，内置 16 个参考语料库。',
-    descriptionEn: 'Four single-document algorithms (TF-IDF, TextRank, YAKE!, RAKE) plus keyness comparison in word, lemma or USAS domain mode, with 16 built-in reference corpora.',
+    description: 'TF-IDF、TextRank、YAKE!、RAKE 四种单文档算法，以及词形 / 词元 / USAS 语义域三种模式的关键性对比，内置 7 个参考语料库。',
+    descriptionEn: 'Four single-document algorithms (TF-IDF, TextRank, YAKE!, RAKE) plus keyness comparison in word, lemma or USAS domain mode, with 7 built-in reference corpora.',
     icon: 'keyword-extraction.png',
     color: '#8B5CF6', // Violet
     image: '/images/keyword-extraction.png',
@@ -356,22 +356,15 @@ Jump from results to Word Frequency, Concordance, Collocation Analysis, Word Ske
 
 | 语料库 | 说明 |
 |--------|------|
-| BNC 1994 | 英国国家语料库 1994 版（口语、书面语等多种体裁） |
 | BNC 2014 | 英国国家语料库 2014 版（仅口语） |
-| Brown | Brown 语料库（新闻、小说、学术等） |
 | AmE06 / BE06 | 2006 年美式 / 英式英语平衡语料库 |
 | NOW | News on the Web（2010–2024，按国家划分的新闻） |
-| OANC | 开放美国国家语料库（多种体裁） |
 | COCA | 当代美语语料库（1990–2019） |
 | COHA | 历史美语语料库（1810–2009，按时期划分） |
 | GloWbE | 全球网络英语语料库（按国家 / 地区划分） |
-| Coronavirus | 新冠语料库（2020–2022，按国家划分） |
-| iWeb | 智能网络语料库 |
-| TV / Movies / SOAP | 电视、电影、肥皂剧口语语料库 |
-| Wikipedia | 维基百科语料库 |
 
 ### 参考语料库的 USAS 标注
-内置资源中的 USAS 语义域数据与用户语料一样，均由 PyMUSAS-Neural-Multilingual-Base-BEM（307M，topn=5）标注，语义域对比拥有一致的标注基准。该框架由兰卡斯特大学 UCREL 研究中心开发，详见 [PyMUSAS 文档](https://ucrel.github.io/pymusas/) 与 [HuggingFace 模型](https://huggingface.co/ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM)。
+内置资源中的 USAS 语义域数据由 PyMUSAS 以 top-1（每个词只取排名第一的标签）标注，每个词符只计一次，词数即真实词数。关键性对比时，研究语料同样只使用每个词的主标签（top-1）统计，因此词形、词元与语义域三种模式都是正常计数，两侧口径一致；语料库管理中保存的 top-5 候选标签不受影响。该框架由兰卡斯特大学 UCREL 研究中心开发，详见 [PyMUSAS 文档](https://ucrel.github.io/pymusas/) 与 [HuggingFace 模型](https://huggingface.co/ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM)。
 
 ### 九种统计方法
 Log-Likelihood（推荐）、Chi-squared（Yates 校正）、Log Ratio（效应量）、Dice 系数、Mutual Information（偏向低频词）、MI³、T-score（偏向高频词）、Simple Keyness、Fisher's Exact（小样本）。
@@ -431,22 +424,15 @@ Compare a study corpus with a reference corpus to find items that are significan
 
 | Corpus | Description |
 |--------|-------------|
-| BNC 1994 | British National Corpus 1994 (spoken, written and many genres) |
 | BNC 2014 | British National Corpus 2014 (spoken only) |
-| Brown | Brown Corpus (news, fiction, academic, etc.) |
 | AmE06 / BE06 | American / British English 2006 balanced corpora |
 | NOW | News on the Web (2010–2024, news by country) |
-| OANC | Open American National Corpus (multiple genres) |
 | COCA | Corpus of Contemporary American English (1990–2019) |
 | COHA | Corpus of Historical American English (1810–2009, by period) |
 | GloWbE | Global Web-based English (by country/region) |
-| Coronavirus | Coronavirus Corpus (2020–2022, by country) |
-| iWeb | Intelligent Web-based Corpus |
-| TV / Movies / SOAP | Spoken-language corpora of television, films and soap operas |
-| Wikipedia | Wikipedia Corpus |
 
 ### USAS Annotation of Reference Corpora
-USAS semantic-domain data in the built-in resources is produced by the same PyMUSAS-Neural-Multilingual-Base-BEM model (307M, topn=5) used for your own corpora, so domain-level keyness has a consistent tagging baseline. The framework was developed by Lancaster University's UCREL; see the [PyMUSAS docs](https://ucrel.github.io/pymusas/) and the [HuggingFace model](https://huggingface.co/ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM).
+USAS semantic-domain data in the built-in resources is tagged by PyMUSAS with top-1 only (each token keeps just its highest-ranked tag) and every token is counted once, so word counts are true token counts. In keyness, your study corpus likewise uses only each token's primary (top-1) tag, so word, lemma and semantic-domain modes are all plain counts on the same basis; the top-5 candidate tags stored by Corpus Management are unaffected. The framework was developed by Lancaster University's UCREL; see the [PyMUSAS docs](https://ucrel.github.io/pymusas/) and the [HuggingFace model](https://huggingface.co/ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM).
 
 ### Nine Statistical Methods
 Log-Likelihood (recommended), Chi-squared (Yates-corrected), Log Ratio (effect size), Dice coefficient, Mutual Information (favors low-frequency items), MI³, T-score (favors high-frequency items), Simple Keyness, and Fisher's Exact (small samples).
@@ -1618,7 +1604,7 @@ MCP 服务器是一个轻量代理，把 AI 的工具调用转换为 Meta-Lingo 
 
 ### 示例提问
 - 「创建一个名为『政治演讲』的语料库，上传这三篇文本，并分析词频。」
-- 「用对数似然比把我的语料库与 BNC 做关键词对比。」
+- 「用对数似然比把我的语料库与 AmE06 做关键词对比。」
 - 「这个语料库的主要语义域分布是什么？深入看排名第一的域。」
 - 「用 Halliday-Theme 框架标注第一篇文本的主位和述位，保存存档让我在应用中查看。」
     `,
@@ -1680,7 +1666,7 @@ The MCP server is a lightweight proxy that translates AI tool calls into Meta-Li
 
 ### Example Prompts
 - "Create a corpus called 'Political Speeches', upload these three texts and analyze word frequency."
-- "Compare my corpus with BNC using log-likelihood keyness."
+- "Compare my corpus with AmE06 using log-likelihood keyness."
 - "What is the main semantic-domain distribution of this corpus? Dig into the top domain."
 - "Annotate theme and rheme in the first text with the Halliday-Theme framework and save the archive so I can view it in the app."
     `

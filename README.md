@@ -101,7 +101,7 @@ Meta-Lingo-Website/
 | 语料库管理 | 文本 / PDF / 音视频上传，11 种语言；Whisper 转录、YOLO/CLIP、SpaCy + USAS + MIPVU + NRC 自动标注；整库导出 / 导入 |
 | 词频统计 | 词性筛选、正则与词表匹配、停用词，语料库 / 文献库数据源，柱状图 / 饼图 / 词云 |
 | 同义词分析 | 基于 NLTK WordNet，仅保留语料中实际出现的同义词，网络图与树状图 |
-| 关键词提取 | TF-IDF/TextRank/YAKE!/RAKE + 关键性对比（词形 / 词元 / USAS 语义域；9 种统计量；16 个内置参考语料库） |
+| 关键词提取 | TF-IDF/TextRank/YAKE!/RAKE + 关键性对比（词形 / 词元 / USAS 语义域；9 种统计量；7 个内置参考语料库） |
 | N-gram 分析 | 2-6 元统计、Nest 分组、柱状图 / 网络图 / 桑基图 / 词云 |
 | 语境索引 | KWIC 检索（Concordance），6 种搜索模式、自建 CQL 引擎（within / containing / meet / ws() 等）与可视化构建器，密度图 / 山脊图 / 离散度图 |
 | 话语分析 | USAS 语义域 + MIPVU 隐喻（五步流水线，间接 F1 82.29 / 直接 F1 76.52，仅英语）+ DMIP 刻意隐喻 + Biber 多维分析（MDA） |
