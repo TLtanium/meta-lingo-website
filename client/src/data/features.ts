@@ -352,7 +352,7 @@ Jump from results to Word Frequency, Concordance, Collocation Analysis, Word Ske
 
 **方式一：选择语料库文本**——全部文本 / 按标签 / 手动选择，适合使用自己导入的语料对比。
 
-**方式二：语料库资源**——先在「设置 → 用户资源 → 参考语料」导入您有权使用的 UTF-8 词频 CSV。表头须为 Word,word,lemma,pos,usas,freq，通过校验后填写双语名称、描述、标签、分组标识及类别。总词数与大小自动计算。
+**方式二：语料库资源**——先在「设置 → 用户资源 → 参考语料」导入您有权使用的 UTF-8 词频 CSV。表头须为 Word,word,lemma,pos,usas,freq，通过校验后填写名称、分组标识、标签和描述；输入内容不随界面语言改变。总词数与大小自动计算。
 
 应用不再预装参考语料，也没有 AmE06 默认项。资源卡片可按名称、分组与标签筛选；同一分组标识共用颜色，不同分组使用不同颜色。也可在语料库详情中把选中的已标注文本或转写内容作为整体导出为参考 CSV，再导入使用。
 
@@ -411,7 +411,7 @@ Compare a study corpus with a reference corpus to find items that are significan
 
 **Option 1: Select corpus texts** — all / by tag / manual selection, for comparing against your own imported corpora.
 
-**Option 2: Corpus resources** — import an authorized UTF-8 frequency CSV in Settings → User resources → Reference corpora. The required header is Word,word,lemma,pos,usas,freq. After validation, complete bilingual names, descriptions and tags, plus a group identifier and category; token counts and file sizes are calculated automatically.
+**Option 2: Corpus resources** — import an authorized UTF-8 frequency CSV in Settings → User resources → Reference corpora. The required header is Word,word,lemma,pos,usas,freq. After validation, add a name, group identifier, tags and description; your entries stay the same in either interface language; token counts and file sizes are calculated automatically.
 
 No reference corpora are bundled and there is no AmE06 default. Cards can be searched and filtered by group and tag; matching group identifiers share a colour, and different groups receive different colours. Selected annotated texts or transcripts can also be combined into a reference CSV from corpus details and re-imported.
 
@@ -1561,12 +1561,13 @@ Meta-Lingo 提供三层可选的 AI 能力：分析模块里的 **AI 助手**、
 
 ## Lemy 桌面伙伴
 
-Lemy 是可选的桌面伙伴，默认关闭，不是独立的大语言模型。点击顶栏对话模式旁的爪印按钮即可唤出或收起：
-- 拖动身体改变位置，支持大小调整与可选的自主走动；单击或右键打开菜单，双击返回对话模式。
-- 状态来自真实的 Agent 对话与语料处理任务，可区分进行中、完成、失败或停止；点击提示返回对应对话或语料。尚未接入状态的分析页面不会显示虚构进度。
-- 标签始终与角色水平居中，跟随移动；靠近屏幕顶部时切换到正下方。可查看任务、返回平台、打开帮助。
-- 桌面版主窗口最小化时可继续显示；macOS 支持跟随全屏空间。置顶可关闭，唤出 Lemy 不会隐藏主窗口或抢走键盘焦点。
-- 动画素材随应用打包，本地播放，不额外调用模型；尊重系统减少动态效果设置。恢复出厂设置会关闭 Lemy 并清除其偏好与位置。
+Lemy 把任务进度与常用入口带到桌面，让你在阅读、写作或切换窗口时，也能轻松回到正在进行的研究。
+- **任务随时可见**：查看 Agent 对话和语料处理任务的状态，点击提示回到对应对话或语料。
+- **按喜好摆放**：拖动位置、调整大小，或开启自主走动与置顶。
+- **常用入口就在手边**：从菜单进入任务列表、对话、平台与帮助。
+- **陪伴不同工作场景**：主窗口最小化时仍可显示，macOS 全屏桌面也能使用。
+
+点击顶栏的爪印按钮即可唤出或收起 Lemy，随时选择适合自己的工作方式。
 
 ## MCP 服务
 
@@ -1635,12 +1636,13 @@ A switch in the top bar toggles between **Standard Mode** and **Conversation Mod
 
 ## Lemy Desktop Companion
 
-Lemy is optional and off by default, rather than a separate language model. Use the paw button beside the mode switch to show or hide it:
-- Drag to reposition, change its size or enable roaming. Click or right-click for the menu; double-click to return to conversation mode.
-- Status comes from actual Agent conversations and corpus-processing tasks, distinguishing running, completed, failed and stopped work. Click a prompt to return to its conversation or corpus. Analysis pages without task integration do not invent progress.
-- Labels remain horizontally centered while moving and switch below the character near the top edge. Shortcuts open tasks, the platform and Help.
-- The desktop companion can remain visible while the main window is minimized. On macOS it follows fullscreen Spaces. Always-on-top is optional; showing Lemy does not hide the main window or steal keyboard focus.
-- Bundled animations play locally without extra model calls and respect reduced-motion preferences. Factory reset disables Lemy and removes its preferences and position.
+Lemy keeps task progress and useful shortcuts on your desktop, so it is easy to return to your research while reading, writing or switching windows.
+- **Keep tasks in view**: check Agent conversations and corpus-processing tasks, then click a prompt to return to the relevant conversation or corpus.
+- **Make it your own**: drag, resize or enable roaming and always-on-top to suit your workspace.
+- **Reach everyday tools quickly**: open tasks, conversations, the platform and Help from the menu.
+- **Stay close to your work**: keep Lemy visible while the main window is minimized, including across fullscreen desktops on macOS.
+
+Use the paw button in the top bar to bring Lemy out or tuck it away whenever you like.
 
 ## MCP Server
 
@@ -1694,10 +1696,9 @@ Use the ChatGPT / Claude tabs in Settings to select an installer. Keep Meta-Ling
 应用设置位于右上角的设置图标中，用于个性化 Meta-Lingo 的功能与外观，页面自上而下依次为：
 
 ## 启动与恢复
-- 采用清晰的品牌组合字标与细蓝线，跟随浅色 / 深色主题；不再显示常规启动步骤和版本号。
-- macOS 使用原生磨砂背景，支持的 Windows 11 22H2 及更新系统使用 Acrylic；其他环境使用同色纯色背景。仅后台服务真实就绪后才平滑进入主页面。
-- 启动失败时自动弹出“重启应用”确认。确认后结束这个安装目录的服务及其子进程，完整退出 Meta-Lingo（包括所有窗口和 Lemy），再自动重新打开；保留语料、标注、模型和设置。
-- 取消后可稍后再次点击“重启应用”；重启不能完成时会保留提示，不会反复自动重启。
+- 简洁的品牌画面与蓝色动效，衔接浅色、深色主题，让工作区风格保持一致。
+- 启动画面随操作系统呈现适配的背景效果，准备就绪后自然进入主页面。
+- 遇到启动问题时，可确认重启应用；已有语料、标注、模型和设置会保留。
 
 ## 界面语言
 - 简体中文（zh）或英文（en）单选切换；界面文字、提示与使用手册语言随之更改。
@@ -1726,7 +1727,7 @@ Use the ChatGPT / Claude tabs in Settings to select an installer. Keep Meta-Ling
 ## 用户资源
 - NRC：导入官方解压文件夹，手册说明具体结构；缺失语言不回退英文。
 - MDX：导入一个词典及配套资源，支持多部词典；不提供未经授权的词典下载包。
-- 参考语料：导入通过格式校验的 CSV，填写完整双语卡片信息；分组标识决定颜色。
+- 参考语料：导入通过格式校验的 CSV，填写名称、分组、标签和描述，内容不随界面语言改变；分组标识决定颜色。
 - 导入列表默认折叠、显示数量，大量资源可搜索并在固定高度内滚动；可单独移除本地副本。
 
 ## 许可证
@@ -1745,10 +1746,9 @@ Use the ChatGPT / Claude tabs in Settings to select an installer. Keep Meta-Ling
 Settings are reached from the gear icon at the top right and personalize Meta-Lingo's behavior and appearance. From top to bottom the page contains:
 
 ## Startup and Recovery
-- A crisp combination brand mark and thin blue line follow light/dark mode, without routine startup steps or a visible version number.
-- macOS uses native vibrancy; supported Windows 11 22H2 and newer systems use Acrylic. Other environments use a matching solid surface. The workspace appears only after local services are ready.
-- Startup failure automatically opens a full-restart confirmation. Confirming stops this installation’s service processes and descendants, exits all Meta-Lingo windows including Lemy, then reopens the app. Corpora, annotations, models and settings are kept.
-- Cancelling leaves a Restart application action. A failed restart remains visible and does not cause an automatic restart loop.
+- A clean brand mark and subtle blue motion complement light and dark themes for a consistent workspace.
+- The startup screen adapts to your operating system and leads smoothly into the main workspace when ready.
+- If startup encounters a problem, confirm an app restart while keeping existing corpora, annotations, models and settings.
 
 ## Interface Language
 - Choose Simplified Chinese (zh) or English (en); the interface text, prompts and user manual language follow.
@@ -1777,7 +1777,7 @@ Settings are reached from the gear icon at the top right and personalize Meta-Li
 ## User Resources
 - NRC: import the official extracted folder as described in Help. Missing languages never fall back to English.
 - MDX: import one dictionary with companion files; multiple dictionaries are supported. No unauthorized dictionary download bundles are provided.
-- References: validate a frequency CSV and complete bilingual card metadata; group identifiers determine colours.
+- References: validate a frequency CSV and add a name, group, tags and description. Your entries stay the same in either interface language; group identifiers determine colours.
 - Imported lists are collapsed with a count, searchable when large and height-limited when expanded. Remove local copies individually.
 
 ## License

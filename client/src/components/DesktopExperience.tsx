@@ -38,7 +38,7 @@ export default function DesktopExperience() {
                 <defs><filter id={maskId} colorInterpolationFilters="sRGB">
                   <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -.2126 -.7152 -.0722 0 1" result="alpha" />
                   <feComponentTransfer in="alpha" result="mask"><feFuncA type="linear" slope="1.08" intercept="-0.08" /></feComponentTransfer>
-                  <feFlood floodColor="currentColor" result="ink" /><feComposite in="ink" in2="mask" operator="in" />
+                  <feFlood floodColor={dark ? "#eeeef2" : "#15171b"} result="ink" /><feComposite in="ink" in2="mask" operator="in" />
                 </filter></defs>
                 <image href={getAssetPath('/images/Background.png')} width="1672" height="941" filter={`url(#${maskId})`} />
               </svg>
