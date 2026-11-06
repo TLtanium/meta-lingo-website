@@ -18,7 +18,7 @@ const translations: Record<Language, Translations> = {
       cta: "立即下载"
     },
     hero: {
-      badge: "v4.9.52 现已发布",
+      badge: "本地语料研究 · AGPL 开源",
       title: "现代化多模态",
       subtitle: "语料库研究平台",
       description: "基于 Electron + React + Python 构建。集成 Whisper 语音转录、YOLO 视频追踪、CLIP 语义分析，以及 USAS 语义标注、MIPVU 隐喻识别与 AI 助手 / MCP 接入，为语言学研究提供全流程智能化解决方案。",
@@ -26,10 +26,10 @@ const translations: Record<Language, Translations> = {
       downloadMac: "下载 macOS 版",
       watchDemo: "查看详情",
       privacy: "本地隐私安全",
-      offline: "无需联网运行",
-      opensource: "免费使用",
+      offline: "核心分析可离线",
+      opensource: "AGPL 开源",
       cta: "立即下载",
-      disclaimer: "本软件为个人开发项目，非商业用途，非广东外语外贸大学官方软件。"
+      disclaimer: "本软件为个人开发的 AGPL 开源项目，非广东外语外贸大学官方软件。"
     },
     features: {
       title: "全功能研究工具箱",
@@ -46,11 +46,29 @@ const translations: Record<Language, Translations> = {
         "literature-viz": { title: "文献可视化", desc: "WOS/CNKI/PDF 导入、AI 解读与 7 种图表" },
         "annotation-mode": { title: "标注模式", desc: "文本/多模态标注、自动标注与编码者间信度" },
         "topic-modeling": { title: "主题建模", desc: "BERTopic、LDA、LSA、NMF 主题发现" },
-        "sentiment-analysis": { title: "情感分析", desc: "NRC 情感极性与八种情绪维度" },
-        "dictionary-lookup": { title: "词典查询", desc: "麦克米伦与朗文搭配词典多词典查词" },
-        "ai-assistant": { title: "AI 助手与 MCP", desc: "模块 AI 助手、对话模式与 MCP 服务" },
-        "settings": { title: "应用设置", desc: "语言、壁纸、AI 连接与模型管理" }
+        "sentiment-analysis": { title: "情感分析", desc: "导入 NRC 后分析情感极性与八种情绪维度" },
+        "dictionary-lookup": { title: "词典查询", desc: "导入 MDX 与配套资源，多词典查询及发音播放" },
+        "ai-assistant": { title: "AI 助手与 MCP", desc: "模块 AI 助手、对话模式、MCP 与 Lemy 桌面伙伴" },
+        "settings": { title: "应用设置", desc: "明暗主题、模型与资源管理、简洁启动与恢复设置" }
       }
+    },
+    desktopExperience: {
+      eyebrow: "桌面体验",
+      title: "为桌面研究而设计",
+      description: "简洁的启动画面，可随时唤出的 Lemy。让日常操作更顺手，也让任务进度更容易找到。",
+      theme: "预览启动页主题",
+      light: "浅色",
+      dark: "深色",
+      startupPreview: "磨砂启动页效果示意",
+      startupTitle: "简洁启动，自然进入工作区",
+      startupDescription: "跟随明暗主题的清晰字标与细蓝线，后台服务就绪后平滑进入主页面。启动失败时可确认完整重启应用，保留已有数据。",
+      materialNote: "效果示意。支持的 macOS 与 Windows 11 系统使用原生磨砂背景；其他环境使用同色纯色背景。",
+      startupLink: "查看外观与启动说明",
+      lemyPreview: "Lemy 桌面伙伴动作预览",
+      lemyTitle: "Lemy，随时陪你回到研究",
+      lemyDescription: "从对话模式旁的爪印按钮唤出，拖动、调整大小或让它自主走动。查看 Agent 与语料处理任务，点击提示返回对应工作。",
+      lemyNote: "默认关闭，动作在本地播放，无需大模型。标签始终水平居中，靠近屏幕顶部时切换到角色下方。",
+      lemyLink: "了解 Lemy 与 AI 工作流",
     },
     about: {
       title: "关于开发者",
@@ -65,7 +83,7 @@ const translations: Record<Language, Translations> = {
     },
     download: {
       title: "开始您的研究之旅",
-      subtitle: "选择适合您操作系统的版本。所有功能完全本地运行，无需复杂的环境配置。",
+      subtitle: "选择适合您操作系统的版本。核心分析在本地完成，AI 可选连接本地或在线模型。",
       win: "Windows 版本",
       mac: "macOS 版本",
       size: "应用大小：6GB",
@@ -79,8 +97,8 @@ const translations: Record<Language, Translations> = {
       }
     },
     footer: {
-      copyright: "© 2026 Meta-Lingo. 保留所有权利。",
-      legal: "隐私政策与服务条款"
+      copyright: "© 2026 Tommy Leo · Meta-Lingo AGPL v3",
+      legal: "开源许可与第三方声明"
     },
     detail: {
       back: "返回首页"
@@ -94,7 +112,7 @@ const translations: Record<Language, Translations> = {
       cta: "Download Now"
     },
     hero: {
-      badge: "v4.9.52 Released",
+      badge: "Local corpus research · AGPL open source",
       title: "Modern Multimodal",
       subtitle: "Corpus Research Platform",
       description: "Built with Electron + React + Python. Integrates Whisper transcription, YOLO tracking, CLIP semantic analysis, USAS semantic tagging, MIPVU metaphor identification and AI assistant / MCP access for a complete linguistic research solution.",
@@ -102,10 +120,10 @@ const translations: Record<Language, Translations> = {
       downloadMac: "Download for macOS",
       watchDemo: "View Details",
       privacy: "Local Privacy",
-      offline: "Offline Capable",
-      opensource: "Free to Use",
+      offline: "Offline core analysis",
+      opensource: "AGPL Open Source",
       cta: "Download Now",
-      disclaimer: "This software is a personal project, non-commercial, and not an official software of Guangdong University of Foreign Studies."
+      disclaimer: "Meta-Lingo is a personal AGPL open-source project, not official software of Guangdong University of Foreign Studies."
     },
     features: {
       title: "Full-Featured Toolkit",
@@ -122,11 +140,29 @@ const translations: Record<Language, Translations> = {
         "literature-viz": { title: "Bibliography Visualization", desc: "WOS/CNKI/PDF import, AI notes and 7 charts" },
         "annotation-mode": { title: "Annotation Mode", desc: "Text/multimodal annotation, auto-annotation, reliability" },
         "topic-modeling": { title: "Topic Modeling", desc: "BERTopic, LDA, LSA and NMF topic discovery" },
-        "sentiment-analysis": { title: "Sentiment Analysis", desc: "NRC polarity and eight emotion dimensions" },
-        "dictionary-lookup": { title: "Dictionary Lookup", desc: "Macmillan and Longman Collocations in one pop-up" },
-        "ai-assistant": { title: "AI Assistant & MCP", desc: "Module assistants, conversation mode and MCP server" },
-        "settings": { title: "Settings", desc: "Language, wallpaper, AI connections, model management" }
+        "sentiment-analysis": { title: "Sentiment Analysis", desc: "Imported NRC lexicons for polarity and eight emotion dimensions" },
+        "dictionary-lookup": { title: "Dictionary Lookup", desc: "Import MDX dictionaries for multi-dictionary lookup and pronunciation" },
+        "ai-assistant": { title: "AI Assistant & MCP", desc: "Module assistants, conversation mode, MCP and Lemy" },
+        "settings": { title: "Settings", desc: "Themes, models and resources, minimal startup and recovery" }
       }
+    },
+    desktopExperience: {
+      eyebrow: "DESKTOP EXPERIENCE",
+      title: "Made for research on your desktop",
+      description: "A quiet startup screen and Lemy whenever you need it. Keep everyday controls close and find your way back to running tasks.",
+      theme: "Preview startup theme",
+      light: "Light",
+      dark: "Dark",
+      startupPreview: "Frosted startup design illustration",
+      startupTitle: "A quieter start, a smooth handoff",
+      startupDescription: "A crisp brand mark and thin blue line follow your chosen theme. Enter the workspace once local services are ready, or confirm a full app restart if startup fails. Your data stays in place.",
+      materialNote: "Design illustration. Supported macOS and Windows 11 systems use a native frosted backdrop; other environments use a matching solid surface.",
+      startupLink: "Explore appearance and startup",
+      lemyPreview: "Lemy desktop companion animation preview",
+      lemyTitle: "Lemy, a companion for your workflow",
+      lemyDescription: "Open Lemy from the paw button beside the mode switch. Drag, resize or enable roaming. Check Agent and corpus-processing tasks, then click a prompt to return to the relevant work.",
+      lemyNote: "Off by default. Animations run locally without a language model. Labels stay horizontally centered and move below Lemy near the top edge.",
+      lemyLink: "Explore Lemy and AI workflows",
     },
     about: {
       title: "About Developer",
@@ -141,7 +177,7 @@ const translations: Record<Language, Translations> = {
     },
     download: {
       title: "Start Your Research",
-      subtitle: "Choose the version for your OS. All features run locally without complex configuration.",
+      subtitle: "Choose the version for your OS. Core analysis runs locally, with optional local or online AI connections.",
       win: "Windows Version",
       mac: "macOS Version",
       size: "App Size: 6GB",
@@ -155,8 +191,8 @@ const translations: Record<Language, Translations> = {
       }
     },
     footer: {
-      copyright: "© 2026 Meta-Lingo. All rights reserved.",
-      legal: "Privacy Policy & Terms of Service"
+      copyright: "© 2026 Tommy Leo · Meta-Lingo AGPL v3",
+      legal: "License & Third-party Notices"
     },
     detail: {
       back: "Back to Home"

@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import DesktopExperience from '@/components/DesktopExperience';
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -208,6 +209,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <DesktopExperience />
 
       {/* Features Grid */}
       <section id="features" className="py-24 bg-white">

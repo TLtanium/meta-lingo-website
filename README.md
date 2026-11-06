@@ -93,6 +93,7 @@ Meta-Lingo-Website/
 - **平滑动画** - 基于 Framer Motion 的流畅动效
 - **功能展示** - 15 大功能模块的详细介绍（与 Meta-Lingo 应用实际设计保持一致）
 - **下载入口** - Windows 和 macOS 版本下载
+- **桌面体验展示** - 明暗主题磨砂启动页预览、Lemy 本地动作展示与完整重启说明
 
 ### Meta-Lingo 应用功能模块
 
@@ -101,7 +102,7 @@ Meta-Lingo-Website/
 | 语料库管理 | 文本 / PDF / 音视频上传，11 种语言；Whisper 转录、YOLO/CLIP、SpaCy + USAS + MIPVU + NRC 自动标注；整库导出 / 导入 |
 | 词频统计 | 词性筛选、正则与词表匹配、停用词，语料库 / 文献库数据源，柱状图 / 饼图 / 词云 |
 | 同义词分析 | 基于 NLTK WordNet，仅保留语料中实际出现的同义词，网络图与树状图 |
-| 关键词提取 | TF-IDF/TextRank/YAKE!/RAKE + 关键性对比（词形 / 词元 / USAS 语义域；9 种统计量；7 个内置参考语料库） |
+| 关键词提取 | TF-IDF/TextRank/YAKE!/RAKE + 关键性对比（词形 / 词元 / USAS 语义域；9 种统计量；用户导入的参考语料 CSV） |
 | N-gram 分析 | 2-6 元统计、Nest 分组、柱状图 / 网络图 / 桑基图 / 词云 |
 | 语境索引 | KWIC 检索（Concordance），6 种搜索模式、自建 CQL 引擎（within / containing / meet / ws() 等）与可视化构建器，密度图 / 山脊图 / 离散度图 |
 | 话语分析 | USAS 语义域 + MIPVU 隐喻（五步流水线，间接 F1 82.29 / 直接 F1 76.52，仅英语）+ DMIP 刻意隐喻 + Biber 多维分析（MDA） |
@@ -110,8 +111,8 @@ Meta-Lingo-Website/
 | 标注模式 | 文本 / 视频 / 音频标注，标注关联箭头，MIPVU 与 Theme-Rheme 自动标注，波形画框（英语），集合式编码者间信度（MASI / Kappa / Alpha） |
 | 主题建模 | BERTopic / LDA / LSA / NMF，动态主题、主题数优化、离群值处理、LLM 命名，支持文献库 |
 | 情感分析 | NRC 情感词典：情感极性与八种情绪维度，词形 / 词元 / USAS 语义域统计 |
-| 词典查询 | 麦克米伦与朗文搭配词典多词典查词 |
-| AI 助手与 MCP | 模块 AI 助手、AI 对话模式，内置 MCP 服务（63 个工具）供 Claude Desktop / Cursor 调用 |
+| 词典查询 | 用户导入 MDX/MDD 词典，多词典查词与发音 |
+| AI 助手与 MCP | 模块 AI 助手、AI 对话模式，内置 MCP 服务（65 个工具）供兼容的 ChatGPT / Codex 桌面端、Claude Desktop / Cursor 调用 |
 | 应用设置 | 语言、主题与壁纸、Ollama / OpenAI 兼容 API、MCP 服务、模型管理、恢复出厂设置 |
 
 > 注：隐喻分析（仅英语）采用 MIPVU 五步检测流水线：词形过滤 → 规则过滤 → 间接隐喻模型（[metalingo-indirect-metaphor](https://www.modelscope.cn/models/TommyLeo/metalingo-indirect-metaphor)，VUAMC 上 F1 82.29，精确率 85.26%，召回率 79.53%）→ 直接隐喻 / 隐喻标记模型（[metalingo-direct-metaphor](https://www.modelscope.cn/models/TommyLeo/metalingo-direct-metaphor)，词级综合 F1 76.52）→ 隐性隐喻规则后处理。
@@ -350,3 +351,11 @@ Meta-Lingo 是一个现代化多模态语料库研究平台，为语言学研究
   <br>
   Made with love for linguistic researchers
 </p>
+
+## Desktop release v4.9.61
+
+The desktop app is AGPL-3.0-only; this independent website retains its own existing code license. NRC/dictionaries/reference CSVs are user imports. See the site legal page for the exact license and historical author-controlled grant. Download assets and the website must be published together after the v4.9.61 builds are verified.
+
+## Desktop experience — descriptions aligned through v4.9.70
+
+The homepage previews the minimal light/dark startup and optional Lemy companion. AI Assistant & MCP and Settings explain task navigation, desktop behavior and confirmed full-application restart after startup failure. Corpus descriptions clarify Chinese/other-language audio limits. These source updates do not publish a desktop binary or deploy the website; download buttons retain their existing release-asset targets.

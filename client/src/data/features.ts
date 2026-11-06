@@ -37,7 +37,8 @@ export const features: Feature[] = [
 
 上传音视频时可按需开启：
 - **Whisper 语音转录**：OpenAI Whisper Large V3 Turbo，词级时间戳，可为全部 11 种语言选择转录语言，转录结果按句保存。
-- **英语音频增强**：Wav2Vec2 词级强制对齐、TorchCrepe 基频（F0）提取与 Praat 声学分析（频谱图、共振峰等），用于标注模式中的波形标注。
+- **英语词级对齐**：Wav2Vec2 提供英语词级强制对齐。
+- **中文及其他语言**：可使用 Whisper 转录、字幕手动校订与音画同步预览，但不提供英语专用的 Wav2Vec2 词级强制对齐；TorchCrepe 音高与 Praat 声学分析不以英语为前提。方言、唱腔和专业内容的自动识别效果需用实际材料验证。
 - **YOLOv8 物体检测与追踪**：针对视频，检测结果以 JSON 保存。
 - **CLIP 语义分类**：逐帧语义分类，内置物体 / 场景 / 氛围 / 动态预设标签，也可自定义标签，帧间隔可调（默认 30 帧，设为 1 即逐帧）。
 - 后台异步处理，可实时查看处理阶段、进度百分比与状态消息。
@@ -48,7 +49,7 @@ export const features: Feature[] = [
 - **SpaCy**：分词、词性（Universal POS 与细粒度标签）、词元、依存句法、命名实体、分句。各语言使用对应的 SpaCy 小型模型（英语、中文为 core_web_sm，其余 9 种语言为 core_news_sm）。
 - **USAS 语义域**：PyMUSAS-Neural-Multilingual-Base-BEM 多语言神经网络模型（307M 参数），支持全部 11 种语言，每词保留 Top-5 候选语义标签。
 - **MIPVU 隐喻**（仅英语）：基于 DeBERTa-v3-large 的隐喻检测流水线，详见「话语分析」。
-- **NRC 情感**：NRC 情感词典标注（10 个情感维度），支持全部 11 种语言。
+- **NRC 情感**：先在设置中导入对应语言 NRC 词典，再进行 10 个情感维度的标注；支持 11 种语言，缺失语言不回退英文。
 
 ## 语料整理与迁移
 
@@ -56,7 +57,7 @@ export const features: Feature[] = [
 - **标签与元数据**：为语料库和单个文本添加标签，编辑日期、作者、来源等元数据。
 - **批量重新标注**：多选文本后可重新运行 SpaCy、YOLO、CLIP、USAS、MIPVU、NRC。
 - **整库导出 / 导入**：将所选语料库（文本、全部自动标注、音视频文件、标注存档）打包为 .zip 用于备份或跨设备迁移，导入时自动避免重名。
-- **参考语料库资源**：内置 AmE06、BNC 2014、COCA 等预处理词频资源，可直接用于关键词提取中的关键性对比。
+- **参考语料资源**：在设置中导入经过校验的词频 CSV；也可把选中的已标注文本或音视频转写合并导出为参考 CSV，再用于关键性对比。应用不预装参考语料。
 - **本地数据**：语料数据存放在应用的 data 目录，与程序分离，卸载或升级不会丢失；Whisper、YOLO、CLIP、PyMUSAS 等大模型在「应用设置 → 模型管理」中按需下载。
 
 ## 使用场景
@@ -91,7 +92,8 @@ English, Chinese, Danish, Dutch, Finnish, French, Italian, Portuguese, Russian, 
 
 Available options when uploading audio or video:
 - **Whisper transcription**: OpenAI Whisper Large V3 Turbo with word-level timestamps; the transcription language can be chosen from all 11 supported languages, and transcripts are stored sentence by sentence.
-- **English audio enhancements**: Wav2Vec2 word-level forced alignment, TorchCrepe fundamental frequency (F0) extraction and Praat acoustic analysis (spectrogram, formants, etc.), powering waveform annotation in Annotation Mode.
+- **English word alignment**: Wav2Vec2 provides English word-level forced alignment.
+- **Chinese and other languages**: Whisper transcription, manual subtitle correction and synchronized media preview are available, without the English-only Wav2Vec2 forced alignment. TorchCrepe pitch and Praat acoustic analysis are not restricted to English. Recognition of dialects, singing and specialist content needs validation on your actual material.
 - **YOLOv8 object detection and tracking** for video, with results saved as JSON.
 - **CLIP semantic classification**: frame-by-frame classification with built-in object / scene / atmosphere / motion labels or your own custom labels; frame interval is adjustable (30 by default, 1 for every frame).
 - Processing runs asynchronously in the background, with live stage, percentage and status messages.
@@ -102,7 +104,7 @@ Every uploaded text (including transcripts) is annotated automatically:
 - **SpaCy**: tokenization, POS (Universal POS and fine-grained tags), lemmas, dependency parsing, named entities and sentence segmentation. Each language uses its own small SpaCy model (core_web_sm for English and Chinese, core_news_sm for the other nine languages).
 - **USAS semantic domains**: the PyMUSAS-Neural-Multilingual-Base-BEM multilingual neural model (307M parameters) for all 11 languages, keeping the Top-5 candidate semantic tags for each word.
 - **MIPVU metaphor** (English only): a DeBERTa-v3-large based metaphor detection pipeline, described under Discourse Analysis.
-- **NRC emotion**: NRC emotion lexicon annotation (10 affect dimensions) for all 11 languages.
+- **NRC emotion**: import the corresponding language lexicon in Settings before annotation (10 affect dimensions, 11 supported languages). Missing languages do not fall back to English.
 
 ## Organizing and Migrating Corpora
 
@@ -110,7 +112,7 @@ Every uploaded text (including transcripts) is annotated automatically:
 - **Tags and metadata**: tag corpora and individual texts; edit date, author, source and other metadata.
 - **Batch re-annotation**: select multiple texts and re-run SpaCy, YOLO, CLIP, USAS, MIPVU or NRC.
 - **Whole-corpus export/import**: pack selected corpora (texts, all automatic annotations, media files and annotation archives) into a .zip for backup or moving between machines; duplicate names are handled automatically on import.
-- **Reference corpus resources**: built-in preprocessed frequency resources (AmE06, BNC 2014, COCA, etc.) ready to use for keyness comparison in Keyword Extraction.
+- **Reference resources**: import a validated frequency CSV in Settings, or combine selected annotated texts/transcripts into a reference CSV for keyness. No reference corpora are bundled.
 - **Local data**: corpus data lives in the app's data folder, separate from the program, so uninstalling or upgrading does not remove it. Large models such as Whisper, YOLO, CLIP and PyMUSAS are downloaded on demand in Settings → Model Management.
 
 ## Use Cases
@@ -307,8 +309,8 @@ Jump from results to Word Frequency, Concordance, Collocation Analysis, Word Ske
     id: 'keyword-extraction',
     title: '关键词提取',
     titleEn: 'Keyword Extraction',
-    description: 'TF-IDF、TextRank、YAKE!、RAKE 四种单文档算法，以及词形 / 词元 / USAS 语义域三种模式的关键性对比，内置 7 个参考语料库。',
-    descriptionEn: 'Four single-document algorithms (TF-IDF, TextRank, YAKE!, RAKE) plus keyness comparison in word, lemma or USAS domain mode, with 7 built-in reference corpora.',
+    description: 'TF-IDF、TextRank、YAKE!、RAKE 四种单文档算法，以及词形 / 词元 / USAS 语义域三种模式的关键性对比，支持导入自建参考语料。',
+    descriptionEn: 'Four single-document algorithms (TF-IDF, TextRank, YAKE!, RAKE) plus keyness comparison in word, lemma or USAS domain mode, with user-imported reference corpora.',
     icon: 'keyword-extraction.png',
     color: '#8B5CF6', // Violet
     image: '/images/keyword-extraction.png',
@@ -350,21 +352,12 @@ Jump from results to Word Frequency, Concordance, Collocation Analysis, Word Ske
 
 **方式一：选择语料库文本**——全部文本 / 按标签 / 手动选择，适合使用自己导入的语料对比。
 
-**方式二：语料库资源**——使用内置的预处理词频资源。默认参照为 AmE06；点击资源卡片打开选择窗口，可按名称搜索、按语料库类型与标签筛选，卡片显示词数与文件大小。
+**方式二：语料库资源**——先在「设置 → 用户资源 → 参考语料」导入您有权使用的 UTF-8 词频 CSV。表头须为 Word,word,lemma,pos,usas,freq，通过校验后填写双语名称、描述、标签、分组标识及类别。总词数与大小自动计算。
 
-**内置语料库资源**：
-
-| 语料库 | 说明 |
-|--------|------|
-| BNC 2014 | 英国国家语料库 2014 版（仅口语） |
-| AmE06 / BE06 | 2006 年美式 / 英式英语平衡语料库 |
-| NOW | News on the Web（2010–2024，按国家划分的新闻） |
-| COCA | 当代美语语料库（1990–2019） |
-| COHA | 历史美语语料库（1810–2009，按时期划分） |
-| GloWbE | 全球网络英语语料库（按国家 / 地区划分） |
+应用不再预装参考语料，也没有 AmE06 默认项。资源卡片可按名称、分组与标签筛选；同一分组标识共用颜色，不同分组使用不同颜色。也可在语料库详情中把选中的已标注文本或转写内容作为整体导出为参考 CSV，再导入使用。
 
 ### 参考语料库的 USAS 标注
-内置资源中的 USAS 语义域数据由 PyMUSAS 以 top-1（每个词只取排名第一的标签）标注，每个词符只计一次，词数即真实词数。关键性对比时，研究语料同样只使用每个词的主标签（top-1）统计，因此词形、词元与语义域三种模式都是正常计数，两侧口径一致；语料库管理中保存的 top-5 候选标签不受影响。该框架由兰卡斯特大学 UCREL 研究中心开发，详见 [PyMUSAS 文档](https://ucrel.github.io/pymusas/) 与 [HuggingFace 模型](https://huggingface.co/ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM)。
+导入数据须按每词一次的 top-1 口径统计，usas 保存主标签。关键性对比中研究语料也按主标签计数，词形、词元与语义域三种模式保持一致；语料库管理中保存的 top-5 候选标签不受影响。详见 [PyMUSAS 文档](https://ucrel.github.io/pymusas/)。
 
 ### 九种统计方法
 Log-Likelihood（推荐）、Chi-squared（Yates 校正）、Log Ratio（效应量）、Dice 系数、Mutual Information（偏向低频词）、MI³、T-score（偏向高频词）、Simple Keyness、Fisher's Exact（小样本）。
@@ -418,21 +411,12 @@ Compare a study corpus with a reference corpus to find items that are significan
 
 **Option 1: Select corpus texts** — all / by tag / manual selection, for comparing against your own imported corpora.
 
-**Option 2: Corpus resources** — built-in preprocessed frequency resources. The default reference is AmE06; click the resource card to open the picker, search by name, filter by corpus type and tag; cards show word count and file size.
+**Option 2: Corpus resources** — import an authorized UTF-8 frequency CSV in Settings → User resources → Reference corpora. The required header is Word,word,lemma,pos,usas,freq. After validation, complete bilingual names, descriptions and tags, plus a group identifier and category; token counts and file sizes are calculated automatically.
 
-**Built-in corpus resources**:
-
-| Corpus | Description |
-|--------|-------------|
-| BNC 2014 | British National Corpus 2014 (spoken only) |
-| AmE06 / BE06 | American / British English 2006 balanced corpora |
-| NOW | News on the Web (2010–2024, news by country) |
-| COCA | Corpus of Contemporary American English (1990–2019) |
-| COHA | Corpus of Historical American English (1810–2009, by period) |
-| GloWbE | Global Web-based English (by country/region) |
+No reference corpora are bundled and there is no AmE06 default. Cards can be searched and filtered by group and tag; matching group identifiers share a colour, and different groups receive different colours. Selected annotated texts or transcripts can also be combined into a reference CSV from corpus details and re-imported.
 
 ### USAS Annotation of Reference Corpora
-USAS semantic-domain data in the built-in resources is tagged by PyMUSAS with top-1 only (each token keeps just its highest-ranked tag) and every token is counted once, so word counts are true token counts. In keyness, your study corpus likewise uses only each token's primary (top-1) tag, so word, lemma and semantic-domain modes are all plain counts on the same basis; the top-5 candidate tags stored by Corpus Management are unaffected. The framework was developed by Lancaster University's UCREL; see the [PyMUSAS docs](https://ucrel.github.io/pymusas/) and the [HuggingFace model](https://huggingface.co/ucrelnlp/PyMUSAS-Neural-Multilingual-Base-BEM).
+Count each token once using its primary top-1 USAS tag. Keyness uses the primary tag on the study side too, keeping word, lemma and domain counts comparable; stored top-5 annotation candidates are unchanged. See the [PyMUSAS documentation](https://ucrel.github.io/pymusas/).
 
 ### Nine Statistical Methods
 Log-Likelihood (recommended), Chi-squared (Yates-corrected), Log Ratio (effect size), Dice coefficient, Mutual Information (favors low-frequency items), MI³, T-score (favors high-frequency items), Simple Keyness, and Fisher's Exact (small samples).
@@ -1143,18 +1127,18 @@ All D3 charts support zoom, pan and hover tooltips; export to SVG / PNG (includi
 ### 视频标注
 - 播放控制：播放 / 暂停、±5 秒、逐帧移动。
 - 画框模式：在视频帧上绘制边界框（使用视频原始坐标）。
-- 帧追踪与关键帧插值：把框选应用到相邻帧，设置关键帧后自动线性插值，大幅减少重复劳动。
+- 帧追踪与关键帧插值：保存人工调整的完整关键帧、逐帧位置、时间范围、标签与备注，载入时恢复轨迹；中间位置用线性插值补齐。
 - YOLO 叠加：播放时实时显示检测框与多目标追踪轨迹。
 
-### 音频标注（仅英语）
-基于 Wav2Vec2 强制对齐与 TorchCrepe 音高数据，提供 Wavesurfer.js 交互式波形：
+### 音频标注
+提供 Wavesurfer.js 交互式波形，并可叠加英语 Wav2Vec2 词级强制对齐与可用的 TorchCrepe 音高数据：
 - **波形与词级对齐**：波形上方标出每个词的时间位置；缩放以播放针为中心。
 - **音高曲线与频谱图**：可叠加 F0 曲线，也可显示频谱图。
 - **画框标注**：在波形 / 频谱图上拖拽绘制标注框，自动记录起止时间。
 - **DAW 模式**：播放针居中，波形滚动。
 - **转录文本标注**：与文本标注相同，播放时自动高亮当前句，点击句子可跳转到对应时间。
 
-> 非英语音频不提供波形标注，可通过文本标注模式标注其转录文本。
+> 词级强制对齐限英语；音频波形画框本身不以英语为前提。人工音频区间保存完整起止时间、标签层级、备注与框位置，并保留已有波形/声学分析快照。
 
 ### 多轨时间轴
 YOLO 追踪轨、转录段轨、用户标注轨与关键帧标记，采用 DAW 范式的播放针行为。
@@ -1236,18 +1220,18 @@ Frameworks and archives on the left; on the right a media player, a three-tab bo
 ### Video Annotation
 - Playback: play / pause, ±5 seconds, frame stepping.
 - Box drawing mode: draw bounding boxes on video frames (using the video's native coordinates).
-- Frame tracking and keyframe interpolation: apply a box to adjacent frames, or set keyframes and let the system interpolate linearly, greatly reducing repetitive work.
+- Frame tracking and keyframe interpolation: retain every edited keyframe, per-frame position, time range, label and note, with linear interpolation and complete trajectory restoration on reload.
 - YOLO overlay: real-time detection boxes and multi-object tracks during playback.
 
-### Audio Annotation (English only)
-Based on Wav2Vec2 forced alignment and TorchCrepe pitch data, with an interactive Wavesurfer.js waveform:
+### Audio Annotation
+An interactive Wavesurfer.js waveform supports manual regions, optional English Wav2Vec2 word alignment and available TorchCrepe pitch data:
 - **Waveform and word-level alignment**: each word's time position is marked above the waveform; zoom centers on the playhead.
 - **Pitch curve and spectrogram**: overlay the F0 curve or show a spectrogram.
 - **Box annotation**: drag on the waveform / spectrogram to draw annotation boxes, with start and end times recorded automatically.
 - **DAW mode**: the playhead stays centered while the waveform scrolls.
 - **Transcript annotation**: same as text annotation; the current sentence is highlighted during playback and clicking a sentence seeks to that time.
 
-> Non-English audio has no waveform annotation, but its transcript can be annotated in text mode.
+> English-only word alignment is separate from manual waveform annotation, which is not restricted to English. Audio intervals retain complete start/end times, label paths, notes, box positions and available waveform/acoustic snapshots.
 
 ### Multi-track Timeline
 YOLO tracking track, transcript-segment track, user-annotation track and keyframe markers, with DAW-style playhead behavior.
@@ -1409,7 +1393,7 @@ A corpus or a bibliography library can be the data source, with all / by tag / m
 
 ## 数据基础
 
-- **NRC 标注**：语料上传后会在 MIPVU 之后自动完成 NRC 标注，也可在语料库详情或文献库详情中单独重跑。
+- **NRC 标注**：先在「设置 → 用户资源」导入官方 NRC 文件夹；对应语言资源可用后，上传或重新标注语料时才会产生 NRC 结果。未导入的语言不回退英文，已有有效存档结果可继续分析。
 - **词典与语言**：支持英语、中文、丹麦语、荷兰语、芬兰语、法语、意大利语、葡萄牙语、俄语、西班牙语、瑞典语 11 种语言的 NRC 词典。
 - **10 个维度**：anger（愤怒）、anticipation（期待）、disgust（厌恶）、fear（恐惧）、joy（喜悦）、sadness（悲伤）、surprise（惊讶）、trust（信任），以及 positive（正面）、negative（负面）。
 
@@ -1450,7 +1434,7 @@ The Sentiment Analysis module uses the NRC Emotion Lexicon to analyze sentiment 
 
 ## Data Foundation
 
-- **NRC annotation**: runs automatically after MIPVU when a text is uploaded, and can be re-run on its own from the corpus detail or library detail.
+- **NRC annotation**: import the official NRC folder in Settings → User resources first. Available language resources are used on upload or re-annotation; missing languages never fall back to English. Existing valid saved annotation results remain usable.
 - **Lexicons and languages**: NRC lexicons for 11 languages—English, Chinese, Danish, Dutch, Finnish, French, Italian, Portuguese, Russian, Spanish and Swedish.
 - **10 dimensions**: anger, anticipation, disgust, fear, joy, sadness, surprise, trust, plus positive and negative.
 
@@ -1489,8 +1473,8 @@ Counts by the eight basic emotions, with unmatched or non-dominant items grouped
     id: 'dictionary-lookup',
     title: '词典查询',
     titleEn: 'Dictionary Lookup',
-    description: '集成麦克米伦与朗文搭配词典，在顶部工具栏一键多词典同时查询，边分析边查词。',
-    descriptionEn: 'Macmillan and Longman Collocations dictionaries in one toolbar pop-up—look words up across dictionaries without leaving your analysis.',
+    description: '导入 MDX 与配套资源，在顶部工具栏同时查询多部词典，支持小喇叭发音及保留当前词典的词条跳转。',
+    descriptionEn: 'Import MDX dictionaries and companion resources for multi-dictionary lookup, compact pronunciation playback and entry links that retain the current dictionary.',
     icon: 'dictionary-lookup.png',
     color: '#0EA5E9', // Sky
     image: '/images/dictionary-lookup.png',
@@ -1499,10 +1483,10 @@ Counts by the eight basic emotions, with unmatched or non-dominant items grouped
 
 词典查询集成在应用右上角的工具栏中，点击翻译 / 词典图标即可打开查询窗口，在多部词典中同时检索词语的释义与用法，无需切换到外部词典应用。
 
-## 内置词典
-- **麦克米伦词典（Macmillan English Dictionary）**：按词频排序的义项释义。
-- **朗文搭配词典（Longman Collocations）**：典型搭配与用法。
-- 在「选择词典」区域勾选要参与查询的词典，支持多选，默认全选。
+## 导入词典
+- 在「设置 → 用户资源 → MDX 词典」导入一个 MDX，并可同时选择配套 MDD、CSS、图片、音频和字体。多个词典分别导入，应用不附带商业词典文件。
+- 支持常见 MDict 格式；密码保护、依赖词典脚本的交互及部分旧版格式不受支持。请自行获取有权使用的资源。
+- 在查询窗口勾选参与检索的词典，支持多选。发音显示为小喇叭；词条跳转和历史返回保留当前词典，未收录时也不会自动跳到第一本。
 
 ## 使用方式
 - **输入查询**：在搜索框输入词语（支持中英文），回车或点击搜索，即可在已选词典中同时查询。
@@ -1513,17 +1497,17 @@ Counts by the eight basic emotions, with unmatched or non-dominant items grouped
 ## 与分析的配合
 - 阅读和分析语料时，在词频、搭配、语义、隐喻等分析结果中遇到目标词，可随时打开词典查证。
 - 对比不同词典对同一词条的释义差异。
-- AI 对话模式与 MCP 中也提供词典查询工具，供 AI 助手在隐喻判定（基本义与语境义对照）、词汇与用法核查等场景按需调用。
+- AI 对话模式与 MCP 会先发现已导入词典，并由用户明确选择参考词典及优先级；未指定时先提出方案并等待确认，没有词典则暂停依赖词典的判断。
     `,
     contentEn: `
 # Dictionary Lookup
 
 Dictionary Lookup lives in the toolbar at the top right of the app. Click the translate / dictionary icon to open the lookup window and search several dictionaries at once for definitions and usage, without switching to an external dictionary app.
 
-## Built-in Dictionaries
-- **Macmillan English Dictionary**: sense definitions ordered by frequency.
-- **Longman Collocations**: typical collocations and usage.
-- Tick the dictionaries to query in the "Select dictionaries" area; multi-select is supported and all are selected by default.
+## Import Dictionaries
+- In Settings → User resources → MDX dictionaries, select one MDX with optional MDD, CSS, image, audio and font companions. Import dictionaries separately; no commercial dictionary files are bundled.
+- Common MDict formats are supported. Password protection, script-dependent interactions and some older formats are unsupported. Obtain resources you are entitled to use.
+- Select one or more dictionaries in the lookup window. Pronunciations use small speaker buttons, and entry links/history preserve the current dictionary, including when it has no entry.
 
 ## How to Use
 - **Enter a query**: type a word (Chinese or English) and press Enter or click search to query all selected dictionaries at once.
@@ -1534,15 +1518,15 @@ Dictionary Lookup lives in the toolbar at the top right of the app. Click the tr
 ## Working with Your Analyses
 - While reading and analyzing, open the dictionary whenever you meet a target word in frequency, collocation, semantic or metaphor results.
 - Compare how different dictionaries define the same entry.
-- A dictionary lookup tool is also available in AI Agent Mode and over MCP, so AI assistants can call it on demand for metaphor judgments (comparing basic and contextual meanings) and word-usage checks.
+- Agent Mode and MCP discover imported dictionaries first. Users choose references and priority; otherwise the assistant proposes a plan and waits for confirmation. Dictionary-dependent judgments pause when no dictionary is available.
     `
   },
   {
     id: 'ai-assistant',
     title: 'AI 助手与 MCP',
     titleEn: 'AI Assistant & MCP',
-    description: '模块内 AI 助手解读当前结果，AI 对话模式用自然语言完成分析，内置 MCP 服务让 Claude Desktop / Cursor 直接调用 Meta-Lingo。',
-    descriptionEn: 'In-module AI assistants that explain your current results, an AI conversation mode that runs analyses from natural language, and a built-in MCP server that lets Claude Desktop or Cursor use Meta-Lingo directly.',
+    description: '模块内 AI 助手解读当前结果，AI 对话模式用自然语言完成分析，内置 MCP 服务让兼容的桌面 AI 客户端调用 Meta-Lingo；可选 Lemy 桌面伙伴提示真实任务状态。',
+    descriptionEn: 'In-module AI assistants that explain your current results, an AI conversation mode that runs analyses from natural language, a built-in MCP server for compatible desktop AI clients, and the optional Lemy companion for real task updates.',
     icon: 'ai-assistant.png',
     color: '#F97316', // Orange
     image: '/images/ai-assistant.png',
@@ -1575,22 +1559,34 @@ Meta-Lingo 提供三层可选的 AI 能力：分析模块里的 **AI 助手**、
 - **状态保留**：两种模式的状态互不影响，对话历史跨切换与重启保存。
 - **DMIP 刻意隐喻分析**即通过对话模式中的 dmip_analysis 工具调用。
 
+## Lemy 桌面伙伴
+
+Lemy 是可选的桌面伙伴，默认关闭，不是独立的大语言模型。点击顶栏对话模式旁的爪印按钮即可唤出或收起：
+- 拖动身体改变位置，支持大小调整与可选的自主走动；单击或右键打开菜单，双击返回对话模式。
+- 状态来自真实的 Agent 对话与语料处理任务，可区分进行中、完成、失败或停止；点击提示返回对应对话或语料。尚未接入状态的分析页面不会显示虚构进度。
+- 标签始终与角色水平居中，跟随移动；靠近屏幕顶部时切换到正下方。可查看任务、返回平台、打开帮助。
+- 桌面版主窗口最小化时可继续显示；macOS 支持跟随全屏空间。置顶可关闭，唤出 Lemy 不会隐藏主窗口或抢走键盘焦点。
+- 动画素材随应用打包，本地播放，不额外调用模型；尊重系统减少动态效果设置。恢复出厂设置会关闭 Lemy 并清除其偏好与位置。
+
 ## MCP 服务
 
 Meta-Lingo 内置**模型上下文协议（MCP）服务器**，让外部 AI 助手自主使用其语料库研究工具：创建语料库、上传文本、运行分析、标注文本并解读结果，无需手动操作。MCP 服务默认关闭，在「应用设置 → MCP 服务」中开启。
 
+安装入口位于设置中的 ChatGPT / Claude 标签页。私有安装要求桌面客户端支持本地插件及本地执行，不用于网页端；工具包含词典和资源发现，但尚未覆盖视频画框、音频区间编辑等全部 GUI 操作。
+
 ### 支持的客户端
 | 客户端 | 配置方式 |
 |--------|----------|
+| ChatGPT / Codex 桌面端 | 私有本地 MCP + Skill 插件，需要客户端支持本地插件 |
 | Claude Desktop | 一键安装扩展（.mcpb，推荐）或手动 stdio 配置 |
 | Claude.ai 网页版 | 自定义连接器（需 HTTPS，可借助 ngrok 等隧道） |
 | Cursor | 复制配置 JSON |
 | 其他 MCP 客户端 | stdio 或 HTTP |
 
-### 工具覆盖（共 63 个）
+### 工具覆盖（共 65 个）
 - **参考与查询**：词性与 USAS 类目、CQL 语法验证、标注框架列表与创建、词典查询。
 - **语料库管理**：创建语料库、上传文本 / 目录、元数据更新、处理进度监控。
-- **词汇分析**：词频、关键词、关键性对比（含内置参考语料库）、N-gram。
+- **词汇分析**：词频、关键词、关键性对比（含导入的参考语料库）、N-gram。
 - **语境索引与搭配**：KWIC（含 CQL 与排序）、扩展上下文、搭配、词图分析。
 - **语义分析**：语义域、隐喻、情感、同义词、词图对比。
 - **主题建模**：LDA / LSA / NMF，以及 BERTopic 两步式嵌入与分析。
@@ -1604,7 +1600,7 @@ MCP 服务器是一个轻量代理，把 AI 的工具调用转换为 Meta-Lingo 
 
 ### 示例提问
 - 「创建一个名为『政治演讲』的语料库，上传这三篇文本，并分析词频。」
-- 「用对数似然比把我的语料库与 AmE06 做关键词对比。」
+- 「用对数似然比把我的语料库与已导入的参考语料做关键词对比。」
 - 「这个语料库的主要语义域分布是什么？深入看排名第一的域。」
 - 「用 Halliday-Theme 框架标注第一篇文本的主位和述位，保存存档让我在应用中查看。」
     `,
@@ -1637,6 +1633,15 @@ A switch in the top bar toggles between **Standard Mode** and **Conversation Mod
 - **State preserved**: each mode keeps its own state, and conversation history persists across switches and restarts.
 - **DMIP deliberate metaphor analysis** is run through the dmip_analysis tool in Conversation Mode.
 
+## Lemy Desktop Companion
+
+Lemy is optional and off by default, rather than a separate language model. Use the paw button beside the mode switch to show or hide it:
+- Drag to reposition, change its size or enable roaming. Click or right-click for the menu; double-click to return to conversation mode.
+- Status comes from actual Agent conversations and corpus-processing tasks, distinguishing running, completed, failed and stopped work. Click a prompt to return to its conversation or corpus. Analysis pages without task integration do not invent progress.
+- Labels remain horizontally centered while moving and switch below the character near the top edge. Shortcuts open tasks, the platform and Help.
+- The desktop companion can remain visible while the main window is minimized. On macOS it follows fullscreen Spaces. Always-on-top is optional; showing Lemy does not hide the main window or steal keyboard focus.
+- Bundled animations play locally without extra model calls and respect reduced-motion preferences. Factory reset disables Lemy and removes its preferences and position.
+
 ## MCP Server
 
 Meta-Lingo includes a built-in **Model Context Protocol (MCP) server** that lets external AI assistants use its corpus research tools autonomously: create corpora, upload texts, run analyses, annotate texts and interpret the results, with no manual steps. The MCP service is off by default; enable it in Settings → MCP Service.
@@ -1644,15 +1649,16 @@ Meta-Lingo includes a built-in **Model Context Protocol (MCP) server** that lets
 ### Supported Clients
 | Client | Setup |
 |--------|-------|
+| ChatGPT / Codex desktop | Private local MCP + Skill plugin; requires local plugin support |
 | Claude Desktop | One-click extension install (.mcpb, recommended) or manual stdio configuration |
 | Claude.ai (web) | Custom connector (requires HTTPS, e.g., via an ngrok tunnel) |
 | Cursor | Copy the configuration JSON |
 | Other MCP clients | stdio or HTTP |
 
-### Tool Coverage (63 tools)
+### Tool Coverage (65 tools)
 - **Reference and lookup**: POS tags and USAS categories, CQL validation, annotation frameworks (list and create), dictionary lookup.
 - **Corpus management**: create corpora, upload texts / directories, update metadata, monitor processing.
-- **Lexical analysis**: word frequency, keywords, keyness (including built-in reference corpora), N-grams.
+- **Lexical analysis**: word frequency, keywords, keyness (including imported reference corpora), N-grams.
 - **Concordance and collocation**: KWIC (with CQL and sorting), extended context, collocation, Word Sketch.
 - **Semantic analysis**: semantic domains, metaphor, sentiment, synonyms, Sketch Difference.
 - **Topic modeling**: LDA / LSA / NMF, plus two-step BERTopic embedding and analysis.
@@ -1664,9 +1670,11 @@ Meta-Lingo includes a built-in **Model Context Protocol (MCP) server** that lets
 ### How It Works
 The MCP server is a lightweight proxy that translates AI tool calls into Meta-Lingo REST API requests, sharing the same database and files as the desktop app: corpora created by the AI appear in the app, results match what you would get manually, and you can reproduce any AI-initiated analysis in the app.
 
+Use the ChatGPT / Claude tabs in Settings to select an installer. Keep Meta-Lingo running with MCP enabled and start a new locally executed desktop chat; this private installer does not connect web chats. There are 65 tools, including dictionary/resource discovery; not every GUI operation, such as video box drawing or audio-interval editing, is exposed over MCP.
+
 ### Example Prompts
 - "Create a corpus called 'Political Speeches', upload these three texts and analyze word frequency."
-- "Compare my corpus with AmE06 using log-likelihood keyness."
+- "Compare my corpus with my imported reference corpus using log-likelihood keyness."
 - "What is the main semantic-domain distribution of this corpus? Dig into the top domain."
 - "Annotate theme and rheme in the first text with the Halliday-Theme framework and save the archive so I can view it in the app."
     `
@@ -1675,8 +1683,8 @@ The MCP server is a lightweight proxy that translates AI tool calls into Meta-Li
     id: 'settings',
     title: '应用设置',
     titleEn: 'Settings',
-    description: '语言、主题与壁纸、Ollama 与 OpenAI 兼容 API、MCP 服务、模型下载管理、许可证与恢复出厂设置。',
-    descriptionEn: 'Language, theme and wallpaper, Ollama and OpenAI-compatible API, MCP service, model download management, license and factory reset.',
+    description: '语言、明暗主题与壁纸、简洁磨砂启动、AI 与 MCP 连接、模型及用户资源管理、许可证与完整恢复设置。',
+    descriptionEn: 'Language, theme and wallpaper, minimal frosted startup, AI and MCP connections, models and user resources, licensing and recovery settings.',
     icon: 'Settings', // 设置页保持使用 Lucide 图标
     color: '#64748B', // Slate
     image: '/images/settings.png',
@@ -1684,6 +1692,12 @@ The MCP server is a lightweight proxy that translates AI tool calls into Meta-Li
 # 应用设置
 
 应用设置位于右上角的设置图标中，用于个性化 Meta-Lingo 的功能与外观，页面自上而下依次为：
+
+## 启动与恢复
+- 采用清晰的品牌组合字标与细蓝线，跟随浅色 / 深色主题；不再显示常规启动步骤和版本号。
+- macOS 使用原生磨砂背景，支持的 Windows 11 22H2 及更新系统使用 Acrylic；其他环境使用同色纯色背景。仅后台服务真实就绪后才平滑进入主页面。
+- 启动失败时自动弹出“重启应用”确认。确认后结束这个安装目录的服务及其子进程，完整退出 Meta-Lingo（包括所有窗口和 Lemy），再自动重新打开；保留语料、标注、模型和设置。
+- 取消后可稍后再次点击“重启应用”；重启不能完成时会保留提示，不会反复自动重启。
 
 ## 界面语言
 - 简体中文（zh）或英文（en）单选切换；界面文字、提示与使用手册语言随之更改。
@@ -1701,7 +1715,7 @@ The MCP server is a lightweight proxy that translates AI tool calls into Meta-Li
 - 支持管理多条 API 线路（API 地址、Key、模型名），单选切换当前线路，并可测试连接。
 
 ## MCP 服务
-- 默认关闭；开启后可一键安装到 Claude Desktop 扩展（.mcpb），或复制手动配置 JSON 用于 Cursor 等客户端。
+- 默认关闭；开启后通过 ChatGPT / Claude 标签页选择私有本地插件或 Claude 扩展（.mcpb），也可复制 JSON 用于 Cursor 等客户端。
 - 详见「AI 助手与 MCP」。
 
 ## 模型管理
@@ -1709,19 +1723,32 @@ The MCP server is a lightweight proxy that translates AI tool calls into Meta-Li
 - 下载目录默认位于应用数据目录，可自定义；内置的 NLTK 与 TorchCrepe 随应用提供。
 - 若 Whisper 不可用，音频 / 视频的上传与处理将被禁用。
 
+## 用户资源
+- NRC：导入官方解压文件夹，手册说明具体结构；缺失语言不回退英文。
+- MDX：导入一个词典及配套资源，支持多部词典；不提供未经授权的词典下载包。
+- 参考语料：导入通过格式校验的 CSV，填写完整双语卡片信息；分组标识决定颜色。
+- 导入列表默认折叠、显示数量，大量资源可搜索并在固定高度内滚动；可单独移除本地副本。
+
 ## 许可证
-- 在弹窗中查看中文或英文版许可协议（Meta-Lingo 非商业软件许可），并提供引用信息（含 Zenodo DOI）。
+- 原创代码采用 AGPL-3.0-only，可商用、修改与再分发并须遵守许可；历史原创代码补充授权范围见 LICENSING.md，第三方内容保留原许可。
+- 中英文界面显示同一份正式英文 AGPL；相邻“开源许可”查看完整第三方声明，并提供中文参考译文链接与 Zenodo 引用。
 
 ## 恢复出厂设置
 **此操作不可撤销，请谨慎使用。**
-- **可选重置项**：数据库记录、语料库文件、标注存档、标注框架。
-- **始终重置**：主题建模数据、Word2Vec 模型、USAS 配置、已下载的 ML 模型（内置模型保留）。
+- **可选重置项**：数据库记录、语料库文件、标注存档、标注框架、已导入资源。
+- **始终重置**：主题建模与 Agent 运行数据、API 和预处理配置、语言/主题/壁纸及用户资料、Word2Vec 与下载模型（内置模型保留）。原始资源文件和项目开发样例不会被删除。
 - 需在确认框中输入 RESET 才会执行；不使用该功能时，卸载或重装应用不会清除本地语料。
     `,
     contentEn: `
 # Settings
 
 Settings are reached from the gear icon at the top right and personalize Meta-Lingo's behavior and appearance. From top to bottom the page contains:
+
+## Startup and Recovery
+- A crisp combination brand mark and thin blue line follow light/dark mode, without routine startup steps or a visible version number.
+- macOS uses native vibrancy; supported Windows 11 22H2 and newer systems use Acrylic. Other environments use a matching solid surface. The workspace appears only after local services are ready.
+- Startup failure automatically opens a full-restart confirmation. Confirming stops this installation’s service processes and descendants, exits all Meta-Lingo windows including Lemy, then reopens the app. Corpora, annotations, models and settings are kept.
+- Cancelling leaves a Restart application action. A failed restart remains visible and does not cause an automatic restart loop.
 
 ## Interface Language
 - Choose Simplified Chinese (zh) or English (en); the interface text, prompts and user manual language follow.
@@ -1739,7 +1766,7 @@ Settings are reached from the gear icon at the top right and personalize Meta-Li
 - Manage multiple API lines (address, key, model name), choose the active line with a radio button, and test the connection.
 
 ## MCP Service
-- Off by default; once enabled, install the extension into Claude Desktop (.mcpb) in one click, or copy the manual configuration JSON for clients such as Cursor.
+- Off by default. Select the ChatGPT / Claude tab for the private local plugin or Claude extension (.mcpb), or copy JSON for clients such as Cursor.
 - See "AI Assistant & MCP" for details.
 
 ## Model Management
@@ -1747,13 +1774,20 @@ Settings are reached from the gear icon at the top right and personalize Meta-Li
 - The download folder defaults to the app data directory and can be changed; the built-in NLTK data and TorchCrepe ship with the app.
 - If Whisper is unavailable, audio / video upload and processing are disabled.
 
+## User Resources
+- NRC: import the official extracted folder as described in Help. Missing languages never fall back to English.
+- MDX: import one dictionary with companion files; multiple dictionaries are supported. No unauthorized dictionary download bundles are provided.
+- References: validate a frequency CSV and complete bilingual card metadata; group identifiers determine colours.
+- Imported lists are collapsed with a count, searchable when large and height-limited when expanded. Remove local copies individually.
+
 ## License
-- View the Chinese or English license (Meta-Lingo non-commercial software license) in a dialog, along with citation information (including the Zenodo DOI).
+- Original code is AGPL-3.0-only, permitting commercial use, modification and redistribution under its conditions. LICENSING.md defines the historical original-code grant; third-party terms remain separate.
+- Both UI languages show the official English AGPL. The adjacent Open source licenses viewer displays complete collected dependency notices; an unofficial Chinese translation is linked and Zenodo citation information is available.
 
 ## Factory Reset
 **This cannot be undone—use with care.**
-- **Optional items**: database records, corpus files, annotation archives, annotation frameworks.
-- **Always reset**: topic-modeling data, Word2Vec models, USAS configuration, downloaded ML models (built-in models are kept).
+- **Optional items**: database records, corpus files, annotation archives, annotation frameworks and imported resources.
+- **Always reset**: topic-modeling and Agent runtime data, API/preprocessing settings, language/theme/wallpaper/profile, Word2Vec and downloaded models (built-ins are kept). Original resource files and development fixtures are preserved.
 - You must type RESET in the confirmation dialog; if you do not use this feature, uninstalling or reinstalling the app does not remove your local corpora.
     `
   }
